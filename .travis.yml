@@ -6,11 +6,17 @@ install:
 - "./travis/install-prerequisites.sh"
 script:
 - "./travis/build.sh"
-#after_success:
-#- "./travis/deploy.sh"
+after_success:
+- "./travis/deploy.sh"
+env:
+  global:
+  - BINTRAY_USER=bploeckelman
+  - BINTRAY_REPO=LudumDare
+  - secure: "icZ3/fUxgL29CsdLn0mfS4Wnjr1KvdRn6miT+gVZVL10OZia1zIZHiX94IUhyYnK68xwi9QzHKLiGZt9L2AwcE7mZ1ka6rlh9cxQz4WHehEY87swOn+L15NEfckZObbDi2lvwmtYry8LMfLL/lrYzFzGVr87mmE2nGV1Gzug6dP2iUydUha8tZUfj4jEULnq/W4bzHP3Tj4NiMhjaXlZwl3Bmg49B5h9B2xW9PtabH102dPgX/7fGvWG9UigFMzJiRwsxK0/kkL8XPE7wTUssSjwsKCVmf/VNvQd8ICkVKsAHGwONkvBVdSJrF/RN9qQag4vN5ufVvrO75ExkSkiAh5GvCAc8vXG9VtsJ10seqSvVYS/QRfl6vlUbPHP7dKnRWIRHPIIKAO5vquk3TXeVA4XyFjibIjpn+MGOwQLbcbHUOHjnmYuNcfLhoUpnSOBEG+UDa9+xpK623cndXKGtaP87UyONzicV6HDeM8IYw1UIg250d3M8/t6UVkyGFuxsPI6HW6WGETz4e9R98tTM791juJHzvJ/EYDi605DMfKhZCZb+ZkZEEje2wYSwKO2gDT6q5cb0yoNXc2giuRI1oDP+A9EYK7hJgk3epfoh9lcUhTqbRnct/TFJjd/yThH+68DnvJofB5ccmZlqp0pQDbA0yXWbdubtHVKL6/qMgs="
 cache:
   directories:
-  - $HOME/.gradle
+  - "$HOME/.gradle/caches"
+  - "$HOME/.gradle/wrapper"
   - travis/android-sdk-linux
 before_cache:
-  - rm -f $HOME/.gradle/daemon/**/registry.bin.lock
+- rm -f "$HOME/.gradle/caches/modules-2/modules-2.lock"

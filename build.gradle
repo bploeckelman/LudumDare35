@@ -86,3 +86,9 @@ project(":core") {
 tasks.eclipse.doLast {
     delete ".project"
 }
+
+task printVersion {
+    doLast {
+        println project.version
+    }
+}

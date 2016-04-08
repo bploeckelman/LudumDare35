@@ -1,6 +1,7 @@
 # Ludum Dare 35
 
 [![Travis build status](https://travis-ci.org/bploeckelman/LudumDare35.svg)](https://travis-ci.org/bploeckelman/LudumDare35)
+[![Download](https://api.bintray.com/packages/bploeckelman/LudumDare/LudumDare35/images/download.svg)](https://bintray.com/bploeckelman/LudumDare/LudumDare35/_latestVersion#files)
 
 ## Build Requirements
 
