@@ -2,6 +2,7 @@ package lando.systems.ld35.gameobjects;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import lando.systems.ld35.utils.Assets;
@@ -18,7 +19,7 @@ public class Balloon {
     public Vector2 velocity;
     public State currentState;
 
-    public Texture currentTexture;
+    public TextureRegion currentTexture;
 
     public Balloon(Vector2 position){
         currentState = State.NORMAL;

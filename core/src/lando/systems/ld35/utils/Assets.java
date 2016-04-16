@@ -37,14 +37,14 @@ public class Assets {
     public static ShaderProgram fontShader;
     public static ShaderProgram fontNoShadowShader;
 
-    public static Texture whitePixelTexture;
-    public static Texture whiteCircleTexture;
-    public static Texture testTexture;
-    public static Texture balloonTexture;
-    public static Texture rocketTexture;
-    public static Texture weightTexture;
-    public static Texture ninepatchTexture;
-    public static Texture ninepatchBgTexture;
+    public static TextureAtlas atlas;
+
+    public static TextureRegion whitePixelTexture;
+    public static TextureRegion whiteCircleTexture;
+    public static TextureRegion testTexture;
+    public static TextureRegion balloonTexture;
+    public static TextureRegion rocketTexture;
+    public static TextureRegion weightTexture;
 
     public static NinePatch transparentNinepatch;
     public static NinePatch backgroundNinepatch;
@@ -75,19 +75,9 @@ public class Assets {
         params.minFilter = Texture.TextureFilter.Linear;
         params.magFilter = Texture.TextureFilter.Linear;
 
-        mgr = new AssetManager();
-        mgr.load("badlogic.jpg",     Texture.class, params);
-        mgr.load("white-pixel.png",  Texture.class, params);
-        mgr.load("white-circle.png", Texture.class, params);
-        mgr.load("balloon.png", Texture.class, params);
-        mgr.load("rocket.png", Texture.class, params);
-        mgr.load("weight.png", Texture.class, params);
-        mgr.load("ninepatch.png", Texture.class, params);
-        mgr.load("ninepatch-bg.png", Texture.class, params);
+        atlas = new TextureAtlas(Gdx.files.internal("sprites.atlas"));
 
-        for (int i = 0; i < 6; i++) {
-            mgr.load("animations/balloon_to_rocket_"+i+".png", Texture.class, params);
-        }
+        mgr = new AssetManager();
 
         initialized = false;
     }
@@ -97,21 +87,22 @@ public class Assets {
         if (initialized) return 1f;
         initialized = true;
 
-        testTexture        = mgr.get("badlogic.jpg",     Texture.class);
-        whitePixelTexture  = mgr.get("white-pixel.png",  Texture.class);
-        whiteCircleTexture = mgr.get("white-circle.png", Texture.class);
-        balloonTexture     = mgr.get("balloon.png", Texture.class);
-        rocketTexture      = mgr.get("rocket.png", Texture.class);
-        weightTexture      = mgr.get("weight.png", Texture.class);
-        ninepatchTexture   = mgr.get("ninepatch.png", Texture.class);
-        ninepatchBgTexture = mgr.get("ninepatch-bg.png", Texture.class);
+        testTexture        = atlas.findRegion("badlogic");
+        whitePixelTexture  = atlas.findRegion("white-pixel");
+        whiteCircleTexture = atlas.findRegion("white-circle");
+        balloonTexture     = atlas.findRegion("balloon");
+        rocketTexture      = atlas.findRegion("rocket");
+        weightTexture      = atlas.findRegion("weight");
 
-        TextureRegion[] balloonToRocketTextures = new TextureRegion[6];
-        for (int i = 0; i < 6; i++){
-            balloonToRocketTextures[i] = new TextureRegion(mgr.get("animations/balloon_to_rocket_"+i+".png", Texture.class));
-        }
-
-        balloonToRocketAnimation = new Animation(.2f, balloonToRocketTextures);
+        int i = 0;
+        balloonToRocketAnimation = new Animation(.2f,
+            atlas.findRegion("balloon_to_rocket_" + i++),
+            atlas.findRegion("balloon_to_rocket_" + i++),
+            atlas.findRegion("balloon_to_rocket_" + i++),
+            atlas.findRegion("balloon_to_rocket_" + i++),
+            atlas.findRegion("balloon_to_rocket_" + i++),
+            atlas.findRegion("balloon_to_rocket_" + i)
+        );
 
         Texture distText = new Texture(Gdx.files.internal("fonts/simply_round_32.png"), true);
         distText.setFilter(Texture.TextureFilter.MipMapLinearNearest, Texture.TextureFilter.Linear);
@@ -124,8 +115,8 @@ public class Assets {
         }
         fontNoShadowShader = new ShaderProgram(Gdx.files.internal("shaders/dist.vert"), Gdx.files.internal("shaders/dist_no_shadow.frag"));
 
-        transparentNinepatch = new NinePatch(ninepatchTexture, 6, 6, 6, 6);
-        backgroundNinepatch  = new NinePatch(ninepatchBgTexture, 6, 6, 6, 6);
+        transparentNinepatch = new NinePatch(atlas.findRegion("ninepatch"), 6, 6, 6, 6);
+        backgroundNinepatch  = new NinePatch(atlas.findRegion("ninepatch-bg"), 6, 6, 6, 6);
 
         return 1f;
     }
