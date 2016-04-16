@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import lando.systems.ld35.screens.BaseScreen;
 import lando.systems.ld35.screens.MenuScreen;
 import lando.systems.ld35.utils.Assets;
+import lando.systems.ld35.utils.SoundManager;
 
 public class LudumDare35 extends ApplicationAdapter {
 
@@ -15,6 +16,7 @@ public class LudumDare35 extends ApplicationAdapter {
     @Override
     public void create() {
         Assets.load();
+        SoundManager.load();
         float progress = 0f;
         do {
             progress = Assets.update();
@@ -26,12 +28,14 @@ public class LudumDare35 extends ApplicationAdapter {
     @Override
     public void resume() {
         Assets.load();
+        SoundManager.load();
         game = this;
     }
 
     @Override
     public void dispose() {
         Assets.dispose();
+        SoundManager.dispose();
     }
 
     @Override

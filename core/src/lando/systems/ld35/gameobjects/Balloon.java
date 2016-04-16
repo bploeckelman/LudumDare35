@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import lando.systems.ld35.utils.Assets;
+import lando.systems.ld35.utils.SoundManager;
 
 /**
  * Created by Doug on 4/16/2016.
@@ -36,6 +37,8 @@ public class Balloon {
             case HEAVY:  currentTexture = Assets.weightTexture; break;
             default:     currentTexture = Assets.testTexture; break;
         }
+
+        SoundManager.playBalloonSound(currentState);
     }
 
     public void update(float dt, LevelInfo level){
