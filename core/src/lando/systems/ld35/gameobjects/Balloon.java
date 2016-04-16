@@ -1,6 +1,7 @@
 package lando.systems.ld35.gameobjects;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import lando.systems.ld35.utils.Assets;
 
@@ -9,6 +10,7 @@ import lando.systems.ld35.utils.Assets;
  */
 public class Balloon {
     public enum State {NORMAL, LIFT, HEAVY, SPINNER, MAGNET}
+    public static float MAX_SPEED = 100f;
 
     public Vector2 position;
     public Vector2 velocity;
@@ -45,12 +47,14 @@ public class Balloon {
     public void update(float dt){
         switch (currentState){
             case LIFT:
-                velocity.y = 100;
+                velocity.y += 100 * dt;
                 break;
             case HEAVY:
-                velocity.y = -100;
+                velocity.y -= 100 * dt;
                 break;
         }
+
+        velocity.y = MathUtils.clamp(velocity.y, -MAX_SPEED, MAX_SPEED);
 
         // TODO magnets
 
