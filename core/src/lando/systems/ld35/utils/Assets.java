@@ -40,6 +40,7 @@ public class Assets {
     public static Texture testTexture;
     public static Texture balloonTexture;
     public static Texture rocketTexture;
+    public static Texture weightTexture;
 
     public static boolean initialized;
 
@@ -71,6 +72,7 @@ public class Assets {
         mgr.load("white-circle.png", Texture.class, params);
         mgr.load("balloon.png", Texture.class, params);
         mgr.load("rocket.png", Texture.class, params);
+        mgr.load("weight.png", Texture.class, params);
 
         initialized = false;
     }
@@ -85,6 +87,7 @@ public class Assets {
         whiteCircleTexture = mgr.get("white-circle.png", Texture.class);
         balloonTexture     = mgr.get("balloon.png", Texture.class);
         rocketTexture      = mgr.get("rocket.png", Texture.class);
+        weightTexture      = mgr.get("weight.png", Texture.class);
 
 
         Texture distText = new Texture(Gdx.files.internal("fonts/simply_round_32.png"), true);

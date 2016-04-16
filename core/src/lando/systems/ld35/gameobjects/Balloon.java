@@ -54,7 +54,7 @@ public class Balloon {
                 break;
             case LIFT:
                 currentState = State.HEAVY;
-                currentTexture = Assets.testTexture;
+                currentTexture = Assets.weightTexture;
                 break;
             case HEAVY:
                 currentState = State.NORMAL;
