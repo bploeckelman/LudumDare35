@@ -27,8 +27,19 @@ public class Balloon {
     }
 
     public void changeState(State state){
-        currentState = state;
-        //TODO add correct Texture later, maybe an animation
+
+        //TODO make this animation?
+        switch (currentState){
+            case NORMAL:
+                currentTexture = Assets.balloonTexture;
+                break;
+            case LIFT:
+                currentTexture = Assets.rocketTexture;
+                break;
+            case HEAVY:
+                currentTexture = Assets.testTexture;
+                break;
+        }
     }
 
     /**
@@ -67,6 +78,12 @@ public class Balloon {
         // TODO magnets
 
         // TODO wind
+        if (position.y > 200 && position.y < 300){
+            velocity.x += 40 * dt;
+        }
+
+        velocity.x = MathUtils.clamp(velocity.x, -MAX_SPEED, MAX_SPEED);
+
 
         position.add(velocity.cpy().scl(dt));
         velocity.scl(.99f);
