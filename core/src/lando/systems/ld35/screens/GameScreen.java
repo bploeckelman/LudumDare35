@@ -60,6 +60,8 @@ public class GameScreen extends BaseScreen implements InputProcessor {
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         touchPosUnproject = camera.unproject(new Vector3(screenX, screenY, 0));
         touchPosScreen.set(touchPosUnproject.x, touchPosUnproject.y);
+
+        playerBalloon.cycleState();
         return false;
     }
 

@@ -24,7 +24,38 @@ public class Balloon {
         currentState = state;
     }
 
+    /**
+     * @deprecated
+     * Remove this when we have a real UI
+     */
+    public void cycleState(){
+        switch(currentState){
+            case NORMAL:
+                currentState = State.LIFT;
+                break;
+            case LIFT:
+                currentState = State.HEAVY;
+                break;
+            case HEAVY:
+                currentState = State.NORMAL;
+                break;
+        }
+    }
+
     public void update(float dt){
+        switch (currentState){
+            case LIFT:
+                velocity.y = 100;
+                break;
+            case HEAVY:
+                velocity.y = -100;
+                break;
+        }
+
+        // TODO magnets
+
+        // TODO wind
+
         position.add(velocity.cpy().scl(dt));
         velocity.scl(.99f);
     }
