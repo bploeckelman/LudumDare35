@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -47,6 +48,8 @@ public class Assets {
 
     public static NinePatch transparentNinepatch;
     public static NinePatch backgroundNinepatch;
+
+    public static Animation balloonToRocketAnimation;
 
     public static boolean initialized;
 
@@ -82,6 +85,10 @@ public class Assets {
         mgr.load("ninepatch.png", Texture.class, params);
         mgr.load("ninepatch-bg.png", Texture.class, params);
 
+        for (int i = 0; i < 6; i++) {
+            mgr.load("animations/balloon_to_rocket_"+i+".png", Texture.class, params);
+        }
+
         initialized = false;
     }
 
@@ -98,6 +105,13 @@ public class Assets {
         weightTexture      = mgr.get("weight.png", Texture.class);
         ninepatchTexture   = mgr.get("ninepatch.png", Texture.class);
         ninepatchBgTexture = mgr.get("ninepatch-bg.png", Texture.class);
+
+        TextureRegion[] balloonToRocketTextures = new TextureRegion[6];
+        for (int i = 0; i < 6; i++){
+            balloonToRocketTextures[i] = new TextureRegion(mgr.get("animations/balloon_to_rocket_"+i+".png", Texture.class));
+        }
+
+        balloonToRocketAnimation = new Animation(.2f, balloonToRocketTextures);
 
         Texture distText = new Texture(Gdx.files.internal("fonts/simply_round_32.png"), true);
         distText.setFilter(Texture.TextureFilter.MipMapLinearNearest, Texture.TextureFilter.Linear);

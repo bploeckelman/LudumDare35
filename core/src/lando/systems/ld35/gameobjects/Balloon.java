@@ -27,6 +27,7 @@ public class Balloon {
     }
 
     public void changeState(State state){
+        State previousState = currentState;
         currentState = state;
         //TODO: trigger an animation
         switch(currentState){
