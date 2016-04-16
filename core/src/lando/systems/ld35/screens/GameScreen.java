@@ -8,17 +8,21 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import lando.systems.ld35.LudumDare35;
+import lando.systems.ld35.gameobjects.Balloon;
 import lando.systems.ld35.utils.Assets;
 import lando.systems.ld35.utils.Config;
 import lando.systems.ld35.utils.Utils;
 
 /**
- * Brian Ploeckelman created on 1/17/2016.
+ * Brian Ploeckelman created on 4/16/2016.
  */
 public class GameScreen extends BaseScreen implements InputProcessor {
 
+    Balloon playerBalloon;
+
     public GameScreen() {
         super();
+        loadLevel();
         Utils.glClearColor(Config.bgColor);
         Gdx.input.setInputProcessor(this);
     }
@@ -32,6 +36,7 @@ public class GameScreen extends BaseScreen implements InputProcessor {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             LudumDare35.game.screen = new MenuScreen();
         }
+        playerBalloon.update(dt);
     }
 
     @Override
@@ -40,11 +45,8 @@ public class GameScreen extends BaseScreen implements InputProcessor {
 
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        batch.draw(Assets.testTexture,
-                   camera.viewportWidth  / 2f - Assets.testTexture.getWidth() / 2f,
-                   camera.viewportHeight / 2f - Assets.testTexture.getHeight() / 2f,
-                   Assets.testTexture.getWidth(),
-                   Assets.testTexture.getHeight());
+
+        playerBalloon.render(batch);
         batch.end();
     }
 
@@ -99,5 +101,14 @@ public class GameScreen extends BaseScreen implements InputProcessor {
     // ------------------------------------------------------------------------
     // Private Implementation -------------------------------------------------
     // ------------------------------------------------------------------------
+
+    private void loadLevel(){
+        // TODO load a level
+        playerBalloon = new Balloon(new Vector2());
+    }
+
+    private void resetLevel(){
+        // TODO reset the level quickly
+    }
 
 }
