@@ -37,7 +37,7 @@ public class Balloon {
                 currentTexture = Assets.rocketTexture;
                 break;
             case HEAVY:
-                currentTexture = Assets.testTexture;
+                currentTexture = Assets.weightTexture;
                 break;
         }
     }
