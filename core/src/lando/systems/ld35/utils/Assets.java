@@ -94,15 +94,7 @@ public class Assets {
         rocketTexture      = atlas.findRegion("rocket");
         weightTexture      = atlas.findRegion("weight");
 
-        int i = 0;
-        balloonToRocketAnimation = new Animation(.2f,
-            atlas.findRegion("balloon_to_rocket_" + i++),
-            atlas.findRegion("balloon_to_rocket_" + i++),
-            atlas.findRegion("balloon_to_rocket_" + i++),
-            atlas.findRegion("balloon_to_rocket_" + i++),
-            atlas.findRegion("balloon_to_rocket_" + i++),
-            atlas.findRegion("balloon_to_rocket_" + i)
-        );
+        balloonToRocketAnimation = new Animation(.2f, atlas.findRegions("balloon_to_rocket"));
 
         Texture distText = new Texture(Gdx.files.internal("fonts/simply_round_32.png"), true);
         distText.setFilter(Texture.TextureFilter.MipMapLinearNearest, Texture.TextureFilter.Linear);
