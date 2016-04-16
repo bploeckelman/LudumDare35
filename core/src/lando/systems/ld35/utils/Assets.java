@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
@@ -41,6 +42,11 @@ public class Assets {
     public static Texture balloonTexture;
     public static Texture rocketTexture;
     public static Texture weightTexture;
+    public static Texture ninepatchTexture;
+    public static Texture ninepatchBgTexture;
+
+    public static NinePatch transparentNinepatch;
+    public static NinePatch backgroundNinepatch;
 
     public static boolean initialized;
 
@@ -73,6 +79,8 @@ public class Assets {
         mgr.load("balloon.png", Texture.class, params);
         mgr.load("rocket.png", Texture.class, params);
         mgr.load("weight.png", Texture.class, params);
+        mgr.load("ninepatch.png", Texture.class, params);
+        mgr.load("ninepatch-bg.png", Texture.class, params);
 
         initialized = false;
     }
@@ -88,7 +96,8 @@ public class Assets {
         balloonTexture     = mgr.get("balloon.png", Texture.class);
         rocketTexture      = mgr.get("rocket.png", Texture.class);
         weightTexture      = mgr.get("weight.png", Texture.class);
-
+        ninepatchTexture   = mgr.get("ninepatch.png", Texture.class);
+        ninepatchBgTexture = mgr.get("ninepatch-bg.png", Texture.class);
 
         Texture distText = new Texture(Gdx.files.internal("fonts/simply_round_32.png"), true);
         distText.setFilter(Texture.TextureFilter.MipMapLinearNearest, Texture.TextureFilter.Linear);
@@ -96,12 +105,13 @@ public class Assets {
         font_round_32 = new BitmapFont(Gdx.files.internal("fonts/simply_round_32.fnt"), new TextureRegion(distText), false);
 
         fontShader = new ShaderProgram(Gdx.files.internal("shaders/dist.vert"), Gdx.files.internal("shaders/dist.frag"));
-
         if (!fontShader.isCompiled()) {
             Gdx.app.error("fontShader", "compilation failed:\n" + fontShader.getLog());
         }
-
         fontNoShadowShader = new ShaderProgram(Gdx.files.internal("shaders/dist.vert"), Gdx.files.internal("shaders/dist_no_shadow.frag"));
+
+        transparentNinepatch = new NinePatch(ninepatchTexture, 6, 6, 6, 6);
+        backgroundNinepatch  = new NinePatch(ninepatchBgTexture, 6, 6, 6, 6);
 
         return 1f;
     }

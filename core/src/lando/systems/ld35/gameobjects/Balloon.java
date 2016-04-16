@@ -28,36 +28,12 @@ public class Balloon {
 
     public void changeState(State state){
         currentState = state;
-
-        //TODO make this animation?
-        switch (currentState){
-            case NORMAL:
-                currentTexture = Assets.balloonTexture;
-                break;
-            case LIFT:
-                currentTexture = Assets.rocketTexture;
-                break;
-            case HEAVY:
-                currentTexture = Assets.weightTexture;
-                break;
-        }
-    }
-
-    /**
-     * @deprecated
-     * Remove this when we have a real UI
-     */
-    public void cycleState(){
+        //TODO: trigger an animation
         switch(currentState){
-            case NORMAL:
-                changeState(State.LIFT);
-                break;
-            case LIFT:
-                changeState(State.HEAVY);
-                break;
-            case HEAVY:
-                changeState(State.NORMAL);
-                break;
+            case NORMAL: currentTexture = Assets.balloonTexture; break;
+            case LIFT:   currentTexture = Assets.rocketTexture; break;
+            case HEAVY:  currentTexture = Assets.weightTexture; break;
+            default:     currentTexture = Assets.testTexture; break;
         }
     }
 
