@@ -49,16 +49,13 @@ public class Balloon {
     public void cycleState(){
         switch(currentState){
             case NORMAL:
-                currentState = State.LIFT;
-                currentTexture = Assets.rocketTexture;
+                changeState(State.LIFT);
                 break;
             case LIFT:
-                currentState = State.HEAVY;
-                currentTexture = Assets.weightTexture;
+                changeState(State.HEAVY);
                 break;
             case HEAVY:
-                currentState = State.NORMAL;
-                currentTexture = Assets.balloonTexture;
+                changeState(State.NORMAL);
                 break;
         }
     }
