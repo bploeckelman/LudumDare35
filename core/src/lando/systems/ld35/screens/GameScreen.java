@@ -10,6 +10,8 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Pool;
+import com.badlogic.gdx.utils.Pools;
 import lando.systems.ld35.LudumDare35;
 import lando.systems.ld35.gameobjects.Balloon;
 import lando.systems.ld35.gameobjects.LevelInfo;
@@ -26,9 +28,12 @@ public class GameScreen extends BaseScreen implements InputProcessor {
     LevelInfo level;
     Balloon playerBalloon;
     Array<StateButton> stateButtons;
+    Pool<Rectangle> rectPool;
 
     public GameScreen() {
         super();
+        rectPool = Pools.get(Rectangle.class);
+
         loadLevel(0);
         Utils.glClearColor(Config.bgColor);
         Gdx.input.setInputProcessor(this);
@@ -43,7 +48,7 @@ public class GameScreen extends BaseScreen implements InputProcessor {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             LudumDare35.game.screen = new MenuScreen();
         }
-        playerBalloon.update(dt);
+        playerBalloon.update(dt, level);
     }
 
     @Override
@@ -134,7 +139,7 @@ public class GameScreen extends BaseScreen implements InputProcessor {
     // ------------------------------------------------------------------------
 
     private void loadLevel(int levelId){
-        level = new LevelInfo(levelId);
+        level = new LevelInfo(levelId, rectPool);
         playerBalloon = new Balloon(level.details.getStart());
         layoutUI();
     }

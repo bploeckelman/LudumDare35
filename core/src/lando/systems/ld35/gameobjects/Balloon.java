@@ -38,7 +38,7 @@ public class Balloon {
         }
     }
 
-    public void update(float dt){
+    public void update(float dt, LevelInfo level){
         switch (currentState){
             case LIFT:
                 velocity.y += 100 * dt;
@@ -62,6 +62,8 @@ public class Balloon {
 
         position.add(velocity.cpy().scl(dt));
         velocity.scl(.99f);
+
+        // TODO: Do collision detection against level.getTiles
     }
 
     public void render(SpriteBatch batch){
