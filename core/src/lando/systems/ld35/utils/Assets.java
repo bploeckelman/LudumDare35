@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -30,6 +31,9 @@ public class Assets {
     public static GlyphLayout  glyphLayout;
     public static SpriteBatch  batch;
     public static BitmapFont   font;
+    public static BitmapFont    font_round_32;
+    public static ShaderProgram fontShader;
+    public static ShaderProgram fontNoShadowShader;
 
     public static Texture whitePixelTexture;
     public static Texture whiteCircleTexture;
@@ -82,6 +86,20 @@ public class Assets {
         balloonTexture     = mgr.get("balloon.png", Texture.class);
         rocketTexture      = mgr.get("rocket.png", Texture.class);
 
+
+        Texture distText = new Texture(Gdx.files.internal("fonts/simply_round_32.png"), true);
+        distText.setFilter(Texture.TextureFilter.MipMapLinearNearest, Texture.TextureFilter.Linear);
+
+        font_round_32 = new BitmapFont(Gdx.files.internal("fonts/simply_round_32.fnt"), new TextureRegion(distText), false);
+
+        fontShader = new ShaderProgram(Gdx.files.internal("shaders/dist.vert"), Gdx.files.internal("shaders/dist.frag"));
+
+        if (!fontShader.isCompiled()) {
+            Gdx.app.error("fontShader", "compilation failed:\n" + fontShader.getLog());
+        }
+
+        fontNoShadowShader = new ShaderProgram(Gdx.files.internal("shaders/dist.vert"), Gdx.files.internal("shaders/dist_no_shadow.frag"));
+
         return 1f;
     }
 
@@ -101,6 +119,17 @@ public class Assets {
             Gdx.app.debug("SHADER", "ShaderProgram compilation log:\n" + shader.getLog());
         }
         return shader;
+    }
+
+    public static void drawString(SpriteBatch batch, String text, float x, float y, Color c, float scale){
+
+        batch.setShader(Assets.fontShader);
+        Assets.fontShader.setUniformf("u_scale", scale);
+        font_round_32.getData().setScale(scale);
+        font_round_32.setColor(c);
+        font_round_32.draw(batch, text, x, y);
+        batch.setShader(null);
+
     }
 
 }

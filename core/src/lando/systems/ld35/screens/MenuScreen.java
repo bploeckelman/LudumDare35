@@ -2,6 +2,7 @@ package lando.systems.ld35.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import lando.systems.ld35.LudumDare35;
@@ -35,11 +36,7 @@ public class MenuScreen extends BaseScreen {
 
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        batch.draw(Assets.testTexture,
-                   camera.viewportWidth  / 2f - Assets.testTexture.getWidth() / 2f,
-                   camera.viewportHeight / 2f - Assets.testTexture.getHeight() / 2f,
-                   Assets.testTexture.getWidth(),
-                   Assets.testTexture.getHeight());
+        Assets.drawString(batch, "Balloon Mania", 200, 300, Color.WHITE, 1);
         batch.end();
     }
 
