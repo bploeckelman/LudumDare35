@@ -34,6 +34,8 @@ public class Assets {
     public static Texture whitePixelTexture;
     public static Texture whiteCircleTexture;
     public static Texture testTexture;
+    public static Texture balloonTexture;
+    public static Texture rocketTexture;
 
     public static boolean initialized;
 
@@ -63,6 +65,8 @@ public class Assets {
         mgr.load("badlogic.jpg",     Texture.class, params);
         mgr.load("white-pixel.png",  Texture.class, params);
         mgr.load("white-circle.png", Texture.class, params);
+        mgr.load("balloon.png", Texture.class, params);
+        mgr.load("rocket.png", Texture.class, params);
 
         initialized = false;
     }
@@ -75,6 +79,8 @@ public class Assets {
         testTexture        = mgr.get("badlogic.jpg",     Texture.class);
         whitePixelTexture  = mgr.get("white-pixel.png",  Texture.class);
         whiteCircleTexture = mgr.get("white-circle.png", Texture.class);
+        balloonTexture     = mgr.get("balloon.png", Texture.class);
+        rocketTexture      = mgr.get("rocket.png", Texture.class);
 
         return 1f;
     }
