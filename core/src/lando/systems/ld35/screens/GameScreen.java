@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import lando.systems.ld35.LudumDare35;
 import lando.systems.ld35.gameobjects.Balloon;
+import lando.systems.ld35.gameobjects.LevelInfo;
 import lando.systems.ld35.utils.Assets;
 import lando.systems.ld35.utils.Config;
 import lando.systems.ld35.utils.Utils;
@@ -19,10 +20,11 @@ import lando.systems.ld35.utils.Utils;
 public class GameScreen extends BaseScreen implements InputProcessor {
 
     Balloon playerBalloon;
+    LevelInfo level;
 
     public GameScreen() {
         super();
-        loadLevel();
+        loadLevel(0);
         Utils.glClearColor(Config.bgColor);
         Gdx.input.setInputProcessor(this);
     }
@@ -43,10 +45,15 @@ public class GameScreen extends BaseScreen implements InputProcessor {
     public void render(SpriteBatch batch) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        level.setView(camera);
         batch.setProjectionMatrix(camera.combined);
+
         batch.begin();
 
+        level.renderBackground();
         playerBalloon.render(batch);
+        level.renderForeground();
+
         batch.end();
     }
 
@@ -104,9 +111,9 @@ public class GameScreen extends BaseScreen implements InputProcessor {
     // Private Implementation -------------------------------------------------
     // ------------------------------------------------------------------------
 
-    private void loadLevel(){
-        // TODO load a level
-        playerBalloon = new Balloon(new Vector2());
+    private void loadLevel(int levelId){
+        level = new LevelInfo(levelId);
+        playerBalloon = new Balloon(level.details.getStart());
     }
 
     private void resetLevel(){
