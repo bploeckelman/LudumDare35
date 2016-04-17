@@ -45,7 +45,7 @@ public class WindParticle {
     public void render(SpriteBatch batch){
         float alpha = 0;
         for (Vector2 p : trail){
-            batch.setColor(new Color(0,0,0, alpha * TTL/2f));
+            batch.setColor(new Color(1,1,1, alpha * TTL/2f));
             batch.draw(Assets.moteTexture, p.x, p.y, 3, 3);
             alpha += .01f;
         }
