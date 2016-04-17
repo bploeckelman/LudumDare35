@@ -82,7 +82,7 @@ public class LevelInfo {
         loadMapObjects();
     }
 
-    public void nextLevel(Balloon balloon) {
+    public void nextLevel() {
         levelIndex++;
         if (levelIndex < Level.values().length) {
             // TODO: do fancy shit here before loading the next level, elapsed time, # times switched, shape histogram, ...

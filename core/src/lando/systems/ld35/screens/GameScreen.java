@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -53,11 +54,12 @@ public class GameScreen extends BaseScreen implements InputProcessor {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             LudumDare35.game.screen = new MenuScreen();
         }
+
         level.update(dt);
         playerBalloon.update(dt, level);
 
+        updateMapObjects(dt);
         updateDust(dt);
-
         updateCamera(dt, false);
     }
 
@@ -243,7 +245,22 @@ public class GameScreen extends BaseScreen implements InputProcessor {
         }
     }
 
-    public void removeDust(){
-        dustMotes.clear();
+    private void updateMapObjects(float dt) {
+        for (ObjectBase obj : level.mapObjects) {
+            // Interact with level exit
+            if (obj instanceof Exit) {
+                if (playerBalloon.bounds.overlaps(obj.getBounds())) {
+                    dustMotes.clear();
+                    level.nextLevel();
+                    playerBalloon = new Balloon(level.details.getStart(), this);
+                    for (StateButton button : stateButtons) {
+                        button.active = false;
+                    }
+                    stateButtons.get(0).active = true;
+                }
+            }
+            // TODO: interact with other stuff
+        }
     }
+
 }

@@ -4,7 +4,6 @@ import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.primitives.MutableFloat;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -40,12 +39,12 @@ public class Balloon {
     public boolean       animating;
     public MutableFloat  animationTimer;
     public Animation     currentAnimation;
-    GameScreen screen;
-    Rectangle  bounds;
-    Rectangle  intersectorRectangle;
-    public Pixmap tilePixmap;
-    boolean[] intersectMap;
-    Vector2 center;
+    public GameScreen    screen;
+    public Rectangle     bounds;
+    public Rectangle     intersectorRectangle;
+    public Pixmap        tilePixmap;
+    public boolean[]     intersectMap;
+    public Vector2       center;
 
     public Balloon(Vector2 position, GameScreen screen){
         this.center = new Vector2();
@@ -115,41 +114,18 @@ public class Balloon {
         bounds.y = position.y + BOUNDS_MARGIN;
         bounds.getCenter(center);
 
-        // TODO magnets
-
         // Interact with map objects
         for (ObjectBase obj : levelInfo.mapObjects) {
-            // Interact with level exit
-            if (obj instanceof Exit) {
-                if (bounds.overlaps(obj.bounds)) {
-                    screen.removeDust();
-                    levelInfo.nextLevel(this);
-                    new Balloon(levelInfo.details.getStart(), screen);
-                    this.center = new Vector2();
-                    this.currentState = State.NORMAL;
-                    this.position.set(levelInfo.details.startX, levelInfo.details.startY);
-                    this.velocity = new Vector2(0, 0);
-                    this.currentTexture = Assets.balloonTexture;
-                    this.animating = false;
-                    this.animationTimer = new MutableFloat(0);
-                    this.currentAnimation = Assets.balloonToBalloonAnimation;
-                    this.bounds = new Rectangle(position.x, position.y, 32 - (BOUNDS_MARGIN * 2f), 32 - (BOUNDS_MARGIN * 2f));
-                    this.intersectorRectangle = new Rectangle();
-                    this.intersectMap = new boolean[32 * 32];
-                    break;
-                }
-            }
             // Interact with fans
-            else if (obj instanceof Fan && currentState != State.SPINNER) {
+            if (obj instanceof Fan && currentState != State.SPINNER) {
                 Fan f = (Fan) obj;
                 velocity.add(f.getWindForce(center).scl(dt));
             }
+            // TODO magnets
         }
 
         velocity.x = MathUtils.clamp(velocity.x, -MAX_SPEED, MAX_SPEED);
         velocity.y = MathUtils.clamp(velocity.y, -MAX_SPEED, MAX_SPEED);
-
-
 
         Vector2 nextPos = position.cpy().add(velocity.cpy().scl(dt));
         velocity.scl(.99f);
