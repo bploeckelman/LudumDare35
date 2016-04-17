@@ -45,6 +45,8 @@ public class Balloon {
     public Pixmap        tilePixmap;
     public boolean[]     intersectMap;
     public Vector2       center;
+    float rotation;
+    Vector2 magnetForce;
 
     public Balloon(Vector2 position, GameScreen screen){
         this.center = new Vector2();
@@ -59,6 +61,7 @@ public class Balloon {
         this.bounds = new Rectangle(position.x, position.y, 32 - (BOUNDS_MARGIN * 2f), 32 - (BOUNDS_MARGIN * 2f));
         this.intersectorRectangle = new Rectangle();
         this.intersectMap = new boolean[32 * 32];
+        magnetForce = new Vector2();
 
         if (stateToAnimationMap == null) {
             stateToAnimationMap = new ObjectMap<State, Animation>();
@@ -114,6 +117,9 @@ public class Balloon {
         bounds.y = position.y + BOUNDS_MARGIN;
         bounds.getCenter(center);
 
+
+        magnetForce.set(0,0);
+
         // Interact with map objects
         for (ObjectBase obj : levelInfo.mapObjects) {
             // Interact with fans
@@ -121,7 +127,21 @@ public class Balloon {
                 Fan f = (Fan) obj;
                 velocity.add(f.getWindForce(center).scl(dt));
             }
-            // TODO magnets
+
+
+            // Interact with magnets
+            if (obj instanceof ForceEntity && currentState == State.MAGNET){
+                ForceEntity f = (ForceEntity)obj;
+                magnetForce.add(f.getMagneticForce(center));
+            }
+
+        }
+
+        if (currentState == State.MAGNET){
+            velocity.add(magnetForce.scl(dt));
+            rotation = (float)Math.toDegrees(Math.atan2(magnetForce.y, magnetForce.x))-90f;
+        } else {
+            rotation = 0;
         }
 
         velocity.x = MathUtils.clamp(velocity.x, -MAX_SPEED, MAX_SPEED);
@@ -210,7 +230,7 @@ public class Balloon {
         if (animating && currentAnimation != null) {
             batch.draw(currentAnimation.getKeyFrame(animationTimer.floatValue()), position.x, position.y, 32, 32);
         } else {
-            batch.draw(currentTexture, position.x, position.y, 32, 32);
+            batch.draw(currentTexture, position.x, position.y, 16, 16, 32, 32, 1, 1, rotation);
         }
     }
 

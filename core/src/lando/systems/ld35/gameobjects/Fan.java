@@ -14,27 +14,13 @@ public class Fan extends ForceEntity {
     WindField windField;
 
     public Fan(Rectangle bounds, float rotation, boolean flipX, LevelInfo level) {
-        super(bounds, rotation, flipX, false);
+        super(bounds, rotation, flipX, true);
         this.animation = Assets.fanAnimation;
         calcWindField(level);
     }
 
     public void calcWindField(LevelInfo level){
-        Rectangle realWorldFuckingBounds = new Rectangle(bounds);
-        if (direction.x != 0){
-            realWorldFuckingBounds.x += 32 * direction.x;
-        }
-        if (direction.y != 0){
-            realWorldFuckingBounds.width = 64;
-            realWorldFuckingBounds.height = 32;
-            realWorldFuckingBounds.y += 32 * direction.y;
-            if (direction.y > 0){
-                realWorldFuckingBounds.x -= 64;
-            } else {
-                realWorldFuckingBounds.y -= 32;
-            }
-        }
-        windField = level.getWindBounds(direction, realWorldFuckingBounds);
+        windField = level.getWindBounds(direction, realWorldWindBounds);
 
     }
 
@@ -60,5 +46,6 @@ public class Fan extends ForceEntity {
     @Override
     public void render(SpriteBatch batch){
         super.render(batch);
+//        batch.draw(Assets.testTexture, realWorldWindBounds.x, realWorldWindBounds.y, realWorldWindBounds.width, realWorldWindBounds.height);
     }
 }
