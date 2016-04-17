@@ -10,6 +10,7 @@ import aurelienribon.tweenengine.primitives.MutableFloat;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
@@ -97,9 +98,19 @@ public class GameScreen extends BaseScreen implements InputProcessor {
 
         batch.setProjectionMatrix(hudCamera.combined);
         Assets.trayNinepatch.draw(batch, buttonTrayRect.x, buttonTrayRect.y, buttonTrayRect.width, buttonTrayRect.height);
-        for (StateButton stateButton : stateButtons) {
+        for (int i = 0; i < stateButtons.size; ++i) {
+            StateButton stateButton = stateButtons.get(i);
             if (stateButton.enabled) {
                 stateButton.render(batch);
+
+                batch.setShader(Assets.fontShader);
+                Assets.fontShader.setUniformf("u_scale", 0.45f);
+                Assets.font_round_32.getData().setScale(0.45f);
+                Assets.font_round_32.setColor(stateButton.active ? Color.YELLOW : Color.WHITE);
+                Assets.font_round_32.draw(batch, ""+Integer.toString(i+1),
+                                          stateButton.bounds.x + stateButton.bounds.width - 8f,
+                                          stateButton.bounds.y + stateButton.bounds.height - 3f);
+                batch.setShader(null);
             }
         }
         batch.end();
