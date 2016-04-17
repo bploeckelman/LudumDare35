@@ -233,11 +233,13 @@ public class GameScreen extends BaseScreen implements InputProcessor {
             for (ObjectBase obj : level.mapObjects){
                 if (obj instanceof Fan){
                     Fan f = (Fan) obj;
-                    mote.vel.add(f.getWindForce(mote.pos).scl(dt * 10));
+                    Vector2 force = f.getWindForce(mote.pos);
+                    if (!force.epsilonEquals( Vector2.Zero, 1f))
+                        mote.vel.add(force.add(MathUtils.random(10f) -5f, MathUtils.random(10f) -5f).scl(dt * 10));
                 }
             }
             mote.update(dt);
-            if (mote.TTL < 0 || mote.vel.len2() == 0) {
+            if (mote.TTL < 0 || mote.vel.len2() < 50) {
                 dustMotes.removeIndex(i);
                 continue;
             }
