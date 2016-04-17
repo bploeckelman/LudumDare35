@@ -4,28 +4,29 @@ import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.primitives.MutableFloat;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ObjectMap;
 import lando.systems.ld35.screens.GameScreen;
 import lando.systems.ld35.utils.Assets;
-import lando.systems.ld35.utils.SoundManager;
 import lando.systems.ld35.utils.LevelBoundry;
+import lando.systems.ld35.utils.SoundManager;
 
 /**
  * Created by Doug on 4/16/2016.
  */
 public class Balloon {
-    public enum State {NORMAL, LIFT, HEAVY, SPINNER, MAGNET}
+    public enum State {NORMAL, LIFT, HEAVY, SPINNER, MAGNET, BUZZSAW}
+
+    public static ObjectMap<State, Animation> stateToAnimationMap;
 
     public static final float ANIM_DURATION = 0.5f;
     public static float MAX_SPEED = 100f;
@@ -44,49 +45,53 @@ public class Balloon {
     boolean[] intersectMap;
 
     public Balloon(Vector2 position, GameScreen screen){
-        level = screen;
-        currentState = State.NORMAL;
+        this.level = screen;
+        this.currentState = State.NORMAL;
         this.position = position;
-        velocity = new Vector2(0, 100);
-        currentTexture = Assets.balloonTexture;
-        animating = false;
-        animationTimer = new MutableFloat(0);
-        currentAnimation = null;
-        bounds = new Rectangle(position.x, position.y, 32, 32);
-        intersectorRectangle = new Rectangle();
-        intersectMap = new boolean[32*32];
+        this.velocity = new Vector2(0, 100);
+        this.currentTexture = Assets.balloonTexture;
+        this.animating = false;
+        this.animationTimer = new MutableFloat(0);
+        this.currentAnimation = Assets.balloonToBalloonAnimation;
+        this.bounds = new Rectangle(position.x, position.y, 32, 32);
+        this.intersectorRectangle = new Rectangle();
+        this.intersectMap = new boolean[32*32];
+
+        if (stateToAnimationMap == null) {
+            stateToAnimationMap = new ObjectMap<State, Animation>();
+            stateToAnimationMap.put(State.NORMAL,  Assets.balloonToBalloonAnimation);
+            stateToAnimationMap.put(State.LIFT,    Assets.balloonToRocketAnimation);
+            stateToAnimationMap.put(State.HEAVY,   Assets.balloonToWeightAnimation);
+            stateToAnimationMap.put(State.SPINNER, Assets.balloonToTorusAnimation);
+            stateToAnimationMap.put(State.MAGNET,  Assets.balloonToMagnetAnimation);
+            stateToAnimationMap.put(State.BUZZSAW, Assets.balloonToBuzzsawAnimation);
+        }
     }
 
     public void changeState(State state) {
         SoundManager.playBalloonSound(currentState);
-        State previousState = currentState;
         currentState = state;
 
-        // TODO: previous state -> balloon then balloon -> current state then animating = false && currentTexture = currentState
+        // Tween animation from 'previous' state to 'balloon'
         animating = true;
-        animationTimer.setValue(0f);
-        currentAnimation = Assets.balloonToRocketAnimation;
+        animationTimer.setValue(currentAnimation.getAnimationDuration());
         Tween.to(animationTimer, -1, ANIM_DURATION / 2f)
-                .target(currentAnimation.getAnimationDuration())
+                .target(0f)
                 .setCallback(new TweenCallback() {
                     @Override
                     public void onEvent(int type, BaseTween<?> source) {
+                        // Tween animation from 'balloon' to new state
+                        currentAnimation = stateToAnimationMap.get(currentState);
                         Tween.to(animationTimer, -1, ANIM_DURATION / 2f)
-                                .target(0f)
-                                .setCallback(new TweenCallback() {
-                                    @Override
-                                    public void onEvent(int type, BaseTween<?> source) {
-                                        animating = false;
-                                        currentAnimation = null;
-                                        switch(currentState){
-                                            case NORMAL: currentTexture = Assets.balloonTexture; break;
-                                            case LIFT:   currentTexture = Assets.rocketTexture; break;
-                                            case HEAVY:  currentTexture = Assets.weightTexture; break;
-                                            default:     currentTexture = Assets.testTexture; break;
-                                        }
-                                    }
-                                })
-                                .start(Assets.tween);
+                             .target(currentAnimation.getAnimationDuration())
+                             .setCallback(new TweenCallback() {
+                                 @Override
+                                 public void onEvent(int type, BaseTween<?> source) {
+                                     animating = false;
+                                     setTextureForCurrentState();
+                                 }
+                             })
+                             .start(Assets.tween);
                     }
                 })
                 .start(Assets.tween);
@@ -189,6 +194,19 @@ public class Balloon {
             batch.draw(currentAnimation.getKeyFrame(animationTimer.floatValue()), position.x, position.y, 32, 32);
         } else {
             batch.draw(currentTexture, position.x, position.y, 32, 32);
+        }
+    }
+
+    // ------------------------------------------------------------------------
+    // Private Implementation
+    // ------------------------------------------------------------------------
+
+    private void setTextureForCurrentState() {
+        switch(currentState){
+            case NORMAL: currentTexture = Assets.balloonTexture; break;
+            case LIFT:   currentTexture = Assets.rocketTexture; break;
+            case HEAVY:  currentTexture = Assets.weightTexture; break;
+            default:     currentTexture = Assets.testTexture; break;
         }
     }
 

@@ -49,7 +49,12 @@ public class Assets {
     public static NinePatch transparentNinepatch;
     public static NinePatch backgroundNinepatch;
 
+    public static Animation balloonToBalloonAnimation;
     public static Animation balloonToRocketAnimation;
+    public static Animation balloonToWeightAnimation;
+    public static Animation balloonToMagnetAnimation;
+    public static Animation balloonToBuzzsawAnimation;
+    public static Animation balloonToTorusAnimation;
 
     public static boolean initialized;
 
@@ -94,7 +99,12 @@ public class Assets {
         rocketTexture      = atlas.findRegion("rocket");
         weightTexture      = atlas.findRegion("weight");
 
-        balloonToRocketAnimation = new Animation(.2f, atlas.findRegions("balloon_to_rocket"));
+        balloonToBalloonAnimation = new Animation(.2f, balloonTexture, balloonTexture);
+        balloonToRocketAnimation  = new Animation(.2f, atlas.findRegions("balloon_to_rocket"));
+        balloonToWeightAnimation  = new Animation(.2f, atlas.findRegions("balloon_to_weight"));
+        balloonToMagnetAnimation  = new Animation(.2f, atlas.findRegions("balloon_to_magnet"));
+        balloonToBuzzsawAnimation = new Animation(.2f, atlas.findRegions("balloon_to_buzzsaw"));
+        balloonToTorusAnimation   = new Animation(.2f, atlas.findRegions("balloon_to_torus"));
 
         Texture distText = new Texture(Gdx.files.internal("fonts/simply_round_32.png"), true);
         distText.setFilter(Texture.TextureFilter.MipMapLinearNearest, Texture.TextureFilter.Linear);
