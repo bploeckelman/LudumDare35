@@ -1,6 +1,7 @@
 package lando.systems.ld35.gameobjects;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
@@ -13,13 +14,10 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
-import lando.systems.ld35.utils.Config;
-import lando.systems.ld35.utils.Level;
-import lando.systems.ld35.utils.LevelBoundry;
-import lando.systems.ld35.utils.WindField;
+import lando.systems.ld35.utils.*;
 
 import static lando.systems.ld35.gameobjects.LevelObject.*;
-import static lando.systems.ld35.utils.Assets.batch;
+//import static lando.systems.ld35.utils.Assets.batch;
 
 public class LevelInfo {
     public static final float MAP_UNIT_SCALE    = 1f;
@@ -57,7 +55,7 @@ public class LevelInfo {
         mapRenderer.renderTileLayer(backgroundLayer);
     }
 
-    public void renderForeground() {
+    public void renderForeground(SpriteBatch batch) {
         mapRenderer.renderTileLayer(foregroundLayer);
 
         for(int i = 0; i < mapObjects.size; i++) {
@@ -76,7 +74,7 @@ public class LevelInfo {
 
         map = mapLoader.load(mapName);
 
-        mapRenderer = new OrthogonalTiledMapRenderer(map, MAP_UNIT_SCALE, batch);
+        mapRenderer = new OrthogonalTiledMapRenderer(map, MAP_UNIT_SCALE, Assets.batch);
 
         foregroundLayer = (TiledMapTileLayer) map.getLayers().get("foreground");
         backgroundLayer = (TiledMapTileLayer) map.getLayers().get("background");

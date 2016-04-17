@@ -77,7 +77,6 @@ public class Assets {
         }
 
         glyphLayout = new GlyphLayout();
-        batch = new SpriteBatch();
         font = new BitmapFont();
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         font.getData().setScale(2f);
@@ -98,6 +97,8 @@ public class Assets {
         if (!mgr.update()) return mgr.getProgress();
         if (initialized) return 1f;
         initialized = true;
+        batch = new SpriteBatch();
+
 
         testTexture        = atlas.findRegion("badlogic");
         whitePixelTexture  = atlas.findRegion("white-pixel");

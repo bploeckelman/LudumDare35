@@ -71,11 +71,12 @@ public class GameScreen extends BaseScreen implements InputProcessor {
         batch.begin();
 
         level.renderBackground();
-        playerBalloon.render(batch);
         for (WindParticle mote : dustMotes){
             mote.render(batch);
         }
-        level.renderForeground();
+        playerBalloon.render(batch);
+
+        level.renderForeground(batch);
         batch.setProjectionMatrix(hudCamera.combined);
         for (StateButton stateButton : stateButtons) {
             stateButton.render(batch);
