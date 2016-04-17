@@ -242,7 +242,7 @@ public class GameScreen extends BaseScreen implements InputProcessor {
     private Vector2 getCameraTarget(){
         Vector2 targetCameraPosition = playerBalloon.position.cpy();
         targetCameraPosition.x = MathUtils.clamp(targetCameraPosition.x, camera.viewportWidth/2f, level.foregroundLayer.getWidth()*32 -camera.viewportWidth/2f );
-        targetCameraPosition.y = MathUtils.clamp(targetCameraPosition.y, Math.min(camera.viewportHeight/2f, level.foregroundLayer.getHeight()*16), level.foregroundLayer.getHeight()*32 -camera.viewportHeight/2f );
+        targetCameraPosition.y = MathUtils.clamp(targetCameraPosition.y, Math.min(camera.viewportHeight/2f - buttonTrayRect.height, level.foregroundLayer.getHeight()*16), level.foregroundLayer.getHeight()*32 -camera.viewportHeight/2f );
 
         return targetCameraPosition;
     }
