@@ -105,6 +105,6 @@
     <property name="dir" value="e"/>
    </properties>
   </object>
-  <object id="16" type="spawn" gid="28" x="480" y="576" width="32" height="32"/>
+  <object id="16" type="spawn" gid="28" x="144" y="912" width="32" height="32"/>
  </objectgroup>
 </map>

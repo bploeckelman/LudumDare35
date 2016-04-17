@@ -62,6 +62,7 @@ public class Assets {
     public static Animation balloonToBuzzsawAnimation;
     public static Animation balloonToTorusAnimation;
 
+    public static Animation netAnimation;
     public static Animation fanAnimation;
 
     public static boolean initialized;
@@ -122,6 +123,8 @@ public class Assets {
 
         fanAnimation = new Animation(.1f, atlas.findRegions("fan"));
         fanAnimation.setPlayMode(Animation.PlayMode.LOOP);
+        netAnimation = new Animation(.1f, atlas.findRegions("net"));
+        netAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
         Texture distText = new Texture(Gdx.files.internal("fonts/simply_round_32.png"), true);
         distText.setFilter(Texture.TextureFilter.MipMapLinearNearest, Texture.TextureFilter.Linear);

@@ -35,7 +35,7 @@
  </layer>
  <objectgroup name="objects">
   <object id="22" type="fan" gid="27" x="32" y="96" width="32" height="64"/>
-  <object id="24" type="spawn" gid="29" x="64" y="64" width="32" height="32"/>
-  <object id="27" type="exit" gid="30" x="576" y="64" width="32" height="32"/>
+  <object id="24" type="spawn" gid="29" x="64" y="80" width="32" height="32"/>
+  <object id="27" type="exit" gid="30" x="576" y="80" width="32" height="32"/>
  </objectgroup>
 </map>

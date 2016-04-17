@@ -173,7 +173,7 @@ public class LevelInfo {
             float w = (Float) props.get("width");
             float h = (Float) props.get("height");
             float x = (Float) props.get("x");
-            float y = (Float) props.get("y"); // NOTE: god dammit... off by 1
+            float y = (Float) props.get("y") + h; // NOTE: god dammit... off by 1
             float rotation = tileObject.getRotation() * -1;
             boolean flipX = tileObject.isFlipHorizontally();
 
@@ -181,17 +181,17 @@ public class LevelInfo {
 
             switch (type) {
                 case spawn:
-                    details.startX = x + w/2f;
-                    details.startY = y + h/2f;
+                    details.startX = x;
+                    details.startY = y;
                     break;
                 case exit:
-                    mapObjects.add(new Exit(new Rectangle(x, y + h, w, h), rotation, flipX));
+                    mapObjects.add(new Exit(new Rectangle(x, y, w, h), rotation, flipX));
                     break;
                 case fan:
-                    mapObjects.add(new Fan(new Rectangle(x, y + h, w, h), rotation, flipX, this));
+                    mapObjects.add(new Fan(new Rectangle(x, y, w, h), rotation, flipX, this));
                     break;
                 case spikes:
-                    mapObjects.add(new Spikes(new Rectangle(x, y + h, w, h), rotation, flipX));
+                    mapObjects.add(new Spikes(new Rectangle(x, y, w, h), rotation, flipX));
                     break;
             }
         }
