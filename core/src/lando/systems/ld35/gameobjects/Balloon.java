@@ -201,7 +201,7 @@ public class Balloon {
         }
         if (collided){
             massOfCollision.nor();
-            float dot = 2f * massOfCollision.dot(velocity);  // r = d - 2(d · n)n
+            float dot = 2f * massOfCollision.dot(velocity);  // r = d - 2(d . n)n
             velocity.sub(massOfCollision.scl(dot));
 //            float mag = velocity.len();
 
