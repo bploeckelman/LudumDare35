@@ -48,6 +48,7 @@ public class Assets {
     public static TextureRegion torusTexture;
     public static TextureRegion magnetTexture;
     public static TextureRegion buzzsawTexture;
+    public static TextureRegion deadTexture;
     public static TextureRegion spikesTexture;
     public static TextureRegion moteTexture;
 
@@ -61,6 +62,7 @@ public class Assets {
     public static Animation balloonToMagnetAnimation;
     public static Animation balloonToBuzzsawAnimation;
     public static Animation balloonToTorusAnimation;
+    public static Animation balloonToPopAnimation;
 
     public static Animation netAnimation;
     public static Animation fanAnimation;
@@ -111,6 +113,7 @@ public class Assets {
         torusTexture       = atlas.findRegion("balloon_to_torus", 5);
         magnetTexture      = atlas.findRegion("balloon_to_magnet", 6);
         buzzsawTexture     = atlas.findRegion("balloon_to_buzzsaw", 5);
+        deadTexture        = atlas.findRegion("balloon_pop", 3);
         spikesTexture      = atlas.findRegion("spikes");
         moteTexture        = atlas.findRegion("mote");
 
@@ -120,6 +123,7 @@ public class Assets {
         balloonToMagnetAnimation  = new Animation(.2f, atlas.findRegions("balloon_to_magnet"));
         balloonToBuzzsawAnimation = new Animation(.2f, atlas.findRegions("balloon_to_buzzsaw"));
         balloonToTorusAnimation   = new Animation(.2f, atlas.findRegions("balloon_to_torus"));
+        balloonToPopAnimation     = new Animation(.1f, atlas.findRegions("balloon_pop"));
 
         fanAnimation = new Animation(.1f, atlas.findRegions("fan"));
         fanAnimation.setPlayMode(Animation.PlayMode.LOOP);

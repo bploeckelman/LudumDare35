@@ -97,6 +97,9 @@ public class SoundManager{
             case MAGNET:
                 balloonSound = SoundOptions.Magnet;
                 break;
+            case POP:
+                balloonSound = SoundOptions.Pop;
+                break;
             default:
                 balloonSound = SoundOptions.Squeak;
                 break;

@@ -3,12 +3,9 @@
  <tileset firstgid="1" name="basic" tilewidth="32" tileheight="32" tilecount="25" columns="5">
   <image source="basic-tiles.png" width="160" height="160"/>
  </tileset>
- <tileset firstgid="26" name="objects" tilewidth="32" tileheight="64" tilecount="4" columns="0">
+ <tileset firstgid="26" name="objects" tilewidth="32" tileheight="64" tilecount="3" columns="0">
   <tile id="1">
    <image width="32" height="64" source="fan_0.png"/>
-  </tile>
-  <tile id="2">
-   <image width="32" height="32" source="spikes.png"/>
   </tile>
   <tile id="3">
    <image width="32" height="32" source="spawn.png"/>

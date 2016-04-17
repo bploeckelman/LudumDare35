@@ -24,7 +24,7 @@ import lando.systems.ld35.utils.SoundManager;
  * Created by Doug on 4/16/2016.
  */
 public class Balloon {
-    public enum State {NORMAL, LIFT, HEAVY, SPINNER, MAGNET, BUZZSAW}
+    public enum State {NORMAL, LIFT, HEAVY, SPINNER, MAGNET, BUZZSAW, POP, DEAD}
 
     public static ObjectMap<State, Animation> stateToAnimationMap;
 
@@ -71,6 +71,7 @@ public class Balloon {
             stateToAnimationMap.put(State.SPINNER, Assets.balloonToTorusAnimation);
             stateToAnimationMap.put(State.MAGNET,  Assets.balloonToMagnetAnimation);
             stateToAnimationMap.put(State.BUZZSAW, Assets.balloonToBuzzsawAnimation);
+            stateToAnimationMap.put(State.POP, Assets.balloonToPopAnimation);
         }
     }
 
@@ -103,6 +104,26 @@ public class Balloon {
                 .start(Assets.tween);
     }
 
+    public void kill(LevelInfo level) {
+        currentState = State.POP;
+        SoundManager.playBalloonSound(currentState);
+        currentAnimation = Assets.balloonToPopAnimation;
+
+        animating = true;
+        animationTimer.setValue(0);
+        Tween.to(animationTimer, -1, Assets.balloonToPopAnimation.getAnimationDuration())
+            .target(Assets.balloonToPopAnimation.getAnimationDuration())
+            .setCallback(new TweenCallback() {
+                @Override
+                public void onEvent(int type, BaseTween<?> source) {
+                    animating = false;
+                    currentState = State.DEAD;
+                    setTextureForCurrentState();
+                }
+            })
+            .start(Assets.tween);
+    }
+
     public void update(float dt, LevelInfo levelInfo){
         switch (currentState){
             case LIFT:
@@ -110,6 +131,9 @@ public class Balloon {
                 break;
             case HEAVY:
                 velocity.y -= 100 * dt;
+                break;
+            case DEAD:
+                velocity.y -= 1000 * dt;
                 break;
         }
 
@@ -202,6 +226,10 @@ public class Balloon {
 
         // Collide with map Objects
         for (ObjectBase obj : levelInfo.mapObjects) {
+            if(obj instanceof Spikes) {
+                continue;
+            }
+
             if (Intersector.intersectRectangles(obj.realWorldBounds, bounds, intersectorRectangle)){
                 collided = true;
                 if (intersectorRectangle.width > intersectorRectangle.height){
@@ -259,6 +287,7 @@ public class Balloon {
             case SPINNER:  currentTexture = Assets.torusTexture; break;
             case MAGNET:   currentTexture = Assets.magnetTexture; break;
             case BUZZSAW:  currentTexture = Assets.buzzsawTexture; break;
+            case DEAD:     currentTexture = Assets.deadTexture; break;
             default:       currentTexture = Assets.testTexture; break;
         }
     }

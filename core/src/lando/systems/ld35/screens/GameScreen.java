@@ -99,6 +99,13 @@ public class GameScreen extends BaseScreen implements InputProcessor {
         touchPosUnproject = hudCamera.unproject(new Vector3(screenX, screenY, 0));
         touchPosScreen.set(touchPosUnproject.x, touchPosUnproject.y);
 
+        if (playerBalloon.currentState == Balloon.State.POP ||
+            playerBalloon.currentState == Balloon.State.DEAD)
+        {
+            resetLevel();
+            return false;
+        }
+
         StateButton enabledButton = null;
         for (StateButton stateButton : stateButtons) {
             if (stateButton.checkForTouch(touchPosScreen.x, touchPosScreen.y)) {
@@ -182,6 +189,7 @@ public class GameScreen extends BaseScreen implements InputProcessor {
 
     private void resetLevel(){
         // TODO reset the level quickly
+        loadLevel(level.levelIndex);
     }
 
     private void layoutUI() {
@@ -269,11 +277,23 @@ public class GameScreen extends BaseScreen implements InputProcessor {
                     updateCamera(0, true);
                 }
             }
+
+            if (obj instanceof Spikes) {
+                if (obj.collision(playerBalloon)) {
+                    playerBalloon.kill(level);
+                }
+            }
             // TODO: interact with other stuff
         }
     }
 
     private void handleHotkeys(int keycode) {
+        if (playerBalloon.currentState == Balloon.State.POP ||
+            playerBalloon.currentState == Balloon.State.DEAD)
+        {
+            return;
+        }
+
         switch (keycode) {
             case Input.Keys.NUM_1: activateButton(0); break;
             case Input.Keys.NUM_2: activateButton(1); break;

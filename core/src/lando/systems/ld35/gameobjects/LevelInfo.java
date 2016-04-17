@@ -33,7 +33,7 @@ public class LevelInfo {
     public OrthogonalTiledMapRenderer mapRenderer;
     public TiledMapTileLayer          foregroundLayer;
     public TiledMapTileLayer          backgroundLayer;
-    private int                       levelIndex;
+    public int                        levelIndex;
 
     public LevelInfo(int level, Pool<Rectangle> rectanglePool) {
         createLevel(level, rectanglePool);
@@ -191,7 +191,7 @@ public class LevelInfo {
                     mapObjects.add(new Fan(new Rectangle(x, y, w, h), rotation, flipX, this));
                     break;
                 case spikes:
-                    mapObjects.add(new Spikes(new Rectangle(x, y, w, h), rotation, flipX));
+                    mapObjects.add(new Spikes(new Rectangle(x, y, w, h), rotation, flipX, tileObject.getTextureRegion()));
                     break;
             }
         }
