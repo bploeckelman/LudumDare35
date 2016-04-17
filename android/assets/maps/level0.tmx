@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="20" height="4" tilewidth="32" tileheight="32" nextobjectid="28">
+ <tileset firstgid="1" name="basic" tilewidth="32" tileheight="32" tilecount="25" columns="5">
+  <image source="basic-tiles.png" width="160" height="160"/>
+ </tileset>
+ <tileset firstgid="26" name="objects" tilewidth="32" tileheight="64" tilecount="4" columns="0">
+  <tile id="1">
+   <image width="32" height="64" source="fan_0.png"/>
+  </tile>
+  <tile id="2">
+   <image width="32" height="32" source="spikes.png"/>
+  </tile>
+  <tile id="3">
+   <image width="32" height="32" source="spawn.png"/>
+  </tile>
+  <tile id="4">
+   <image width="32" height="32" source="exit.png"/>
+  </tile>
+ </tileset>
+ <layer name="background" width="20" height="4">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer name="foreground" width="20" height="4">
+  <data encoding="csv">
+4,22,23,24,25,22,23,24,25,22,25,22,23,24,25,22,23,24,25,5,
+6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,
+21,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,21,
+3,22,23,24,25,22,23,24,25,22,25,22,23,24,25,22,23,24,25,2
+</data>
+ </layer>
+ <objectgroup name="objects">
+  <object id="22" type="fan" gid="27" x="32" y="96" width="32" height="64"/>
+  <object id="24" type="spawn" gid="29" x="64" y="64" width="32" height="32"/>
+  <object id="27" type="exit" gid="30" x="576" y="64" width="32" height="32"/>
+ </objectgroup>
+</map>

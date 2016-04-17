@@ -35,9 +35,15 @@ public class LevelInfo {
     public OrthogonalTiledMapRenderer mapRenderer;
     public TiledMapTileLayer          foregroundLayer;
     public TiledMapTileLayer          backgroundLayer;
+    private int                       levelIndex;
 
     public LevelInfo(int level, Pool<Rectangle> rectanglePool) {
-        details = Level.values()[level];
+        createLevel(level, rectanglePool);
+    }
+
+    public void createLevel(int level, Pool<Rectangle> rectanglePool) {
+        this.levelIndex = level;
+        this.details = Level.values()[level];
         this.rectanglePool = rectanglePool;
         this.tiles = new Array<LevelBoundry>();
         loadMap(details.mapName);
@@ -78,6 +84,15 @@ public class LevelInfo {
         loadMapObjects();
     }
 
+    public void nextLevel(Balloon balloon) {
+        levelIndex++;
+        if (levelIndex < Level.values().length) {
+            // TODO: do fancy shit here before loading the next level, elapsed time, # times switched, shape histogram, ...
+            createLevel(levelIndex, rectanglePool);
+        } else {
+            // TODO: tell the player, no more levels
+        }
+    }
 
     public WindField getWindBounds(Vector2 direction, Rectangle bounds){
         int x1, y1, x2, y2;
@@ -168,6 +183,9 @@ public class LevelInfo {
                     details.startX = x + w/2f;
                     details.startY = y + h/2f;
                     break;
+                case exit:
+                    mapObjects.add(new Exit(new Rectangle(x, y + h, w, h), rotation, flipX));
+                    break;
                 case fan:
                     mapObjects.add(new Fan(new Rectangle(x, y + h, w, h), rotation, flipX, this));
                     break;
@@ -177,4 +195,5 @@ public class LevelInfo {
             }
         }
     }
+
 }

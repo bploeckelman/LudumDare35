@@ -3,6 +3,7 @@ package lando.systems.ld35.utils;
 import com.badlogic.gdx.math.Vector2;
 
 public enum Level {
+    ZERO("maps/level0.tmx", 32, 64),
     ONE ("maps/level1.tmx", 32, 64),
     TWO ("maps/level2.tmx", 32, 64);
 

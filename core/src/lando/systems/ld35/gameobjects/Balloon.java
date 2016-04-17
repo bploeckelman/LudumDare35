@@ -29,8 +29,8 @@ public class Balloon {
     public static ObjectMap<State, Animation> stateToAnimationMap;
 
     public static final float ANIM_DURATION = 0.5f;
-    public static float MAX_SPEED = 100f;
-    public static float BOUNDS_MARGIN = 0;
+    public static       float MAX_SPEED     = 100f;
+    public static       float BOUNDS_MARGIN = 0;
 
     public Vector2       position;
     public Vector2       velocity;
@@ -39,16 +39,16 @@ public class Balloon {
     public boolean       animating;
     public MutableFloat  animationTimer;
     public Animation     currentAnimation;
-    GameScreen level;
-    Rectangle bounds;
-    Rectangle intersectorRectangle;
+    GameScreen screen;
+    Rectangle  bounds;
+    Rectangle  intersectorRectangle;
     public Pixmap tilePixmap;
     boolean[] intersectMap;
     Vector2 center;
 
     public Balloon(Vector2 position, GameScreen screen){
-        center = new Vector2();
-        this.level = screen;
+        this.center = new Vector2();
+        this.screen = screen;
         this.currentState = State.NORMAL;
         this.position = position;
         this.velocity = new Vector2(0, 0);
@@ -58,13 +58,13 @@ public class Balloon {
         this.currentAnimation = Assets.balloonToBalloonAnimation;
         this.bounds = new Rectangle(position.x, position.y, 32 - (BOUNDS_MARGIN * 2f), 32 - (BOUNDS_MARGIN * 2f));
         this.intersectorRectangle = new Rectangle();
-        this.intersectMap = new boolean[32*32];
+        this.intersectMap = new boolean[32 * 32];
 
         if (stateToAnimationMap == null) {
             stateToAnimationMap = new ObjectMap<State, Animation>();
-            stateToAnimationMap.put(State.NORMAL,  Assets.balloonToBalloonAnimation);
-            stateToAnimationMap.put(State.LIFT,    Assets.balloonToRocketAnimation);
-            stateToAnimationMap.put(State.HEAVY,   Assets.balloonToWeightAnimation);
+            stateToAnimationMap.put(State.NORMAL, Assets.balloonToBalloonAnimation);
+            stateToAnimationMap.put(State.LIFT, Assets.balloonToRocketAnimation);
+            stateToAnimationMap.put(State.HEAVY, Assets.balloonToWeightAnimation);
             stateToAnimationMap.put(State.SPINNER, Assets.balloonToTorusAnimation);
             stateToAnimationMap.put(State.MAGNET,  Assets.balloonToMagnetAnimation);
             stateToAnimationMap.put(State.BUZZSAW, Assets.balloonToBuzzsawAnimation);
@@ -100,7 +100,7 @@ public class Balloon {
                 .start(Assets.tween);
     }
 
-    public void update(float dt, LevelInfo level){
+    public void update(float dt, LevelInfo levelInfo){
         switch (currentState){
             case LIFT:
                 velocity.y += 100 * dt;
@@ -116,13 +116,49 @@ public class Balloon {
 
         // TODO magnets
 
-        // wind
-        if (currentState != State.SPINNER){
-            for (ObjectBase obj : level.mapObjects){
-                if (obj instanceof Fan){
-                    Fan f = (Fan) obj;
-                    velocity.add(f.getWindForce(center).scl(dt));
-
+        // Interact with map objects
+        for (ObjectBase obj : levelInfo.mapObjects) {
+            // Interact with level exit
+            if (obj instanceof Exit) {
+                if (bounds.overlaps(obj.bounds)) {
+                    levelInfo.nextLevel(this);
+                    new Balloon(levelInfo.details.getStart(), screen);
+                    this.center = new Vector2();
+                    this.currentState = State.NORMAL;
+                    this.position.set(levelInfo.details.startX, levelInfo.details.startY);
+                    this.velocity = new Vector2(0, 0);
+                    this.currentTexture = Assets.balloonTexture;
+                    this.animating = false;
+                    this.animationTimer = new MutableFloat(0);
+                    this.currentAnimation = Assets.balloonToBalloonAnimation;
+                    this.bounds = new Rectangle(position.x, position.y, 32 - (BOUNDS_MARGIN * 2f), 32 - (BOUNDS_MARGIN * 2f));
+                    this.intersectorRectangle = new Rectangle();
+                    this.intersectMap = new boolean[32 * 32];
+                    break;
+                }
+            }
+            // Interact with fans
+            else if (obj instanceof Fan && currentState != State.SPINNER) {
+                Fan f = (Fan) obj;
+                velocity.add(f.getWindForce(center).scl(dt));
+                if (f.direction.y == 0 && f.bounds.y < bounds.y + bounds.height && f.bounds.y + f.bounds.height > bounds.y && bounds.x  > f.bounds.x * f.direction.x){ // horizontal
+                    int startX = (int)(f.bounds.x / 32) + (int)f.direction.x;
+                    int startY = (int)(f.bounds.y /32);
+                    int endY = startY + 1;
+                    int endX = (int)(bounds.x /32);
+                    Array<LevelBoundry> tiles = levelInfo.getTiles(startX, startY, endX, endY);
+                    boolean clear = false;
+                    for (int i = 0; i <= 1; i++) {
+                        boolean rowClear = true;
+                        for (LevelBoundry b : tiles) {
+                            if (b.rect.y < bounds.y + bounds.height * i && b.rect.y + b.rect.height > bounds.y + bounds.height * i){
+                                rowClear = false;
+                            }
+                        }
+                        clear |= rowClear;
+                    }
+                    if (clear)
+                        velocity.x += 50 * dt * f.direction.x;
                 }
             }
         }
@@ -135,12 +171,12 @@ public class Balloon {
         Vector2 nextPos = position.cpy().add(velocity.cpy().scl(dt));
         velocity.scl(.99f);
 
-        // TODO: Do collision detection against level.getTiles
+        // TODO: Do collision detection against screen.getTiles
         boolean collided = false;
         Vector2 massOfCollision = new Vector2();
         int tileX = (int)(nextPos.x / 32);
         int tileY = (int)(nextPos.y / 32);
-        Array<LevelBoundry> cells = level.getTiles(tileX -1, tileY -1, tileX + 1, tileY + 1);
+        Array<LevelBoundry> cells = levelInfo.getTiles(tileX - 1, tileY - 1, tileX + 1, tileY + 1);
         if (cells.size > 0){
             bounds.x = nextPos.x + BOUNDS_MARGIN;
             bounds.y = nextPos.y + BOUNDS_MARGIN;
