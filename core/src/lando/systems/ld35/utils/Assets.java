@@ -52,7 +52,8 @@ public class Assets {
     public static TextureRegion moteTexture;
 
     public static NinePatch transparentNinepatch;
-    public static NinePatch backgroundNinepatch;
+    public static NinePatch selectedNinepatch;
+    public static NinePatch trayNinepatch;
 
     public static Animation balloonToBalloonAnimation;
     public static Animation balloonToRocketAnimation;
@@ -134,7 +135,8 @@ public class Assets {
         fontNoShadowShader = new ShaderProgram(Gdx.files.internal("shaders/dist.vert"), Gdx.files.internal("shaders/dist_no_shadow.frag"));
 
         transparentNinepatch = new NinePatch(atlas.findRegion("ninepatch"), 6, 6, 6, 6);
-        backgroundNinepatch  = new NinePatch(atlas.findRegion("ninepatch-bg"), 6, 6, 6, 6);
+        selectedNinepatch    = new NinePatch(atlas.findRegion("ninepatch-select"), 6, 6, 6, 6);
+        trayNinepatch        = new NinePatch(atlas.findRegion("ninepatch-tray"), 6, 6, 6, 6);
 
         return 1f;
     }

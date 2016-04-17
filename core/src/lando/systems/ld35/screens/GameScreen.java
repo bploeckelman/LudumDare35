@@ -34,6 +34,7 @@ public class GameScreen extends BaseScreen implements InputProcessor {
     Array<WindParticle> dustMotes;
     Array<StateButton> stateButtons;
     Pool<Rectangle> rectPool;
+    Rectangle buttonTrayRect;
 
     public GameScreen() {
         super();
@@ -80,6 +81,7 @@ public class GameScreen extends BaseScreen implements InputProcessor {
 
         level.renderForeground(batch);
         batch.setProjectionMatrix(hudCamera.combined);
+        Assets.trayNinepatch.draw(batch, buttonTrayRect.x, buttonTrayRect.y, buttonTrayRect.width, buttonTrayRect.height);
         for (StateButton stateButton : stateButtons) {
             stateButton.render(batch);
         }
@@ -203,6 +205,8 @@ public class GameScreen extends BaseScreen implements InputProcessor {
         stateButtons.add(new StateButton(Balloon.State.BUZZSAW, Assets.buzzsawTexture,
                                          new Rectangle(leftMargin + 10 * 5f + 32 * 5f, 10, 32, 32)));
         stateButtons.get(0).active = true;
+
+        buttonTrayRect = new Rectangle(leftMargin - 10f, 0, width + 10, 52);
    }
 
 

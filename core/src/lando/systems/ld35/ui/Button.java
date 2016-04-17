@@ -10,6 +10,8 @@ import lando.systems.ld35.utils.Assets;
  */
 public class Button {
 
+    private static final float offset = 4f;
+
     public final TextureRegion region;
     public final Rectangle     bounds;
 
@@ -27,8 +29,8 @@ public class Button {
     }
 
     public void render(SpriteBatch batch) {
-        if (active) Assets.backgroundNinepatch.draw(batch, bounds.x, bounds.y, bounds.width, bounds.height);
-        else        Assets.transparentNinepatch.draw(batch, bounds.x, bounds.y, bounds.width, bounds.height);
+        if (active) Assets.selectedNinepatch.draw(batch, bounds.x - offset, bounds.y - offset, bounds.width + 2f * offset, bounds.height + 2f * offset);
+        else        Assets.transparentNinepatch.draw(batch, bounds.x - offset, bounds.y - offset, bounds.width + 2f * offset, bounds.height + 2f * offset);
         batch.draw(region, bounds.x, bounds.y, bounds.width, bounds.height);
     }
 
