@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -36,8 +37,8 @@ public class GameScreen extends BaseScreen implements InputProcessor {
     public GameScreen() {
         super();
         rectPool = Pools.get(Rectangle.class);
-
         loadLevel(0);
+        updateCamera(1, true);
         Utils.glClearColor(Config.bgColor);
         Gdx.input.setInputProcessor(this);
     }
@@ -52,6 +53,8 @@ public class GameScreen extends BaseScreen implements InputProcessor {
             LudumDare35.game.screen = new MenuScreen();
         }
         playerBalloon.update(dt, level);
+
+        updateCamera(dt, false);
     }
 
     @Override
@@ -66,7 +69,7 @@ public class GameScreen extends BaseScreen implements InputProcessor {
         level.renderBackground();
         playerBalloon.render(batch);
         level.renderForeground();
-
+        batch.setProjectionMatrix(hudCamera.combined);
         for (StateButton stateButton : stateButtons) {
             stateButton.render(batch);
         }
@@ -81,7 +84,7 @@ public class GameScreen extends BaseScreen implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        touchPosUnproject = camera.unproject(new Vector3(screenX, screenY, 0));
+        touchPosUnproject = hudCamera.unproject(new Vector3(screenX, screenY, 0));
         touchPosScreen.set(touchPosUnproject.x, touchPosUnproject.y);
 
         StateButton enabledButton = null;
@@ -191,4 +194,18 @@ public class GameScreen extends BaseScreen implements InputProcessor {
         stateButtons.get(0).active = true;
    }
 
+
+    private void updateCamera(float dt, boolean initial){
+        Vector2 targetCameraPosition = playerBalloon.position.cpy();
+        targetCameraPosition.x = MathUtils.clamp(targetCameraPosition.x, camera.viewportWidth/2f, level.foregroundLayer.getWidth()*32 -camera.viewportWidth/2f );
+        targetCameraPosition.y = MathUtils.clamp(targetCameraPosition.y, camera.viewportHeight/2f, level.foregroundLayer.getHeight()*32 -camera.viewportHeight/2f );
+
+        Vector2 dir = targetCameraPosition.cpy().sub(camera.position.x, camera.position.y);
+        if (initial){
+            camera.position.set(targetCameraPosition.x, targetCameraPosition.y, 0);
+        } else {
+            camera.position.add(dir.x * dt, dir.y * dt, 0);
+        }
+        camera.update();
+    }
 }
