@@ -153,7 +153,6 @@ public class Balloon {
         Vector2 nextPos = position.cpy().add(velocity.cpy().scl(dt));
         velocity.scl(.99f);
 
-        // TODO: Do collision detection against screen.getTiles
         boolean collided = false;
         Vector2 massOfCollision = new Vector2();
         int tileX = (int)(nextPos.x / 32);
