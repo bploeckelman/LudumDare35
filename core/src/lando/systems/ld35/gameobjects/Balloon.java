@@ -199,6 +199,19 @@ public class Balloon {
                 }
             }
         }
+
+        // Collide with map Objects
+        for (ObjectBase obj : levelInfo.mapObjects) {
+            if (Intersector.intersectRectangles(obj.realWorldBounds, bounds, intersectorRectangle)){
+                collided = true;
+                if (intersectorRectangle.width > intersectorRectangle.height){
+                    massOfCollision.add(Math.signum(velocity.x) * 30, Math.signum(velocity.y) * -300);
+                } else {
+                    massOfCollision.add(Math.signum(velocity.x) * -300, Math.signum(velocity.y) * 30);
+                }
+            }
+        }
+
         if (collided){
             massOfCollision.nor();
             float dot = 2f * massOfCollision.dot(velocity);  // r = d - 2(d . n)n

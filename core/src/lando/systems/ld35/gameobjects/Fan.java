@@ -20,7 +20,7 @@ public class Fan extends ForceEntity {
     }
 
     public void calcWindField(LevelInfo level){
-        windField = level.getWindBounds(direction, realWorldWindBounds);
+        windField = level.getWindBounds(direction, realWorldBounds);
 
     }
 
@@ -46,6 +46,6 @@ public class Fan extends ForceEntity {
     @Override
     public void render(SpriteBatch batch){
         super.render(batch);
-//        batch.draw(Assets.testTexture, realWorldWindBounds.x, realWorldWindBounds.y, realWorldWindBounds.width, realWorldWindBounds.height);
+//        batch.draw(Assets.testTexture, realWorldBounds.x, realWorldBounds.y, realWorldBounds.width, realWorldBounds.height);
     }
 }

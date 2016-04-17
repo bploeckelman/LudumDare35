@@ -8,7 +8,6 @@ public abstract class ForceEntity extends ObjectBase {
     public boolean isMagnetic;
     public Vector2 direction;
     public Vector2 center;
-    public Rectangle realWorldWindBounds;
 
     private ForceEntity(Rectangle bounds, float rotation, boolean flipX) {
         super(bounds, rotation, flipX);
@@ -19,22 +18,22 @@ public abstract class ForceEntity extends ObjectBase {
         this.isMagnetic = isMagnetic;
         this.direction = ForceEntityDirection.fromRotation(rotation, flipX).getDirection();
 
-        realWorldWindBounds = new Rectangle(bounds);
+        realWorldBounds = new Rectangle(bounds);
         if (direction.x != 0){
-//            realWorldWindBounds.x += 32 * direction.x;
+//            realWorldBounds.x += 32 * direction.x;
         }
         if (direction.y != 0){
-            realWorldWindBounds.width = 64;
-            realWorldWindBounds.height = 32;
-//            realWorldWindBounds.y += 32 * direction.y;
+            realWorldBounds.width = 64;
+            realWorldBounds.height = 32;
+//            realWorldBounds.y += 32 * direction.y;
             if (direction.y > 0){
-                realWorldWindBounds.x -= 64;
+                realWorldBounds.x -= 64;
             } else {
-                realWorldWindBounds.y -= 32;
+                realWorldBounds.y -= 32;
             }
         }
         center = new Vector2();
-        realWorldWindBounds.getCenter(center);
+        realWorldBounds.getCenter(center);
     }
 
     public boolean getIsMagnetic() {
