@@ -4,6 +4,7 @@ import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.primitives.MutableFloat;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -194,23 +195,28 @@ public class Balloon {
             for (int i = 0; i < intersectMap.length;i++){
                 if (intersectMap[i]){
                     collided = true;
-                    int x = 15 - (i % 32);
-                    int y = 15 - (i / 32);
+                    int x = 16 - (i % 32);
+                    int y = 16 - (i / 32);
+                    if (x <= 0) x--;
+                    if (y <= 0) y--;
                     massOfCollision.add(x, y);
                 }
             }
         }
         if (collided){
             massOfCollision.nor();
+            float dot = 2f * massOfCollision.dot(velocity);  // r = d - 2(d · n)n
+            velocity.sub(massOfCollision.scl(dot));
 //            float mag = velocity.len();
+
 //            velocity = (massOfCollision.scl(mag * .5f));
-            if (Math.abs(massOfCollision.x) > Math.abs(massOfCollision.y)){
-                velocity.x *= -.5;
-            } else {
-                velocity.y *= -.5;
-            }
+//            if (Math.abs(massOfCollision.x) > Math.abs(massOfCollision.y)){
+//                velocity.x *= -.5;
+//            } else {
+//                velocity.y *= -.5;
+//            }
             nextPos = position;
-//            Gdx.app.log("Collision", "X:" + massOfCollision.x + " Y:" + massOfCollision.y);
+            Gdx.app.log("Collision", "X:" + massOfCollision.x + " Y:" + massOfCollision.y);
 
         }
 
