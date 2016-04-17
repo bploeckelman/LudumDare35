@@ -216,7 +216,7 @@ public class Balloon {
 //                velocity.y *= -.5;
 //            }
             nextPos = position;
-            Gdx.app.log("Collision", "X:" + massOfCollision.x + " Y:" + massOfCollision.y);
+//            Gdx.app.log("Collision", "X:" + massOfCollision.x + " Y:" + massOfCollision.y);
 
         }
 
