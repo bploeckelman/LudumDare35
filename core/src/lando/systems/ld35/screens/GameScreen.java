@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
@@ -18,6 +20,7 @@ import lando.systems.ld35.gameobjects.LevelInfo;
 import lando.systems.ld35.ui.StateButton;
 import lando.systems.ld35.utils.Assets;
 import lando.systems.ld35.utils.Config;
+import lando.systems.ld35.utils.LevelBoundry;
 import lando.systems.ld35.utils.Utils;
 
 /**
@@ -126,6 +129,23 @@ public class GameScreen extends BaseScreen implements InputProcessor {
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
+//        Vector3 worldPoint = camera.unproject(new Vector3(screenX, screenY, 0));
+//        Array<LevelBoundry> cells = level.getTiles((int)worldPoint.x /32, (int)worldPoint.y / 32, (int)worldPoint.x /32, (int)worldPoint.y /32);
+//        if (cells.size > 0){
+//            for (LevelBoundry boundry: cells) {
+//                Texture t = boundry.tile.getTile().getTextureRegion().getTexture();
+//                if (!t.getTextureData().isPrepared()) {
+//                    t.getTextureData().prepare();
+//                }
+//                Pixmap tilePixmap = t.getTextureData().consumePixmap();
+//                int pxX = (int)(worldPoint.x % 32f) + boundry.tile.getTile().getTextureRegion().getRegionX();
+//                int pxY = (int)(worldPoint.y % 32f) + boundry.tile.getTile().getTextureRegion().getRegionY();
+//                Gdx.app.log("Touch", "X:" + pxX + " Y:" + pxY);
+//
+//                int pix = tilePixmap.getPixel(pxX, tilePixmap.getHeight() - 1 - pxY);
+//                Gdx.app.log("Touch", pix+"");
+//            }
+//        }
         return false;
     }
 
@@ -140,7 +160,7 @@ public class GameScreen extends BaseScreen implements InputProcessor {
 
     private void loadLevel(int levelId){
         level = new LevelInfo(levelId, rectPool);
-        playerBalloon = new Balloon(level.details.getStart());
+        playerBalloon = new Balloon(level.details.getStart(), this);
         layoutUI();
     }
 

@@ -2,6 +2,7 @@ package lando.systems.ld35.gameobjects;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -61,6 +62,7 @@ public class LevelInfo {
         backgroundLayer = (TiledMapTileLayer) map.getLayers().get("background");
     }
 
+
     public Array<LevelBoundry> getTiles (int startX, int startY, int endX, int endY) {
         if (startX > endX){
             int t = startX;
@@ -81,7 +83,7 @@ public class LevelInfo {
                 TiledMapTileLayer.Cell cell = foregroundLayer.getCell(x, y);
                 if (cell != null) {
                     Rectangle rect = rectanglePool.obtain();
-                    rect.set(x, y, 1, 1);
+                    rect.set(x *32, y *32, 32, 32);
                     tiles.add(new LevelBoundry(cell, rect));
                 }
             }

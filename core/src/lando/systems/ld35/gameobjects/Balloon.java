@@ -7,10 +7,19 @@ import aurelienribon.tweenengine.primitives.MutableFloat;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
+import lando.systems.ld35.screens.GameScreen;
 import lando.systems.ld35.utils.Assets;
 import lando.systems.ld35.utils.SoundManager;
+import lando.systems.ld35.utils.LevelBoundry;
 
 /**
  * Created by Doug on 4/16/2016.
@@ -28,15 +37,24 @@ public class Balloon {
     public boolean       animating;
     public MutableFloat  animationTimer;
     public Animation     currentAnimation;
+    GameScreen level;
+    Rectangle bounds;
+    Rectangle intersectorRectangle;
+    public Pixmap tilePixmap;
+    boolean[] intersectMap;
 
-    public Balloon(Vector2 position) {
+    public Balloon(Vector2 position, GameScreen screen){
+        level = screen;
         currentState = State.NORMAL;
         this.position = position;
-        velocity = new Vector2(10, 100);
+        velocity = new Vector2(0, 100);
         currentTexture = Assets.balloonTexture;
         animating = false;
         animationTimer = new MutableFloat(0);
         currentAnimation = null;
+        bounds = new Rectangle(position.x, position.y, 32, 32);
+        intersectorRectangle = new Rectangle();
+        intersectMap = new boolean[32*32];
     }
 
     public void changeState(State state) {
@@ -96,10 +114,74 @@ public class Balloon {
         velocity.x = MathUtils.clamp(velocity.x, -MAX_SPEED, MAX_SPEED);
 
 
-        position.add(velocity.cpy().scl(dt));
+        Vector2 nextPos = position.cpy().add(velocity.cpy().scl(dt));
         velocity.scl(.99f);
 
         // TODO: Do collision detection against level.getTiles
+        boolean collided = false;
+        Vector2 massOfCollision = new Vector2();
+        int tileX = (int)(nextPos.x / 32);
+        int tileY = (int)(nextPos.y / 32);
+        Array<LevelBoundry> cells = level.getTiles(tileX -1, tileY -1, tileX + 1, tileY + 1);
+        if (cells.size > 0){
+            bounds.x = nextPos.x;
+            bounds.y = nextPos.y;
+            for (LevelBoundry boundry: cells){
+                if (Intersector.intersectRectangles(boundry.rect, bounds, intersectorRectangle)){
+                    if (tilePixmap == null) {
+                        Texture t = boundry.tile.getTile().getTextureRegion().getTexture();
+                        if (!t.getTextureData().isPrepared()) {
+                            t.getTextureData().prepare();
+                        }
+                        tilePixmap = t.getTextureData().consumePixmap();
+                    }
+
+                    Rectangle textureArea = new Rectangle(intersectorRectangle.x - boundry.rect.x + boundry.tile.getTile().getTextureRegion().getRegionX(),
+                                                      intersectorRectangle.y - boundry.rect.y + boundry.tile.getTile().getTextureRegion().getRegionY(),
+                                                      intersectorRectangle.width, intersectorRectangle.height);
+
+                    int regionX = boundry.tile.getTile().getTextureRegion().getRegionX();
+                    // This may need to be <=
+                    for (int x = 0; x <= textureArea.width; x++){
+                        for (int y = 0; y <=  textureArea.height; y++){
+                            int texX = x + (int)textureArea.x;
+                            int texY = y + (int)textureArea.y;
+                            int pix = tilePixmap.getPixel(texX, tilePixmap.getHeight() - 1 - texY);
+                            int index = (int)( intersectorRectangle.x - bounds.x) + x + (int)(intersectorRectangle.y - bounds.y + y) * 32;
+//                            if (index >= intersectMap.length) continue;
+                            intersectMap[index] = (pix & 0xFF) != 0x00;
+                        }
+                    }
+//                    Gdx.app.log("Collision", textureArea.toString());
+                }
+
+            }
+            for (int i = 0; i < intersectMap.length;i++){
+                if (intersectMap[i]){
+                    collided = true;
+                    int x = 16 - (i % 32);
+                    int y = 16 - (i / 32);
+                    massOfCollision.add(x, y);
+                }
+            }
+        }
+        if (collided){
+            massOfCollision.nor();
+            float mag = velocity.len();
+            velocity = (massOfCollision.scl(mag * .5f));
+            nextPos = position;
+//            Gdx.app.log("Collision", "X:" + massOfCollision.x + " Y:" + massOfCollision.y);
+
+        }
+
+        for(int i =0; i < intersectMap.length; i++){
+            intersectMap[i] = false;
+        }
+
+        position = nextPos;
+
+
+
     }
 
     public void render(SpriteBatch batch){
