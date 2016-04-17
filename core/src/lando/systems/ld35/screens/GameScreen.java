@@ -37,7 +37,7 @@ public class GameScreen extends BaseScreen implements InputProcessor {
     public GameScreen() {
         super();
         rectPool = Pools.get(Rectangle.class);
-        loadLevel(1);
+        loadLevel(0);
         updateCamera(1, true);
         Utils.glClearColor(Config.bgColor);
         Gdx.input.setInputProcessor(this);
