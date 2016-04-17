@@ -127,6 +127,7 @@ public class GameScreen extends BaseScreen implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
+        handleHotkeys(keycode);
         return false;
     }
 
@@ -260,6 +261,28 @@ public class GameScreen extends BaseScreen implements InputProcessor {
                 }
             }
             // TODO: interact with other stuff
+        }
+    }
+
+    private void handleHotkeys(int keycode) {
+        switch (keycode) {
+            case Input.Keys.NUM_1: activateButton(0); break;
+            case Input.Keys.NUM_2: activateButton(1); break;
+            case Input.Keys.NUM_3: activateButton(2); break;
+            case Input.Keys.NUM_4: activateButton(3); break;
+            case Input.Keys.NUM_5: activateButton(4); break;
+            case Input.Keys.NUM_6: activateButton(5); break;
+            default: break;
+        }
+    }
+
+    private void activateButton(int index) {
+        for (int i = 0; i < stateButtons.size; ++i) {
+            final StateButton button = stateButtons.get(i);
+            button.active = (index == i);
+            if (button.active) {
+                playerBalloon.changeState(button.state);
+            }
         }
     }
 
