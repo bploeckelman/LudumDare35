@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="20" height="15" tilewidth="32" tileheight="32" nextobjectid="12">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="20" height="15" tilewidth="32" tileheight="32" nextobjectid="21">
  <tileset firstgid="1" name="basic" tilewidth="32" tileheight="32" tilecount="5" columns="5">
   <image source="basic-tiles.png" width="160" height="32"/>
  </tileset>
- <tileset firstgid="6" name="objects" tilewidth="32" tileheight="64" tilecount="1" columns="0">
+ <tileset firstgid="6" name="objects" tilewidth="32" tileheight="64" tilecount="2" columns="0">
   <tile id="1">
    <image width="32" height="64" source="fan_0.png"/>
+  </tile>
+  <tile id="2">
+   <image width="32" height="32" source="spikes.png"/>
   </tile>
  </tileset>
  <layer name="background" width="20" height="15">
   <data encoding="csv">
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -67,5 +70,12 @@
     <property name="dir" value="n"/>
    </properties>
   </object>
+  <object id="12" type="spikes" gid="8" x="512" y="448" width="32" height="32"/>
+  <object id="15" type="spikes" gid="8" x="544" y="448" width="32" height="32"/>
+  <object id="16" type="spikes" gid="8" x="480" y="448" width="32" height="32"/>
+  <object id="17" type="spikes" gid="8" x="448" y="448" width="32" height="32"/>
+  <object id="18" type="spikes" gid="8" x="608" y="288" width="32" height="32" rotation="-90"/>
+  <object id="19" type="spikes" gid="8" x="608" y="320" width="32" height="32" rotation="-90"/>
+  <object id="20" type="spikes" gid="8" x="608" y="352" width="32" height="32" rotation="-90"/>
  </objectgroup>
 </map>

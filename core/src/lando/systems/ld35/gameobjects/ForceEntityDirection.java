@@ -19,4 +19,20 @@ public enum ForceEntityDirection {
     Vector2 getDirection() {
         return new Vector2(this.x, this.y);
     }
+
+    public static ForceEntityDirection fromRotation(float rotation, boolean flipX) {
+        if(flipX) {
+            return w;
+        }
+
+        if(rotation == -90) {
+            return n;
+        }
+
+        if(rotation == 90) {
+            return s;
+        }
+
+        return e;
+    }
 }

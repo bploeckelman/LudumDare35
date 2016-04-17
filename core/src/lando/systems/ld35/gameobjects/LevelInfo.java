@@ -9,6 +9,7 @@ import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
@@ -115,18 +116,23 @@ public class LevelInfo {
         MapProperties props;
         MapLayer objectLayer = map.getLayers().get("objects");
         for (MapObject object : objectLayer.getObjects()) {
+            TiledMapTileMapObject tileObject = (TiledMapTileMapObject) object;
             props = object.getProperties();
             float w = (Float) props.get("width");
             float h = (Float) props.get("height");
             float x = (Float) props.get("x");
             float y = (Float) props.get("y"); // NOTE: god dammit... off by 1
+            float rotation = tileObject.getRotation() * -1;
+            boolean flipX = tileObject.isFlipHorizontally();
+
             LevelObject type = valueOf((String) props.get("type"));
 
             switch (type) {
                 case fan:
-                    ForceEntityDirection dir = ForceEntityDirection.valueOf((String) props.get("dir"));
-                    dir = dir == null ? ForceEntityDirection.e : dir;
-                    mapObjects.add(new Fan(new Rectangle(x, y + h, w, h), dir.getDirection()));
+                    mapObjects.add(new Fan(new Rectangle(x, y + h, w, h), rotation, flipX));
+                    break;
+                case spikes:
+                    mapObjects.add(new Spikes(new Rectangle(x, y + h, w, h), rotation, flipX));
                     break;
             }
         }

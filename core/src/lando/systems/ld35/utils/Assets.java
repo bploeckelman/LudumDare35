@@ -48,6 +48,7 @@ public class Assets {
     public static TextureRegion torusTexture;
     public static TextureRegion magnetTexture;
     public static TextureRegion buzzsawTexture;
+    public static TextureRegion spikesTexture;
 
     public static NinePatch transparentNinepatch;
     public static NinePatch backgroundNinepatch;
@@ -106,6 +107,7 @@ public class Assets {
         torusTexture       = atlas.findRegion("balloon_to_torus", 5);
         magnetTexture      = atlas.findRegion("balloon_to_magnet", 6);
         buzzsawTexture     = atlas.findRegion("balloon_to_buzzsaw", 5);
+        spikesTexture      = atlas.findRegion("spikes");
 
         balloonToBalloonAnimation = new Animation(.2f, balloonTexture, balloonTexture);
         balloonToRocketAnimation  = new Animation(.2f, atlas.findRegions("balloon_to_rocket"));
