@@ -121,6 +121,7 @@ public class Balloon {
             // Interact with level exit
             if (obj instanceof Exit) {
                 if (bounds.overlaps(obj.bounds)) {
+                    screen.removeDust();
                     levelInfo.nextLevel(this);
                     new Balloon(levelInfo.details.getStart(), screen);
                     this.center = new Vector2();
@@ -141,25 +142,6 @@ public class Balloon {
             else if (obj instanceof Fan && currentState != State.SPINNER) {
                 Fan f = (Fan) obj;
                 velocity.add(f.getWindForce(center).scl(dt));
-                if (f.direction.y == 0 && f.bounds.y < bounds.y + bounds.height && f.bounds.y + f.bounds.height > bounds.y && bounds.x  > f.bounds.x * f.direction.x){ // horizontal
-                    int startX = (int)(f.bounds.x / 32) + (int)f.direction.x;
-                    int startY = (int)(f.bounds.y /32);
-                    int endY = startY + 1;
-                    int endX = (int)(bounds.x /32);
-                    Array<LevelBoundry> tiles = levelInfo.getTiles(startX, startY, endX, endY);
-                    boolean clear = false;
-                    for (int i = 0; i <= 1; i++) {
-                        boolean rowClear = true;
-                        for (LevelBoundry b : tiles) {
-                            if (b.rect.y < bounds.y + bounds.height * i && b.rect.y + b.rect.height > bounds.y + bounds.height * i){
-                                rowClear = false;
-                            }
-                        }
-                        clear |= rowClear;
-                    }
-                    if (clear)
-                        velocity.x += 50 * dt * f.direction.x;
-                }
             }
         }
 
@@ -213,16 +195,21 @@ public class Balloon {
             for (int i = 0; i < intersectMap.length;i++){
                 if (intersectMap[i]){
                     collided = true;
-                    int x = 16 - (i % 32);
-                    int y = 16 - (i / 32);
+                    int x = 15 - (i % 32);
+                    int y = 15 - (i / 32);
                     massOfCollision.add(x, y);
                 }
             }
         }
         if (collided){
             massOfCollision.nor();
-            float mag = velocity.len();
-            velocity = (massOfCollision.scl(mag * .5f));
+//            float mag = velocity.len();
+//            velocity = (massOfCollision.scl(mag * .5f));
+            if (Math.abs(massOfCollision.x) > Math.abs(massOfCollision.y)){
+                velocity.x *= -.5;
+            } else {
+                velocity.y *= -.5;
+            }
             nextPos = position;
 //            Gdx.app.log("Collision", "X:" + massOfCollision.x + " Y:" + massOfCollision.y);
 

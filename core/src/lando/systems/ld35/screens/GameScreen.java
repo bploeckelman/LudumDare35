@@ -16,8 +16,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Pools;
 import lando.systems.ld35.LudumDare35;
-import lando.systems.ld35.gameobjects.Balloon;
-import lando.systems.ld35.gameobjects.LevelInfo;
+import lando.systems.ld35.gameobjects.*;
 import lando.systems.ld35.ui.StateButton;
 import lando.systems.ld35.utils.Assets;
 import lando.systems.ld35.utils.Config;
@@ -31,12 +30,14 @@ public class GameScreen extends BaseScreen implements InputProcessor {
 
     LevelInfo level;
     Balloon playerBalloon;
+    Array<WindParticle> dustMotes;
     Array<StateButton> stateButtons;
     Pool<Rectangle> rectPool;
 
     public GameScreen() {
         super();
         rectPool = Pools.get(Rectangle.class);
+        dustMotes = new Array<WindParticle>();
         loadLevel(0);
         updateCamera(1, true);
         Utils.glClearColor(Config.bgColor);
@@ -55,6 +56,8 @@ public class GameScreen extends BaseScreen implements InputProcessor {
         level.update(dt);
         playerBalloon.update(dt, level);
 
+        updateDust(dt);
+
         updateCamera(dt, false);
     }
 
@@ -69,6 +72,9 @@ public class GameScreen extends BaseScreen implements InputProcessor {
 
         level.renderBackground();
         playerBalloon.render(batch);
+        for (WindParticle mote : dustMotes){
+            mote.render(batch);
+        }
         level.renderForeground();
         batch.setProjectionMatrix(hudCamera.combined);
         for (StateButton stateButton : stateButtons) {
@@ -208,5 +214,35 @@ public class GameScreen extends BaseScreen implements InputProcessor {
             camera.position.add(dir.x * dt, dir.y * dt, 0);
         }
         camera.update();
+    }
+
+    private void updateDust(float dt){
+        int newTotal = (int)(level.foregroundLayer.getWidth() * level.foregroundLayer.getHeight() * .1f);
+        for (int i = 0; i < newTotal; i++){
+            dustMotes.add(new WindParticle(new Vector2(MathUtils.random(level.foregroundLayer.getWidth()*32), MathUtils.random(level.foregroundLayer.getHeight()*32))));
+        }
+
+        for (int i = dustMotes.size -1; i >= 0; i--){
+            WindParticle mote = dustMotes.get(i);
+            for (ObjectBase obj : level.mapObjects){
+                if (obj instanceof Fan){
+                    Fan f = (Fan) obj;
+                    mote.vel.add(f.getWindForce(mote.pos).scl(dt * 10));
+                }
+            }
+            mote.update(dt);
+            if (mote.TTL < 0 || mote.vel.len2() == 0) {
+                dustMotes.removeIndex(i);
+                continue;
+            }
+            if (level.getCell((int)mote.pos.x /32, (int)mote.pos.y / 32) != null){
+                dustMotes.removeIndex(i);
+
+            }
+        }
+    }
+
+    public void removeDust(){
+        dustMotes.clear();
     }
 }

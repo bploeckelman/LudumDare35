@@ -158,6 +158,9 @@ public class LevelInfo {
         return tiles;
     }
 
+    public TiledMapTileLayer.Cell getCell(int x, int y){
+        return foregroundLayer.getCell(x, y);
+    }
 
     private void loadMapObjects() {
         if (map == null) return;
