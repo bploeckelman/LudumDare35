@@ -209,7 +209,9 @@ public class GameScreen extends BaseScreen implements InputProcessor {
     private void updateCamera(float dt, boolean initial){
         Vector2 targetCameraPosition = playerBalloon.position.cpy();
         targetCameraPosition.x = MathUtils.clamp(targetCameraPosition.x, camera.viewportWidth/2f, level.foregroundLayer.getWidth()*32 -camera.viewportWidth/2f );
-        targetCameraPosition.y = MathUtils.clamp(targetCameraPosition.y, camera.viewportHeight/2f, level.foregroundLayer.getHeight()*32 -camera.viewportHeight/2f );
+        targetCameraPosition.y = MathUtils.clamp(targetCameraPosition.y, Math.min(camera.viewportHeight/2f, level.foregroundLayer.getHeight()*16), level.foregroundLayer.getHeight()*32 -camera.viewportHeight/2f );
+
+
 
         Vector2 dir = targetCameraPosition.cpy().sub(camera.position.x, camera.position.y);
         if (initial){
@@ -258,6 +260,7 @@ public class GameScreen extends BaseScreen implements InputProcessor {
                         button.active = false;
                     }
                     stateButtons.get(0).active = true;
+                    updateCamera(0, true);
                 }
             }
             // TODO: interact with other stuff
