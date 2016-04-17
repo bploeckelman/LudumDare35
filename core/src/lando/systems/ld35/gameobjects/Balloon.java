@@ -179,8 +179,8 @@ public class Balloon {
         velocity.y = MathUtils.clamp(velocity.y, -MAX_SPEED, MAX_SPEED);
 
         Vector2 nextPos = position.cpy().add(velocity.cpy().scl(dt));
-        float yFloat = MathUtils.sin(accumulator * 4f) * .2f;
-        nextPos.y += yFloat;
+        float yFloat = MathUtils.sin(accumulator * 4f) * .4f;
+        velocity.y += yFloat;
 
         velocity.scl(.99f);
 
