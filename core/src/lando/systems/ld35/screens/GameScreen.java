@@ -105,8 +105,8 @@ public class GameScreen extends BaseScreen implements InputProcessor {
 
                 batch.setShader(Assets.fontShader);
                 Assets.fontShader.setUniformf("u_scale", 0.45f);
-                Assets.font_round_32.getData().setScale(0.45f);
-                Assets.font_round_32.setColor(stateButton.active ? Color.YELLOW : Color.WHITE);
+                Assets.font_round_32.getData().setScale(.45f);
+                Assets.font_round_32.setColor(stateButton.active ? Color.WHITE : Color.WHITE);
                 Assets.font_round_32.draw(batch, ""+Integer.toString(i+1),
                                           stateButton.bounds.x + stateButton.bounds.width - 8f,
                                           stateButton.bounds.y + stateButton.bounds.height - 3f);
