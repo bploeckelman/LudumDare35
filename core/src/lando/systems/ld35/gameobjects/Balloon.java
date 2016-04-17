@@ -48,8 +48,10 @@ public class Balloon {
     public Vector2       center;
     float rotation;
     Vector2 magnetForce;
+    float accumulator;
 
     public Balloon(Vector2 position, GameScreen screen){
+        accumulator = 0;
         this.center = new Vector2();
         this.screen = screen;
         this.currentState = State.NORMAL;
@@ -129,6 +131,7 @@ public class Balloon {
     }
 
     public void update(float dt, LevelInfo levelInfo){
+        accumulator+= dt;
         switch (currentState){
             case LIFT:
                 velocity.y += 100 * dt;
@@ -176,6 +179,9 @@ public class Balloon {
         velocity.y = MathUtils.clamp(velocity.y, -MAX_SPEED, MAX_SPEED);
 
         Vector2 nextPos = position.cpy().add(velocity.cpy().scl(dt));
+        float yFloat = MathUtils.sin(accumulator * 4f) * .2f;
+        nextPos.y += yFloat;
+
         velocity.scl(.99f);
 
         boolean collided = false;
