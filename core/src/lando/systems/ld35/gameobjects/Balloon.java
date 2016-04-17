@@ -49,7 +49,7 @@ public class Balloon {
         this.level = screen;
         this.currentState = State.NORMAL;
         this.position = position;
-        this.velocity = new Vector2(0, 100);
+        this.velocity = new Vector2(0, 0);
         this.currentTexture = Assets.balloonTexture;
         this.animating = false;
         this.animationTimer = new MutableFloat(0);
@@ -179,7 +179,7 @@ public class Balloon {
                             int texY = y + (int)textureArea.y;
                             int pix = tilePixmap.getPixel(texX, tilePixmap.getHeight() - 1 - texY);
                             int index = (int)( intersectorRectangle.x - bounds.x) + x + (int)(intersectorRectangle.y - bounds.y + y) * 32;
-//                            if (index >= intersectMap.length) continue;
+                            if (index >= intersectMap.length) continue;
                             intersectMap[index] = (pix & 0xFF) != 0x00;
                         }
                     }

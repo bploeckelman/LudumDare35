@@ -1,8 +1,6 @@
 package lando.systems.ld35.gameobjects;
 
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
@@ -27,11 +25,11 @@ public class LevelInfo {
     public static final int   SCREEN_TILES_HIGH = 15;
     public static final int   PIXELS_PER_TILE   = Config.gameWidth / SCREEN_TILES_WIDE;
 
-    public Pool<Rectangle> rectanglePool;
-    public Array<LevelBoundry> tiles;
-    public Level details;
-    public TiledMap map;
-    public Array<ObjectBase> mapObjects;
+    public Pool<Rectangle>            rectanglePool;
+    public Array<LevelBoundry>        tiles;
+    public Level                      details;
+    public TiledMap                   map;
+    public Array<ObjectBase>          mapObjects;
     public OrthogonalTiledMapRenderer mapRenderer;
     public TiledMapTileLayer          foregroundLayer;
     public TiledMapTileLayer          backgroundLayer;
@@ -128,6 +126,10 @@ public class LevelInfo {
             LevelObject type = valueOf((String) props.get("type"));
 
             switch (type) {
+                case spawn:
+                    details.startX = x + w/2f;
+                    details.startY = y + h/2f;
+                    break;
                 case fan:
                     mapObjects.add(new Fan(new Rectangle(x, y + h, w, h), rotation, flipX));
                     break;
