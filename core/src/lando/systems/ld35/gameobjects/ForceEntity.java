@@ -1,23 +1,21 @@
 package lando.systems.ld35.gameobjects;
 
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Rectangle;
 
-public abstract class ForceEntity {
+public abstract class ForceEntity extends ObjectBase {
 
-    public Vector2 position;
     public boolean isMagnetic;
 
-    public ForceEntity(Vector2 position, boolean isMagnetic) {
-        this.position = position;
-        this.isMagnetic = isMagnetic;
+    private ForceEntity(Rectangle bounds) {
+        super(bounds);
     }
 
-    public Vector2 getPosition() {
-        return position;
+    public ForceEntity(Rectangle bounds, boolean isMagnetic) {
+        this(bounds);
+        this.isMagnetic = isMagnetic;
     }
 
     public boolean getIsMagnetic() {
         return isMagnetic;
     }
-
 }

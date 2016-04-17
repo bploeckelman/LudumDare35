@@ -59,6 +59,8 @@ public class Assets {
     public static Animation balloonToBuzzsawAnimation;
     public static Animation balloonToTorusAnimation;
 
+    public static Animation fanAnimation;
+
     public static boolean initialized;
 
     public static void load() {
@@ -111,6 +113,9 @@ public class Assets {
         balloonToMagnetAnimation  = new Animation(.2f, atlas.findRegions("balloon_to_magnet"));
         balloonToBuzzsawAnimation = new Animation(.2f, atlas.findRegions("balloon_to_buzzsaw"));
         balloonToTorusAnimation   = new Animation(.2f, atlas.findRegions("balloon_to_torus"));
+
+        fanAnimation = new Animation(.1f, atlas.findRegions("fan"));
+        fanAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
         Texture distText = new Texture(Gdx.files.internal("fonts/simply_round_32.png"), true);
         distText.setFilter(Texture.TextureFilter.MipMapLinearNearest, Texture.TextureFilter.Linear);

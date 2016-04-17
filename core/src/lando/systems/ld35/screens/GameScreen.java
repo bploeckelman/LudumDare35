@@ -52,6 +52,7 @@ public class GameScreen extends BaseScreen implements InputProcessor {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             LudumDare35.game.screen = new MenuScreen();
         }
+        level.update(dt);
         playerBalloon.update(dt, level);
 
         updateCamera(dt, false);

@@ -3,6 +3,9 @@ package lando.systems.ld35.gameobjects;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -14,6 +17,7 @@ import lando.systems.ld35.utils.Config;
 import lando.systems.ld35.utils.Level;
 import lando.systems.ld35.utils.LevelBoundry;
 
+import static lando.systems.ld35.gameobjects.LevelObject.*;
 import static lando.systems.ld35.utils.Assets.batch;
 
 public class LevelInfo {
@@ -26,6 +30,7 @@ public class LevelInfo {
     public Array<LevelBoundry> tiles;
     public Level details;
     public TiledMap map;
+    public Array<ObjectBase> mapObjects;
     public OrthogonalTiledMapRenderer mapRenderer;
     public TiledMapTileLayer          foregroundLayer;
     public TiledMapTileLayer          backgroundLayer;
@@ -47,19 +52,29 @@ public class LevelInfo {
 
     public void renderForeground() {
         mapRenderer.renderTileLayer(foregroundLayer);
+
+        for(int i = 0; i < mapObjects.size; i++) {
+            mapObjects.get(i).render(batch);
+        }
+    }
+
+    public void update(float dt) {
+        for(int i = 0; i < mapObjects.size; i++) {
+            mapObjects.get(i).update(dt);
+        }
     }
 
     public void loadMap(String mapName){
         final TmxMapLoader mapLoader = new TmxMapLoader();
 
         map = mapLoader.load(mapName);
-        // TODO: Game objects and things
-        //loadMapObjects();
 
         mapRenderer = new OrthogonalTiledMapRenderer(map, MAP_UNIT_SCALE, batch);
 
         foregroundLayer = (TiledMapTileLayer) map.getLayers().get("foreground");
         backgroundLayer = (TiledMapTileLayer) map.getLayers().get("background");
+
+        loadMapObjects();
     }
 
 
@@ -89,5 +104,31 @@ public class LevelInfo {
             }
         }
         return tiles;
+    }
+
+
+    private void loadMapObjects() {
+        if (map == null) return;
+
+        mapObjects = new Array<ObjectBase>();
+
+        MapProperties props;
+        MapLayer objectLayer = map.getLayers().get("objects");
+        for (MapObject object : objectLayer.getObjects()) {
+            props = object.getProperties();
+            float w = (Float) props.get("width");
+            float h = (Float) props.get("height");
+            float x = (Float) props.get("x");
+            float y = (Float) props.get("y"); // NOTE: god dammit... off by 1
+            LevelObject type = valueOf((String) props.get("type"));
+
+            switch (type) {
+                case fan:
+                    ForceEntityDirection dir = ForceEntityDirection.valueOf((String) props.get("dir"));
+                    dir = dir == null ? ForceEntityDirection.e : dir;
+                    mapObjects.add(new Fan(new Rectangle(x, y + h, w, h), dir.getDirection()));
+                    break;
+            }
+        }
     }
 }
