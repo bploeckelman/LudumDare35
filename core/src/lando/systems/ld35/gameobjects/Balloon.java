@@ -30,6 +30,7 @@ public class Balloon {
 
     public static final float ANIM_DURATION = 0.5f;
     public static float MAX_SPEED = 100f;
+    public static float BOUNDS_MARGIN = 3f;
 
     public Vector2       position;
     public Vector2       velocity;
@@ -53,7 +54,7 @@ public class Balloon {
         this.animating = false;
         this.animationTimer = new MutableFloat(0);
         this.currentAnimation = Assets.balloonToBalloonAnimation;
-        this.bounds = new Rectangle(position.x, position.y, 32, 32);
+        this.bounds = new Rectangle(position.x, position.y, 32 - (BOUNDS_MARGIN * 2f), 32 - (BOUNDS_MARGIN * 2f));
         this.intersectorRectangle = new Rectangle();
         this.intersectMap = new boolean[32*32];
 
@@ -129,8 +130,8 @@ public class Balloon {
         int tileY = (int)(nextPos.y / 32);
         Array<LevelBoundry> cells = level.getTiles(tileX -1, tileY -1, tileX + 1, tileY + 1);
         if (cells.size > 0){
-            bounds.x = nextPos.x;
-            bounds.y = nextPos.y;
+            bounds.x = nextPos.x + BOUNDS_MARGIN;
+            bounds.y = nextPos.y + BOUNDS_MARGIN;
             for (LevelBoundry boundry: cells){
                 if (Intersector.intersectRectangles(boundry.rect, bounds, intersectorRectangle)){
                     if (tilePixmap == null) {
