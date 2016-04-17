@@ -44,8 +44,10 @@ public class Balloon {
     Rectangle intersectorRectangle;
     public Pixmap tilePixmap;
     boolean[] intersectMap;
+    Vector2 center;
 
     public Balloon(Vector2 position, GameScreen screen){
+        center = new Vector2();
         this.level = screen;
         this.currentState = State.NORMAL;
         this.position = position;
@@ -108,9 +110,10 @@ public class Balloon {
                 break;
         }
 
-        velocity.y = MathUtils.clamp(velocity.y, -MAX_SPEED, MAX_SPEED);
         bounds.x = position.x + BOUNDS_MARGIN;
         bounds.y = position.y + BOUNDS_MARGIN;
+        bounds.getCenter(center);
+
         // TODO magnets
 
         // wind
@@ -118,31 +121,15 @@ public class Balloon {
             for (ObjectBase obj : level.mapObjects){
                 if (obj instanceof Fan){
                     Fan f = (Fan) obj;
+                    velocity.add(f.getWindForce(center).scl(dt));
 
-                    if (f.direction.y == 0 && f.bounds.y < bounds.y + bounds.height && f.bounds.y + f.bounds.height > bounds.y && bounds.x  > f.bounds.x * f.direction.x){ // horizontal
-                        int startX = (int)(f.bounds.x / 32) + (int)f.direction.x;
-                        int startY = (int)(f.bounds.y /32);
-                        int endY = startY + 1;
-                        int endX = (int)(bounds.x /32);
-                        Array<LevelBoundry> tiles = level.getTiles(startX, startY, endX, endY);
-                        boolean clear = false;
-                        for (int i = 0; i <= 1; i++) {
-                            boolean rowClear = true;
-                            for (LevelBoundry b : tiles) {
-                                if (b.rect.y < bounds.y + bounds.height * i && b.rect.y + b.rect.height > bounds.y + bounds.height * i){
-                                    rowClear = false;
-                                }
-                            }
-                            clear |= rowClear;
-                        }
-                        if (clear)
-                            velocity.x += 50 * dt * f.direction.x;
-                    }
                 }
             }
         }
 
         velocity.x = MathUtils.clamp(velocity.x, -MAX_SPEED, MAX_SPEED);
+        velocity.y = MathUtils.clamp(velocity.y, -MAX_SPEED, MAX_SPEED);
+
 
 
         Vector2 nextPos = position.cpy().add(velocity.cpy().scl(dt));

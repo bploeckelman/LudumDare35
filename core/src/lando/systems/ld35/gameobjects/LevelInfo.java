@@ -10,11 +10,13 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 import lando.systems.ld35.utils.Config;
 import lando.systems.ld35.utils.Level;
 import lando.systems.ld35.utils.LevelBoundry;
+import lando.systems.ld35.utils.WindField;
 
 import static lando.systems.ld35.gameobjects.LevelObject.*;
 import static lando.systems.ld35.utils.Assets.batch;
@@ -77,6 +79,42 @@ public class LevelInfo {
     }
 
 
+    public WindField getWindBounds(Vector2 direction, Rectangle bounds){
+        int x1, y1, x2, y2;
+        if (direction.y == 0) { // horizontal
+            x1 = x2 = (int)bounds.x / 32;
+            y1 = (int)bounds.y / 32;
+            y2 = y1+1;
+        } else {
+            y1 = y2 = (int)bounds.y/32;
+            x1 = (int)bounds.x/32;
+            x2 = x1+1;
+        }
+        int tempX1 = x1 + (int)direction.x;
+        int tempX2 = x2 + (int)direction.x;
+        int tempY1 = y1 + (int)direction.y;
+        int tempY2 = y2 + (int)direction.y;
+        while(tempX1 >= 0 && tempX1 < foregroundLayer.getWidth() && tempX2 >= 0 && tempX2 < foregroundLayer.getWidth() &&
+                tempY1 >= 0 && tempY1 < foregroundLayer.getHeight() && tempY2 >= 0 && tempY2 < foregroundLayer.getHeight()){
+            if (foregroundLayer.getCell(tempX1, tempY1) != null || foregroundLayer.getCell(tempX2, tempY2) != null){
+                break;
+            }
+            // TODO also test for doors etc
+            tempX1 += direction.x;
+            tempX2 += direction.x;
+            tempY1 += direction.y;
+            tempY2 += direction.y;
+        }
+        tempX1 -= direction.x;
+        tempX2 -= direction.x;
+        tempY1 -= direction.y;
+        tempY2 -= direction.y;
+        Vector2 center = new Vector2();
+        bounds.getCenter(center);
+        Rectangle windBounds = new Rectangle(Math.min(x1, tempX1) * 32, Math.min(y1, tempY1) * 32, (Math.abs(tempX2 - x1) + 1)*32, (Math.abs(tempY2 - y1) + 1)*32);
+        return new WindField(center, windBounds, direction);
+    }
+
     public Array<LevelBoundry> getTiles (int startX, int startY, int endX, int endY) {
         if (startX > endX){
             int t = startX;
@@ -131,7 +169,7 @@ public class LevelInfo {
                     details.startY = y + h/2f;
                     break;
                 case fan:
-                    mapObjects.add(new Fan(new Rectangle(x, y + h, w, h), rotation, flipX));
+                    mapObjects.add(new Fan(new Rectangle(x, y + h, w, h), rotation, flipX, this));
                     break;
                 case spikes:
                     mapObjects.add(new Spikes(new Rectangle(x, y + h, w, h), rotation, flipX));

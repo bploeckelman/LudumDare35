@@ -26,11 +26,11 @@ public enum ForceEntityDirection {
         }
 
         if(rotation == -90) {
-            return n;
+            return s;
         }
 
         if(rotation == 90) {
-            return s;
+            return n;
         }
 
         return e;
