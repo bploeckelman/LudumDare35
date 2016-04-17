@@ -13,6 +13,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.Pool;
 import lando.systems.ld35.utils.*;
 
@@ -165,6 +166,8 @@ public class LevelInfo {
 
         mapObjects = new Array<ObjectBase>();
 
+        ObjectMap<String, Array<Rope>> ropeGroups = new ObjectMap<String, Array<Rope>>();
+
         MapProperties props;
         MapLayer objectLayer = map.getLayers().get("objects");
         for (MapObject object : objectLayer.getObjects()) {
@@ -193,6 +196,16 @@ public class LevelInfo {
                 case spikes:
                     mapObjects.add(new Spikes(new Rectangle(x, y, w, h), rotation, flipX, tileObject.getTextureRegion()));
                     break;
+                case rope:
+                    Array<Rope> group = ropeGroups.get((String) props.get("group"));
+                    group = group == null ? new Array<Rope>() : group;
+                    Rope levelRope = new Rope(new Rectangle(x, y, w, h),
+                        rotation,
+                        flipX,
+                        tileObject.getTextureRegion(),
+                        group);
+                    group.add(levelRope);
+                    mapObjects.add(levelRope);
             }
         }
     }

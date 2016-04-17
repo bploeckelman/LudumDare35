@@ -351,8 +351,14 @@ public class GameScreen extends BaseScreen implements InputProcessor {
             }
 
             if (obj instanceof Spikes) {
-                if (obj.collision(playerBalloon)) {
+                if (obj.collision(playerBalloon) != null) {
                     playerBalloon.kill(level);
+                }
+            }
+            if (obj instanceof Rope) {
+                if (playerBalloon.currentState == Balloon.State.BUZZSAW && obj.collision(playerBalloon) != null) {
+                    // TODO: Animate this?  Maybe some particle effects?
+                    level.mapObjects.removeAll(((Rope) obj).group, true);
                 }
             }
             // TODO: interact with other stuff

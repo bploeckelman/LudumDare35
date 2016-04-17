@@ -240,6 +240,24 @@ public class Balloon {
                 continue;
             }
 
+            if (obj instanceof Rope) {
+                if (currentState == State.BUZZSAW) {
+                    continue;
+                }
+
+                Rectangle ropeIntersection = obj.collision(this);
+                if (ropeIntersection != null) {
+                    collided = true;
+                    if (ropeIntersection.width > ropeIntersection.height){
+                        massOfCollision.add(Math.signum(velocity.x) * 30, Math.signum(velocity.y) * -300);
+                    } else {
+                        massOfCollision.add(Math.signum(velocity.x) * -300, Math.signum(velocity.y) * 30);
+                    }
+                }
+
+                continue;
+            }
+
             if (Intersector.intersectRectangles(obj.realWorldBounds, bounds, intersectorRectangle)){
                 collided = true;
                 if (intersectorRectangle.width > intersectorRectangle.height){

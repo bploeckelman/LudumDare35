@@ -1,6 +1,5 @@
 package lando.systems.ld35.gameobjects;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -42,7 +41,7 @@ public abstract class ObjectBase {
 
     public abstract void update(float delta);
 
-    public boolean collision(Balloon balloon) {
+    public Rectangle collision(Balloon balloon) {
         if (texturePixmap != null && balloon.bounds.overlaps(bounds)) {
             if (Intersector.intersectRectangles(bounds, balloon.bounds, intersectorRectangle)){
                 Rectangle textureArea = new Rectangle(intersectorRectangle.x - bounds.x + keyframe.getRegionX(),
@@ -54,18 +53,18 @@ public abstract class ObjectBase {
                 for (int x = 0; x < textureArea.width; x++){
                     for (int y = 0; y <  textureArea.height; y++){
                         int texX = x + (int)textureArea.x;
-                        int texY = 32 - (int)(y + intersectorRectangle.y - bounds.y) + regionY;
+                        int texY = 31 - (int)(y + intersectorRectangle.y - bounds.y) + regionY;
                         int pix = texturePixmap.getPixel(texX, texY);
                         int index = (int)( intersectorRectangle.x - bounds.x) + x + (int)(intersectorRectangle.y - bounds.y + y) * 32;
                         if((pix & 0xFF) != 0x00) {
-                            return true;
+                            return intersectorRectangle;
                         };
                     }
                 }
             }
         }
 
-        return false;
+        return null;
     }
 
     public void render(SpriteBatch batch) {

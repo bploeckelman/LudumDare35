@@ -4,5 +4,6 @@ public enum LevelObject {
     spawn(),
     exit(),
     spikes(),
+    rope(),
     fan ()
 }
