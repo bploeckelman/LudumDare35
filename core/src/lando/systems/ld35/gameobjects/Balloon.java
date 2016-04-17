@@ -196,8 +196,8 @@ public class Balloon {
 
                     int regionY = boundry.tile.getTile().getTextureRegion().getRegionY();
                     // This may need to be <=
-                    for (int x = 0; x <= textureArea.width; x++){
-                        for (int y = 0; y <=  textureArea.height; y++){
+                    for (int x = 0; x < textureArea.width; x++){
+                        for (int y = 0; y <  textureArea.height; y++){
                             int texX = x + (int)textureArea.x;
                             int texY = 32 - (int)(y + intersectorRectangle.y - boundry.rect.y) + regionY;
                             int pix = tilePixmap.getPixel(texX, texY);
