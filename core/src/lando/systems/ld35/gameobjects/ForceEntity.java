@@ -45,7 +45,7 @@ public abstract class ForceEntity extends ObjectBase {
         if (isMagnetic){
             force = center.cpy().sub(pos);
             force.nor();
-            force.scl(1f/pos.dst2(center) * 100000);
+            force.scl(1f/pos.dst2(center) * 750000);
         }
         return force;
     }
