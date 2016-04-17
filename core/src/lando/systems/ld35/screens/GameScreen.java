@@ -1,5 +1,13 @@
 package lando.systems.ld35.screens;
 
+import aurelienribon.tweenengine.BaseTween;
+import aurelienribon.tweenengine.Timeline;
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenCallback;
+import aurelienribon.tweenengine.equations.Bounce;
+import aurelienribon.tweenengine.equations.Elastic;
+import aurelienribon.tweenengine.equations.Quad;
+import aurelienribon.tweenengine.primitives.MutableFloat;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
@@ -23,6 +31,8 @@ import lando.systems.ld35.utils.Assets;
 import lando.systems.ld35.utils.Config;
 import lando.systems.ld35.utils.LevelBoundry;
 import lando.systems.ld35.utils.Utils;
+import lando.systems.ld35.utils.accessors.CameraAccessor;
+import lando.systems.ld35.utils.accessors.Vector2Accessor;
 
 /**
  * Brian Ploeckelman created on 4/16/2016.
@@ -35,9 +45,13 @@ public class GameScreen extends BaseScreen implements InputProcessor {
     Array<StateButton> stateButtons;
     Pool<Rectangle> rectPool;
     Rectangle buttonTrayRect;
+    boolean pauseGame;
+    MutableFloat cameraZoomLevel;
 
     public GameScreen() {
         super();
+        cameraZoomLevel = new MutableFloat(1);
+        pauseGame = false;
         rectPool = Pools.get(Rectangle.class);
         dustMotes = new Array<WindParticle>();
         loadLevel(0);
@@ -55,13 +69,19 @@ public class GameScreen extends BaseScreen implements InputProcessor {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             LudumDare35.game.screen = new MenuScreen();
         }
-
+        if (Gdx.input.isKeyJustPressed(Input.Keys.P)){
+            pauseGame = !pauseGame;
+        }
+        updateCamera(dt, false);
+        updateDust(dt);
         level.update(dt);
+
+        if (pauseGame){ // Don't move the player or check for interactions
+            return;
+        }
         playerBalloon.update(dt, level);
 
         updateMapObjects(dt);
-        updateDust(dt);
-        updateCamera(dt, false);
     }
 
     @Override
@@ -77,9 +97,10 @@ public class GameScreen extends BaseScreen implements InputProcessor {
         for (WindParticle mote : dustMotes){
             mote.render(batch);
         }
-        playerBalloon.render(batch);
 
         level.renderForeground(batch);
+        playerBalloon.render(batch);
+
         batch.setProjectionMatrix(hudCamera.combined);
         Assets.trayNinepatch.draw(batch, buttonTrayRect.x, buttonTrayRect.y, buttonTrayRect.width, buttonTrayRect.height);
         for (StateButton stateButton : stateButtons) {
@@ -218,12 +239,21 @@ public class GameScreen extends BaseScreen implements InputProcessor {
    }
 
 
-    private void updateCamera(float dt, boolean initial){
+    private Vector2 getCameraTarget(){
         Vector2 targetCameraPosition = playerBalloon.position.cpy();
         targetCameraPosition.x = MathUtils.clamp(targetCameraPosition.x, camera.viewportWidth/2f, level.foregroundLayer.getWidth()*32 -camera.viewportWidth/2f );
         targetCameraPosition.y = MathUtils.clamp(targetCameraPosition.y, Math.min(camera.viewportHeight/2f, level.foregroundLayer.getHeight()*16), level.foregroundLayer.getHeight()*32 -camera.viewportHeight/2f );
 
+        return targetCameraPosition;
+    }
 
+    private void updateCamera(float dt, boolean initial){
+        if (pauseGame) {
+            camera.update();
+            return;
+        }
+
+        Vector2 targetCameraPosition = getCameraTarget();
 
         Vector2 dir = targetCameraPosition.cpy().sub(camera.position.x, camera.position.y);
         if (initial){
@@ -267,14 +297,45 @@ public class GameScreen extends BaseScreen implements InputProcessor {
             // Interact with level exit
             if (obj instanceof Exit) {
                 if (playerBalloon.bounds.overlaps(obj.getBounds())) {
-                    dustMotes.clear();
-                    level.nextLevel();
-                    playerBalloon = new Balloon(level.details.getStart(), this);
-                    for (StateButton button : stateButtons) {
-                        button.active = false;
-                    }
-                    stateButtons.get(0).active = true;
-                    updateCamera(0, true);
+                    pauseGame = true;
+                    Tween.to(playerBalloon.position, Vector2Accessor.XY, 2f)
+                            .target(obj.realWorldBounds.x, obj.realWorldBounds.y)
+                            .ease(Elastic.OUT)
+                            .start(Assets.tween);
+                    Timeline.createSequence()
+                            .push(Tween.to(camera, CameraAccessor.XYZ, 1.5f)
+                                    .target(obj.center.x, obj.center.y, .1f)
+                                    .ease(Quad.OUT))
+                            .pushPause(.5f)
+                            .push(Tween.call(new TweenCallback() {
+                                @Override
+                                public void onEvent(int i, BaseTween<?> baseTween) {
+                                    dustMotes.clear();
+                                    level.nextLevel();
+                                    playerBalloon = new Balloon(level.details.getStart(), GameScreen.this);
+                                    for (StateButton button : stateButtons) {
+                                        button.active = false;
+                                    }
+                                    stateButtons.get(0).active = true;
+                                    camera.position.x = playerBalloon.center.x;
+                                    camera.position.y = playerBalloon.center.y;
+                                    Vector2 camtarget = getCameraTarget();
+                                    Tween.to(camera, CameraAccessor.XYZ, 1f)
+                                            .target(camtarget.x, camtarget.y, 1)
+                                            .ease(Quad.IN)
+                                            .setCallback(new TweenCallback() {
+                                                @Override
+                                                public void onEvent(int type, BaseTween<?> source) {
+                                                    pauseGame = false;
+                                                }
+                                            })
+                                            .start(Assets.tween);
+                                }
+                            }))
+                            .start(Assets.tween);
+
+
+
                 }
             }
 

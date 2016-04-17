@@ -62,6 +62,9 @@ public class Balloon {
         this.intersectorRectangle = new Rectangle();
         this.intersectMap = new boolean[32 * 32];
         magnetForce = new Vector2();
+        bounds.x = position.x + BOUNDS_MARGIN;
+        bounds.y = position.y + BOUNDS_MARGIN;
+        bounds.getCenter(center);
 
         if (stateToAnimationMap == null) {
             stateToAnimationMap = new ObjectMap<State, Animation>();

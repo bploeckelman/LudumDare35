@@ -7,7 +7,6 @@ public abstract class ForceEntity extends ObjectBase {
 
     public boolean isMagnetic;
     public Vector2 direction;
-    public Vector2 center;
 
     private ForceEntity(Rectangle bounds, float rotation, boolean flipX) {
         super(bounds, rotation, flipX);

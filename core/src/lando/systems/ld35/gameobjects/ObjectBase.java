@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import lando.systems.ld35.utils.Assets;
 
 public abstract class ObjectBase {
@@ -21,6 +22,8 @@ public abstract class ObjectBase {
     float originX = 0;
     float originY = 0;
     public Rectangle realWorldBounds;
+    public Vector2 center;
+
 
 
     public ObjectBase(Rectangle bounds, float rotation, boolean flipX) {
@@ -33,6 +36,8 @@ public abstract class ObjectBase {
             originX = bounds.width / 2;
         }
         intersectorRectangle = new Rectangle();
+        center = new Vector2();
+        realWorldBounds.getCenter(center);
     }
 
     public abstract void update(float delta);
