@@ -188,6 +188,7 @@ public class GameScreen extends BaseScreen implements InputProcessor {
                                          new Rectangle(leftMargin + 10 * 4f + 32 * 4f, 10, 32, 32)));
         stateButtons.add(new StateButton(Balloon.State.BUZZSAW, Assets.buzzsawTexture,
                                          new Rectangle(leftMargin + 10 * 5f + 32 * 5f, 10, 32, 32)));
+        stateButtons.get(0).active = true;
    }
 
 }
