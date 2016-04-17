@@ -4,6 +4,7 @@ import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.primitives.MutableFloat;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -204,7 +205,7 @@ public class Balloon {
                     for (int x = 0; x < textureArea.width; x++){
                         for (int y = 0; y <  textureArea.height; y++){
                             int texX = x + (int)textureArea.x;
-                            int texY = 32 - (int)(y + intersectorRectangle.y - boundry.rect.y) + regionY;
+                            int texY = 31 - (int)(y + Math.abs(intersectorRectangle.y - boundry.rect.y)) + regionY;
                             int pix = tilePixmap.getPixel(texX, texY);
                             int index = (int)( intersectorRectangle.x - bounds.x) + x + (int)(intersectorRectangle.y - bounds.y + y) * 32;
                             if (index >= intersectMap.length) continue;
