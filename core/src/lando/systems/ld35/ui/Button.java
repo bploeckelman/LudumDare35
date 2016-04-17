@@ -24,8 +24,7 @@ public class Button {
     }
 
     public boolean checkForTouch(float screenX, float screenY) {
-        active = bounds.contains(screenX, screenY);
-        return active;
+        return bounds.contains(screenX,screenY);
     }
 
     public void render(SpriteBatch batch) {

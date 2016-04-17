@@ -4,7 +4,6 @@ import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
-import aurelienribon.tweenengine.equations.Bounce;
 import aurelienribon.tweenengine.equations.Elastic;
 import aurelienribon.tweenengine.equations.Quad;
 import aurelienribon.tweenengine.primitives.MutableFloat;
@@ -12,11 +11,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -29,7 +24,6 @@ import lando.systems.ld35.gameobjects.*;
 import lando.systems.ld35.ui.StateButton;
 import lando.systems.ld35.utils.Assets;
 import lando.systems.ld35.utils.Config;
-import lando.systems.ld35.utils.LevelBoundry;
 import lando.systems.ld35.utils.Utils;
 import lando.systems.ld35.utils.accessors.CameraAccessor;
 import lando.systems.ld35.utils.accessors.Vector2Accessor;
@@ -104,7 +98,9 @@ public class GameScreen extends BaseScreen implements InputProcessor {
         batch.setProjectionMatrix(hudCamera.combined);
         Assets.trayNinepatch.draw(batch, buttonTrayRect.x, buttonTrayRect.y, buttonTrayRect.width, buttonTrayRect.height);
         for (StateButton stateButton : stateButtons) {
-            stateButton.render(batch);
+            if (stateButton.enabled) {
+                stateButton.render(batch);
+            }
         }
         batch.end();
     }
@@ -127,16 +123,18 @@ public class GameScreen extends BaseScreen implements InputProcessor {
             return false;
         }
 
-        StateButton enabledButton = null;
+        StateButton activatedButton = null;
         for (StateButton stateButton : stateButtons) {
+            if (!stateButton.enabled) continue;
             if (stateButton.checkForTouch(touchPosScreen.x, touchPosScreen.y)) {
                 playerBalloon.changeState(stateButton.state);
-                enabledButton = stateButton;
+                activatedButton = stateButton;
+                stateButton.active = true;
             }
         }
-        if (enabledButton != null) {
+        if (activatedButton != null) {
             for (StateButton stateButton : stateButtons) {
-                if (stateButton != enabledButton) {
+                if (stateButton != activatedButton) {
                     stateButton.active = false;
                 }
             }
@@ -234,6 +232,7 @@ public class GameScreen extends BaseScreen implements InputProcessor {
         stateButtons.add(new StateButton(Balloon.State.BUZZSAW, Assets.buzzsawTexture,
                                          new Rectangle(leftMargin + 10 * 5f + 32 * 5f, 10, 32, 32)));
         stateButtons.get(0).active = true;
+        enableButtons();
 
         buttonTrayRect = new Rectangle(leftMargin - 10f, 0, width + 10, 52);
    }
@@ -312,6 +311,7 @@ public class GameScreen extends BaseScreen implements InputProcessor {
                                 public void onEvent(int i, BaseTween<?> baseTween) {
                                     dustMotes.clear();
                                     level.nextLevel();
+                                    enableButtons();
                                     playerBalloon = new Balloon(level.details.getStart(), GameScreen.this);
                                     for (StateButton button : stateButtons) {
                                         button.active = false;
@@ -356,12 +356,12 @@ public class GameScreen extends BaseScreen implements InputProcessor {
         }
 
         switch (keycode) {
-            case Input.Keys.NUM_1: activateButton(0); break;
-            case Input.Keys.NUM_2: activateButton(1); break;
-            case Input.Keys.NUM_3: activateButton(2); break;
-            case Input.Keys.NUM_4: activateButton(3); break;
-            case Input.Keys.NUM_5: activateButton(4); break;
-            case Input.Keys.NUM_6: activateButton(5); break;
+            case Input.Keys.NUM_1: if (stateButtons.get(0).enabled) activateButton(0); break;
+            case Input.Keys.NUM_2: if (stateButtons.get(1).enabled) activateButton(1); break;
+            case Input.Keys.NUM_3: if (stateButtons.get(2).enabled) activateButton(2); break;
+            case Input.Keys.NUM_4: if (stateButtons.get(3).enabled) activateButton(3); break;
+            case Input.Keys.NUM_5: if (stateButtons.get(4).enabled) activateButton(4); break;
+            case Input.Keys.NUM_6: if (stateButtons.get(5).enabled) activateButton(5); break;
             default: break;
         }
     }
@@ -373,6 +373,12 @@ public class GameScreen extends BaseScreen implements InputProcessor {
             if (button.active) {
                 playerBalloon.changeState(button.state);
             }
+        }
+    }
+
+    private void enableButtons() {
+        for (int i = 0; i < stateButtons.size; ++i) {
+            stateButtons.get(i).enabled = level.details.uiButtonStates[i];
         }
     }
 

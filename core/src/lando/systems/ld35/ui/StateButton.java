@@ -10,10 +10,12 @@ import lando.systems.ld35.gameobjects.Balloon;
 public class StateButton extends Button {
 
     public final Balloon.State state;
+    public boolean enabled;
 
     public StateButton(Balloon.State state, TextureRegion region, Rectangle bounds) {
         super(region, bounds);
         this.state = state;
+        this.enabled = false;
     }
 
 }
