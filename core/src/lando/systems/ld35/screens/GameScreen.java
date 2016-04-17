@@ -169,17 +169,25 @@ public class GameScreen extends BaseScreen implements InputProcessor {
     }
 
     private void layoutUI() {
-        // TODO: center buttons nicely
+        int numButtons = 6;
+        float padding = 10f;
+        float size = 32f;
+        float width = (padding + size) * numButtons;
+        float leftMargin = camera.viewportWidth / 2f - width / 2f;
+
         stateButtons = new Array<StateButton>();
-        stateButtons.add(new StateButton(Balloon.State.NORMAL,
-                                         new TextureRegion(Assets.balloonTexture),
-                                         new Rectangle(10 * 1f + 32 * 0f, 10, 32, 32)));
-        stateButtons.add(new StateButton(Balloon.State.LIFT,
-                                         new TextureRegion(Assets.rocketTexture),
-                                         new Rectangle(10 * 2f + 32 * 1f, 10, 32, 32)));
-        stateButtons.add(new StateButton(Balloon.State.HEAVY,
-                                         new TextureRegion(Assets.weightTexture),
-                                         new Rectangle(10 * 3f + 32 * 2f, 10, 32, 32)));
-    }
+        stateButtons.add(new StateButton(Balloon.State.NORMAL, Assets.balloonTexture,
+                                         new Rectangle(leftMargin + 10 * 0f + 32 * 0f, 10, 32, 32)));
+        stateButtons.add(new StateButton(Balloon.State.LIFT, Assets.rocketTexture,
+                                         new Rectangle(leftMargin + 10 * 1f + 32 * 1f, 10, 32, 32)));
+        stateButtons.add(new StateButton(Balloon.State.HEAVY, Assets.weightTexture,
+                                         new Rectangle(leftMargin + 10 * 2f + 32 * 2f, 10, 32, 32)));
+        stateButtons.add(new StateButton(Balloon.State.SPINNER, Assets.torusTexture,
+                                         new Rectangle(leftMargin + 10 * 3f + 32 * 3f, 10, 32, 32)));
+        stateButtons.add(new StateButton(Balloon.State.MAGNET, Assets.magnetTexture,
+                                         new Rectangle(leftMargin + 10 * 4f + 32 * 4f, 10, 32, 32)));
+        stateButtons.add(new StateButton(Balloon.State.BUZZSAW, Assets.buzzsawTexture,
+                                         new Rectangle(leftMargin + 10 * 5f + 32 * 5f, 10, 32, 32)));
+   }
 
 }

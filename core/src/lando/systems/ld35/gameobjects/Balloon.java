@@ -204,10 +204,13 @@ public class Balloon {
 
     private void setTextureForCurrentState() {
         switch(currentState){
-            case NORMAL: currentTexture = Assets.balloonTexture; break;
-            case LIFT:   currentTexture = Assets.rocketTexture; break;
-            case HEAVY:  currentTexture = Assets.weightTexture; break;
-            default:     currentTexture = Assets.testTexture; break;
+            case NORMAL:   currentTexture = Assets.balloonTexture; break;
+            case LIFT:     currentTexture = Assets.rocketTexture; break;
+            case HEAVY:    currentTexture = Assets.weightTexture; break;
+            case SPINNER:  currentTexture = Assets.torusTexture; break;
+            case MAGNET:   currentTexture = Assets.magnetTexture; break;
+            case BUZZSAW:  currentTexture = Assets.buzzsawTexture; break;
+            default:       currentTexture = Assets.testTexture; break;
         }
     }
 
