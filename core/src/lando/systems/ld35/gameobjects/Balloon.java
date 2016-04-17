@@ -194,13 +194,13 @@ public class Balloon {
                                                       intersectorRectangle.y - boundry.rect.y + boundry.tile.getTile().getTextureRegion().getRegionY(),
                                                       intersectorRectangle.width, intersectorRectangle.height);
 
-                    int regionX = boundry.tile.getTile().getTextureRegion().getRegionX();
+                    int regionY = boundry.tile.getTile().getTextureRegion().getRegionY();
                     // This may need to be <=
                     for (int x = 0; x <= textureArea.width; x++){
                         for (int y = 0; y <=  textureArea.height; y++){
                             int texX = x + (int)textureArea.x;
-                            int texY = y + (int)textureArea.y;
-                            int pix = tilePixmap.getPixel(texX, tilePixmap.getHeight() - 1 - texY);
+                            int texY = 32 - (int)(y + intersectorRectangle.y - boundry.rect.y) + regionY;
+                            int pix = tilePixmap.getPixel(texX, texY);
                             int index = (int)( intersectorRectangle.x - bounds.x) + x + (int)(intersectorRectangle.y - bounds.y + y) * 32;
                             if (index >= intersectMap.length) continue;
                             intersectMap[index] = (pix & 0xFF) != 0x00;

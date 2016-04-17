@@ -37,7 +37,7 @@ public class GameScreen extends BaseScreen implements InputProcessor {
     public GameScreen() {
         super();
         rectPool = Pools.get(Rectangle.class);
-        loadLevel(0);
+        loadLevel(1);
         updateCamera(1, true);
         Utils.glClearColor(Config.bgColor);
         Gdx.input.setInputProcessor(this);
@@ -143,10 +143,10 @@ public class GameScreen extends BaseScreen implements InputProcessor {
 //                }
 //                Pixmap tilePixmap = t.getTextureData().consumePixmap();
 //                int pxX = (int)(worldPoint.x % 32f) + boundry.tile.getTile().getTextureRegion().getRegionX();
-//                int pxY = (int)(worldPoint.y % 32f) + boundry.tile.getTile().getTextureRegion().getRegionY();
+//                int pxY = 32 - (int)(worldPoint.y % 32f) + boundry.tile.getTile().getTextureRegion().getRegionY();
 //                Gdx.app.log("Touch", "X:" + pxX + " Y:" + pxY);
 //
-//                int pix = tilePixmap.getPixel(pxX, tilePixmap.getHeight() - 1 - pxY);
+//                int pix = tilePixmap.getPixel(pxX,  pxY);
 //                Gdx.app.log("Touch", pix+"");
 //            }
 //        }
