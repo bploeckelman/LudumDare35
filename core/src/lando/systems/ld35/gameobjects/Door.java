@@ -42,7 +42,7 @@ public class Door extends TriggerableEntity {
         this.closedRotation = closedRotation;
         this.openedRotation = openedRotation;
         this.textureRegion = textureRegion;
-        updateWindField = false;
+        updateWindField = true;
         //
 
 //        this.rotationOrigin = new Vector2(bounds)
@@ -50,6 +50,12 @@ public class Door extends TriggerableEntity {
         this.rotation = this.closedRotation;
         this.targetRotation = this.closedRotation;
         this.state = State.CLOSED;
+
+        realWorldBounds.set(bounds);
+        realWorldBounds.setWidth(Math.max(bounds.width, bounds.height) * MathUtils.cosDeg(rotation));
+        realWorldBounds.setHeight(Math.max(bounds.width, bounds.height) * MathUtils.sinDeg(rotation));
+
+
     }
 
     // -----------------------------------------------------------------------------------------------------------------

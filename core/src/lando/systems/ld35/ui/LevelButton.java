@@ -27,6 +27,7 @@ public class LevelButton extends Button {
     public       MutableFloat alpha;
     public       MutableFloat angle;
     public       Color        color;
+    public       Rectangle    textBounds;
 
     private final String  levelIdString;
     private       Vector2 accum;
@@ -50,6 +51,7 @@ public class LevelButton extends Button {
                                    bounds.y + (bounds.height / 2f) + (layout.height / 2f) + 15f);
         this.settled = false;
         this.drawText = false;
+//        textBounds = new Rectangle()
         this.bounds.y = -200f;
         final Color newColor = new Color();
         if (levelId <= Assets.getMaxLevelCompleted()) newColor.set(Config.balloonColor);  // game balloon red
