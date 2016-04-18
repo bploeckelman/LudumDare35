@@ -109,7 +109,7 @@ public class SoundManager{
                 balloonSound = SoundOptions.WeightDrop;
                 break;
             case SPINNER:
-                balloonSound = SoundOptions.Saw;
+                balloonSound = SoundOptions.Inflate;
                 break;
             case MAGNET:
                 balloonSound = SoundOptions.Magnet;

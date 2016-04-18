@@ -182,9 +182,9 @@ public class Balloon {
 
         float yFloat = MathUtils.sin(accumulator * 4f) * .4f;
 
-        if (currentState != State.DEAD) velocity.y += yFloat;
+        if (currentState != State.DEAD && currentState != State.SPINNER) velocity.y += yFloat;
 
-        velocity.scl(.99f);
+        if (currentState != State.SPINNER) velocity.scl(.99f);
 
         boolean collided = false;
         Vector2 massOfCollision = new Vector2();
@@ -270,6 +270,8 @@ public class Balloon {
             velocity.sub(massOfCollision.scl(dot));
             if (currentState == State.DEAD){
                 velocity.scl(.8f);
+            } else {
+                velocity.scl(.9f);
             }
             nextPos = position;
 
