@@ -162,11 +162,13 @@ public class Assets {
         netAnimation = new Animation(.1f, atlas.findRegions("net"));
         netAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
-        birdAnimations = new Animation[2];
+        birdAnimations = new Animation[3];
         birdAnimations[0] = new Animation(.02f, atlas.findRegions("birdgreen"));
         birdAnimations[0].setPlayMode(Animation.PlayMode.LOOP);
         birdAnimations[1] = new Animation(.02f, atlas.findRegions("birdorange"));
         birdAnimations[1].setPlayMode(Animation.PlayMode.LOOP);
+        birdAnimations[2] = new Animation(.2f, atlas.findRegions("birdgull"));
+        birdAnimations[2].setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 
         Texture distText = new Texture(Gdx.files.internal("fonts/simply_round_32.png"), true);
         distText.setFilter(Texture.TextureFilter.MipMapLinearNearest, Texture.TextureFilter.Linear);
