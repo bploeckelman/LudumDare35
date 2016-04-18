@@ -370,9 +370,14 @@ public class GameScreen extends BaseScreen {
                 if (playerBalloon.currentState == Balloon.State.BUZZSAW && obj.collision(playerBalloon) != null) {
                     // TODO: Animate this?  Maybe some particle effects?
                     // Kill the rope!
-                    Array<Rope> ropeGroup = level.ropeGroups.get( ((Rope) obj).getGroupName(), null );
+                    String ropeGroupName = ((Rope) obj).getGroupName();
+                    Array<Rope> ropeGroup = level.ropeGroups.get(ropeGroupName);
                     if (ropeGroup != null) {
                         level.mapObjects.removeAll(ropeGroup, true);
+                        Array<TriggerableEntity> objectsToTrigger = level.triggeredByRopeGroup.get(ropeGroupName);
+                        for (TriggerableEntity triggerableEntity : objectsToTrigger) {
+                            triggerableEntity.onTrigger();
+                        }
                     }
                 }
             }

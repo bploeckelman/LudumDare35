@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="40" height="30" tilewidth="32" tileheight="32" nextobjectid="38">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="40" height="30" tilewidth="32" tileheight="32" nextobjectid="44">
  <tileset firstgid="1" name="basic" tilewidth="32" tileheight="32" tilecount="256" columns="16">
   <image source="basic-tiles.png" width="512" height="512"/>
  </tileset>
- <tileset firstgid="257" name="objects" tilewidth="32" tileheight="64" tilecount="3" columns="0">
+ <tileset firstgid="257" name="objects" tilewidth="64" tileheight="64" tilecount="4" columns="0">
   <tile id="1">
    <image width="32" height="64" source="fan_0.png"/>
   </tile>
@@ -12,6 +12,9 @@
   </tile>
   <tile id="3">
    <image width="32" height="32" source="exit.png"/>
+  </tile>
+  <tile id="9">
+   <image width="64" height="7" source="door.png"/>
   </tile>
  </tileset>
  <layer name="background" width="40" height="30">
@@ -148,6 +151,18 @@
   <object id="37" type="rope" gid="82" x="32" y="736" width="32" height="32">
    <properties>
     <property name="group" value="rope-group-1"/>
+   </properties>
+  </object>
+  <object id="42" type="door" gid="266" x="348" y="804" width="64" height="7">
+   <properties>
+    <property name="openRotation" type="float" value="-90"/>
+    <property name="triggeredByRopeGroup" value="rope-group-1"/>
+   </properties>
+  </object>
+  <object id="43" type="door" gid="266" x="348" y="828" width="64" height="7" rotation="90">
+   <properties>
+    <property name="openRotation" type="float" value="0"/>
+    <property name="triggeredByRopeGroup" value="rope-group-1"/>
    </properties>
   </object>
  </objectgroup>

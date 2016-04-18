@@ -37,6 +37,7 @@ public class LevelInfo {
     public TiledMapTileLayer                backgroundLayer;
     public int                              levelIndex;
     public ObjectMap<String, Array<Rope>>   ropeGroups;
+    public ObjectMap<String, Array<TriggerableEntity>>   triggeredByRopeGroup;
 
     public LevelInfo(int level, Pool<Rectangle> rectanglePool) {
         createLevel(level, rectanglePool);
@@ -48,6 +49,7 @@ public class LevelInfo {
         this.rectanglePool = rectanglePool;
         this.tiles = new Array<LevelBoundry>();
         this.ropeGroups = new ObjectMap<String, Array<Rope>>();
+        this.triggeredByRopeGroup = new ObjectMap<String, Array<TriggerableEntity>>();
         loadMap(details.mapName);
     }
 
@@ -188,6 +190,28 @@ public class LevelInfo {
                     details.startX = x;
                     details.startY = y;
                     break;
+                case door:
+                    String ropeGroupName = (String) props.get("triggeredByRopeGroup");
+                    Float openedRotation = (Float) props.get("openedRotation");
+                    // If not set just use starting rotation.  Otherwise reverse it from Tiled.
+                    openedRotation = openedRotation == null ? rotation : openedRotation * -1;
+                    Door door = new Door(
+                            new Rectangle(x, y, w, h),
+                            rotation,
+                            openedRotation,
+                            ((TiledMapTileMapObject) object).getTextureRegion()
+                    );
+
+                    if (ropeGroupName != null) {
+                        Array<TriggerableEntity> group = triggeredByRopeGroup.get(ropeGroupName);
+                        if (group == null) {
+                            group = new Array<TriggerableEntity>();
+                            triggeredByRopeGroup.put(ropeGroupName, group);
+                        }
+                        group.add(door);
+                    }
+                    mapObjects.add(door);
+                    break;
                 case exit:
                     mapObjects.add(new Exit(new Rectangle(x, y, w, h), rotation, flipX));
                     break;
@@ -199,7 +223,8 @@ public class LevelInfo {
                     break;
                 case rope:
                     String groupName = (String) props.get("group");
-                    Rope levelRope = new Rope(new Rectangle(x, y, w, h),
+                    Rope levelRope = new Rope(
+                            new Rectangle(x, y, w, h),
                             rotation,
                             flipX,
                             tileObject.getTextureRegion(),
