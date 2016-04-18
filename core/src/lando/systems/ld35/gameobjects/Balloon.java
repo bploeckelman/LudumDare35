@@ -120,6 +120,7 @@ public class Balloon {
         currentAnimation = Assets.balloonToPopAnimation;
         Assets.particles.addExplosion(center, velocity);
         animating = true;
+        Assets.tween.killTarget(animationTimer);
         animationTimer.setValue(0);
         Tween.to(animationTimer, -1, Assets.balloonToPopAnimation.getAnimationDuration())
             .target(Assets.balloonToPopAnimation.getAnimationDuration())

@@ -63,7 +63,7 @@ public class LevelButton extends Button {
                 .push(Tween.to(this.bounds, RectangleAccessor.Y, 1.2f)
                            .target(bounds.y)
                            .ease(Bounce.OUT)
-                           .delay(levelId * 0.3f)
+                           .delay(levelId * 0.2f)
                            .setCallback(new TweenCallback() {
                                @Override
                                public void onEvent(int type, BaseTween<?> source) {
