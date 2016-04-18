@@ -44,21 +44,21 @@ public class SoundManager{
 
     public static void load() {
 
-        soundMap.put(SoundOptions.Bounce, Gdx.audio.newSound(Gdx.files.internal("Sounds/bounce.mp3")));
-        soundMap.put(SoundOptions.Deflate, Gdx.audio.newSound(Gdx.files.internal("Sounds/deflate.mp3")));
-        soundMap.put(SoundOptions.Inflate, Gdx.audio.newSound(Gdx.files.internal("Sounds/inflate.mp3")));
-        soundMap.put(SoundOptions.Laser1, Gdx.audio.newSound(Gdx.files.internal("Sounds/lazer1.mp3")));
-        soundMap.put(SoundOptions.Laser2, Gdx.audio.newSound(Gdx.files.internal("Sounds/lazer2.mp3")));
-        soundMap.put(SoundOptions.Laser3, Gdx.audio.newSound(Gdx.files.internal("Sounds/lazer3.mp3")));
-        soundMap.put(SoundOptions.Magnet, Gdx.audio.newSound(Gdx.files.internal("Sounds/magnet.mp3")));
-        soundMap.put(SoundOptions.Pop, Gdx.audio.newSound(Gdx.files.internal("Sounds/POP!.mp3")));
-        soundMap.put(SoundOptions.Rocket, Gdx.audio.newSound(Gdx.files.internal("Sounds/rocket2.mp3")));
-        soundMap.put(SoundOptions.Saw, Gdx.audio.newSound(Gdx.files.internal("Sounds/saw_trial.mp3")));
-        soundMap.put(SoundOptions.Squeak, Gdx.audio.newSound(Gdx.files.internal("Sounds/squeek.mp3")));
-        soundMap.put(SoundOptions.WeightDrop, Gdx.audio.newSound(Gdx.files.internal("Sounds/weight_dropped.mp3")));
+        soundMap.put(SoundOptions.Bounce, Gdx.audio.newSound(Gdx.files.internal("sound/bounce.mp3")));
+        soundMap.put(SoundOptions.Deflate, Gdx.audio.newSound(Gdx.files.internal("sound/deflate.mp3")));
+        soundMap.put(SoundOptions.Inflate, Gdx.audio.newSound(Gdx.files.internal("sound/inflate.mp3")));
+        soundMap.put(SoundOptions.Laser1, Gdx.audio.newSound(Gdx.files.internal("sound/lazer1.mp3")));
+        soundMap.put(SoundOptions.Laser2, Gdx.audio.newSound(Gdx.files.internal("sound/lazer2.mp3")));
+        soundMap.put(SoundOptions.Laser3, Gdx.audio.newSound(Gdx.files.internal("sound/lazer3.mp3")));
+        soundMap.put(SoundOptions.Magnet, Gdx.audio.newSound(Gdx.files.internal("sound/magnet.mp3")));
+        soundMap.put(SoundOptions.Pop, Gdx.audio.newSound(Gdx.files.internal("sound/POP!.mp3")));
+        soundMap.put(SoundOptions.Rocket, Gdx.audio.newSound(Gdx.files.internal("sound/rocket2.mp3")));
+        soundMap.put(SoundOptions.Saw, Gdx.audio.newSound(Gdx.files.internal("sound/saw_trial.mp3")));
+        soundMap.put(SoundOptions.Squeak, Gdx.audio.newSound(Gdx.files.internal("sound/squeek.mp3")));
+        soundMap.put(SoundOptions.WeightDrop, Gdx.audio.newSound(Gdx.files.internal("sound/weight_dropped.mp3")));
 
         musicVolume = new MutableFloat(0);
-        gameMusic = Gdx.audio.newMusic(Gdx.files.internal("Sounds/elevator.mp3"));
+        gameMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/elevator.mp3"));
         gameMusic.setLooping(true);
 //        gameMusic.play();
         setMusicVolume(.3f);
