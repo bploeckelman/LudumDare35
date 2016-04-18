@@ -10,6 +10,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -114,10 +115,20 @@ public class LevelInfo {
         int tempX2 = x2 + (int)direction.x;
         int tempY1 = y1 + (int)direction.y;
         int tempY2 = y2 + (int)direction.y;
+        outerloop:
         while(tempX1 >= 0 && tempX1 < foregroundLayer.getWidth() && tempX2 >= 0 && tempX2 < foregroundLayer.getWidth() &&
                 tempY1 >= 0 && tempY1 < foregroundLayer.getHeight() && tempY2 >= 0 && tempY2 < foregroundLayer.getHeight()){
             if (foregroundLayer.getCell(tempX1, tempY1) != null || foregroundLayer.getCell(tempX2, tempY2) != null){
                 break;
+            }
+            Rectangle worldBounds = new Rectangle(tempX1 * 32 , tempY1 *32, (tempX2 - tempX1 + 1) * 32, (tempY2 - tempY1 + 1) * 32);
+            for (ObjectBase obj : mapObjects){
+                if (!(obj instanceof Door)) continue;
+                Rectangle intersect = new Rectangle();
+                if (Intersector.intersectRectangles(worldBounds, obj.realWorldBounds, intersect)){
+                    break outerloop;
+                }
+
             }
             // TODO also test for doors etc
             tempX1 += direction.x;

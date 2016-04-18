@@ -12,14 +12,16 @@ public class Fan extends ForceEntity {
     Animation animation;
     float timer = 0;
     WindField windField;
+    LevelInfo level;
 
     public Fan(Rectangle bounds, float rotation, boolean flipX, LevelInfo level) {
         super(bounds, rotation, flipX, true);
         this.animation = Assets.fanAnimation;
-        calcWindField(level);
+        this.level = level;
+        calcWindField();
     }
 
-    public void calcWindField(LevelInfo level){
+    public void calcWindField(){
         windField = level.getWindBounds(direction, realWorldBounds);
 
     }
@@ -41,6 +43,7 @@ public class Fan extends ForceEntity {
     public void update(float delta) {
         timer += delta;
         keyframe = animation.getKeyFrame(timer);
+        calcWindField();
     }
 
     @Override

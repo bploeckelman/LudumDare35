@@ -79,8 +79,17 @@ public class Door extends TriggerableEntity {
     // -----------------------------------------------------------------------------------------------------------------
 
     public void update(float dt) {
+        realWorldBounds.set(bounds);
         realWorldBounds.setWidth(Math.max(bounds.width, bounds.height) * MathUtils.cosDeg(rotation));
         realWorldBounds.setHeight(Math.max(bounds.width, bounds.height) * MathUtils.sinDeg(rotation));
+        if (realWorldBounds.width < 0){
+            realWorldBounds.width *= -1;
+            realWorldBounds.x -= realWorldBounds.width;
+        }
+        if (realWorldBounds.height < 0){
+            realWorldBounds.height *= -1;
+            realWorldBounds.y -= realWorldBounds.height;
+        }
         float amountLeft = targetRotation - rotation;
         if (amountLeft > 180) amountLeft -= 360;
         if (amountLeft < -180) amountLeft += 360;
