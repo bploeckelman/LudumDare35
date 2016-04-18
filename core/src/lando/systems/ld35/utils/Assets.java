@@ -21,6 +21,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.GdxRuntimeException;
+import lando.systems.ld35.ParticleSystem.ParticleManager;
 import lando.systems.ld35.utils.accessors.*;
 
 /**
@@ -81,6 +82,7 @@ public class Assets {
     public static int maxLevelCompleted;
 
     public static boolean initialized;
+    public static ParticleManager particles;
 
     public static void load() {
         if (tween == null) {
@@ -92,6 +94,8 @@ public class Assets {
             Tween.registerAccessor(Vector3.class, new Vector3Accessor());
             Tween.registerAccessor(OrthographicCamera.class, new CameraAccessor());
         }
+
+        particles = new ParticleManager();
 
         prefsName = "shift-n-drift";
         prefMaxLevelCompleted = "maxLevelCompleted";

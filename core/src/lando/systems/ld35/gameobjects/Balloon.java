@@ -4,7 +4,6 @@ import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.primitives.MutableFloat;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -114,7 +113,7 @@ public class Balloon {
         currentState = State.POP;
         SoundManager.playBalloonSound(currentState);
         currentAnimation = Assets.balloonToPopAnimation;
-
+        Assets.particles.addExplosion(center, velocity);
         animating = true;
         animationTimer.setValue(0);
         Tween.to(animationTimer, -1, Assets.balloonToPopAnimation.getAnimationDuration())
@@ -179,8 +178,10 @@ public class Balloon {
         velocity.y = MathUtils.clamp(velocity.y, -MAX_SPEED, MAX_SPEED);
 
         Vector2 nextPos = position.cpy().add(velocity.cpy().scl(dt));
+
         float yFloat = MathUtils.sin(accumulator * 4f) * .4f;
-        velocity.y += yFloat;
+
+        if (currentState != State.DEAD) velocity.y += yFloat;
 
         velocity.scl(.99f);
 
@@ -266,6 +267,9 @@ public class Balloon {
             massOfCollision.nor();
             float dot = 2f * massOfCollision.dot(velocity);  // r = d - 2(d . n)n
             velocity.sub(massOfCollision.scl(dot));
+            if (currentState == State.DEAD){
+                velocity.scl(.8f);
+            }
             nextPos = position;
 
         }

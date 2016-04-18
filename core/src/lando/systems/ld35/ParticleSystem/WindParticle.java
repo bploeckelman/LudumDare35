@@ -1,4 +1,4 @@
-package lando.systems.ld35.gameobjects;
+package lando.systems.ld35.ParticleSystem;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;

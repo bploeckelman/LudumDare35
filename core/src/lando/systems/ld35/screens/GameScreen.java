@@ -19,6 +19,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Pools;
 import lando.systems.ld35.LudumDare35;
+import lando.systems.ld35.ParticleSystem.WindParticle;
 import lando.systems.ld35.backgroundobjects.Bird;
 import lando.systems.ld35.backgroundobjects.Cloud;
 import lando.systems.ld35.backgroundobjects.HotairBalloon;
@@ -66,8 +67,12 @@ public class GameScreen extends BaseScreen {
         Utils.glClearColor(Config.bgColor);
         Gdx.input.setInputProcessor(this);
 
+
         retryTextColor.a = 0.3f;
         Tween.to(retryTextColor, ColorAccessor.A, 1.0f).target(1f).repeatYoyo(-1, 0f).start(Assets.tween);
+
+        Assets.particles.clear();
+
     }
 
     // ------------------------------------------------------------------------
@@ -85,6 +90,7 @@ public class GameScreen extends BaseScreen {
 
         updateCamera(dt, false);
         updateDust(dt);
+        Assets.particles.update(dt, level);
         updateBackgroundObjects(dt);
         level.update(dt);
 
@@ -119,7 +125,7 @@ public class GameScreen extends BaseScreen {
         for (WindParticle mote : dustMotes){
             mote.render(batch);
         }
-
+        Assets.particles.render(batch);
         level.renderForeground(batch);
         playerBalloon.render(batch);
 
