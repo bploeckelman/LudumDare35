@@ -105,7 +105,7 @@ public class SoundManager{
 
         switch (balloonState) {
             case LIFT:
-                balloonSound = SoundOptions.Rocket;
+                balloonSound = SoundOptions.Deflate;
                 break;
             case HEAVY:
                 balloonSound = SoundOptions.WeightDrop;
