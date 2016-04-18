@@ -399,6 +399,7 @@ public class GameScreen extends BaseScreen {
             if (obj instanceof Exit && playerBalloon.currentState != Balloon.State.DEAD) {
                 if (playerBalloon.bounds.overlaps(obj.getBounds())) {
                     pauseGame = true;
+                    playerBalloon.changeState(Balloon.State.NORMAL);
                     Tween.to(playerBalloon.position, Vector2Accessor.XY, 2f)
                             .target(obj.realWorldBounds.x, obj.realWorldBounds.y)
                             .ease(Elastic.OUT)
