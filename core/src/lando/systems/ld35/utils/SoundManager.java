@@ -26,7 +26,8 @@ public class SoundManager{
         Rocket,
         Saw,
         Squeak,
-        WeightDrop
+        WeightDrop,
+        RopeSnap
     }
 
     public enum MusicOptions {
@@ -56,6 +57,7 @@ public class SoundManager{
         soundMap.put(SoundOptions.Saw, Gdx.audio.newSound(Gdx.files.internal("sound/saw.mp3")));
         soundMap.put(SoundOptions.Squeak, Gdx.audio.newSound(Gdx.files.internal("sound/squeek.mp3")));
         soundMap.put(SoundOptions.WeightDrop, Gdx.audio.newSound(Gdx.files.internal("sound/weight_dropped.mp3")));
+        soundMap.put(SoundOptions.RopeSnap, Gdx.audio.newSound(Gdx.files.internal("sound/rope_snap.mp3")));
 
         musicVolume = new MutableFloat(0);
         gameMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/elevator.mp3"));

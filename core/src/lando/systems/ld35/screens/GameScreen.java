@@ -29,10 +29,7 @@ import lando.systems.ld35.backgroundobjects.HotairBalloon;
 import lando.systems.ld35.gameobjects.*;
 import lando.systems.ld35.ui.Button;
 import lando.systems.ld35.ui.StateButton;
-import lando.systems.ld35.utils.Assets;
-import lando.systems.ld35.utils.Config;
-import lando.systems.ld35.utils.Statistics;
-import lando.systems.ld35.utils.Utils;
+import lando.systems.ld35.utils.*;
 import lando.systems.ld35.utils.accessors.CameraAccessor;
 import lando.systems.ld35.utils.accessors.ColorAccessor;
 import lando.systems.ld35.utils.accessors.Vector2Accessor;
@@ -474,6 +471,7 @@ public class GameScreen extends BaseScreen {
                 if (playerBalloon.currentState == Balloon.State.BUZZSAW && obj.collision(playerBalloon) != null) {
                     // TODO: Animate this?  Maybe some particle effects?
                     // Kill the rope!
+                    SoundManager.playSound(SoundManager.SoundOptions.RopeSnap);
                     String ropeGroupName = ((Rope) obj).getGroupName();
                     Array<Rope> ropeGroup = level.ropeGroups.get(ropeGroupName);
                     if (ropeGroup != null) {
