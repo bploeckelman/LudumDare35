@@ -189,9 +189,10 @@ public class Balloon {
         int tileX = (int)(nextPos.x / 32);
         int tileY = (int)(nextPos.y / 32);
         Array<LevelBoundry> cells = levelInfo.getTiles(tileX - 1, tileY - 1, tileX + 1, tileY + 1);
+        bounds.x = nextPos.x + BOUNDS_MARGIN;
+        bounds.y = nextPos.y + BOUNDS_MARGIN;
         if (cells.size > 0){
-            bounds.x = nextPos.x + BOUNDS_MARGIN;
-            bounds.y = nextPos.y + BOUNDS_MARGIN;
+
             for (LevelBoundry boundry: cells){
                 if (Intersector.intersectRectangles(boundry.rect, bounds, intersectorRectangle)){
                     if (tilePixmap == null) {
@@ -272,16 +273,7 @@ public class Balloon {
             massOfCollision.nor();
             float dot = 2f * massOfCollision.dot(velocity);  // r = d - 2(d . n)n
             velocity.sub(massOfCollision.scl(dot));
-//            float mag = velocity.len();
-
-//            velocity = (massOfCollision.scl(mag * .5f));
-//            if (Math.abs(massOfCollision.x) > Math.abs(massOfCollision.y)){
-//                velocity.x *= -.5;
-//            } else {
-//                velocity.y *= -.5;
-//            }
             nextPos = position;
-//            Gdx.app.log("Collision", "X:" + massOfCollision.x + " Y:" + massOfCollision.y);
 
         }
 
