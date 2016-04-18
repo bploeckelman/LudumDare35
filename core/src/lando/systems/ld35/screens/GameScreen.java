@@ -396,7 +396,7 @@ public class GameScreen extends BaseScreen {
     private void updateMapObjects(float dt) {
         for (ObjectBase obj : level.mapObjects) {
             // Interact with level exit
-            if (obj instanceof Exit) {
+            if (obj instanceof Exit && playerBalloon.currentState != Balloon.State.DEAD) {
                 if (playerBalloon.bounds.overlaps(obj.getBounds())) {
                     pauseGame = true;
                     Tween.to(playerBalloon.position, Vector2Accessor.XY, 2f)
