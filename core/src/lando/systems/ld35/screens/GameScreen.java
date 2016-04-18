@@ -21,6 +21,7 @@ import com.badlogic.gdx.utils.Pools;
 import lando.systems.ld35.LudumDare35;
 import lando.systems.ld35.backgroundobjects.Bird;
 import lando.systems.ld35.backgroundobjects.Cloud;
+import lando.systems.ld35.backgroundobjects.HotairBalloon;
 import lando.systems.ld35.gameobjects.*;
 import lando.systems.ld35.ui.StateButton;
 import lando.systems.ld35.utils.Assets;
@@ -39,6 +40,7 @@ public class GameScreen extends BaseScreen {
     Array<WindParticle> dustMotes;
     Array<Cloud> clouds;
     Array<Bird> birds;
+    HotairBalloon hotairBalloon;
     Array<StateButton> stateButtons;
     Pool<Rectangle> rectPool;
     Rectangle buttonTrayRect;
@@ -97,6 +99,8 @@ public class GameScreen extends BaseScreen {
         for (Bird b : birds){
             b.render(batch);
         }
+
+        if (hotairBalloon != null) hotairBalloon.render(batch);
 
         level.renderBackground();
         for (WindParticle mote : dustMotes){
@@ -310,6 +314,15 @@ public class GameScreen extends BaseScreen {
 
         if (MathUtils.randomBoolean(.0015f)){
             birds.add(new Bird(level));
+        }
+
+        if (hotairBalloon != null){
+            hotairBalloon.update(dt, level);
+            if (!hotairBalloon.alive) hotairBalloon = null;
+        } else {
+            if (MathUtils.randomBoolean(.001f)){
+                hotairBalloon = new HotairBalloon(level);
+            }
         }
     }
 

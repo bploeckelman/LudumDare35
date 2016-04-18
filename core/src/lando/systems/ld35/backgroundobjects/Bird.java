@@ -16,7 +16,7 @@ public class Bird {
     public boolean alive;
     public int type;
     public float speed;
-    public float verticleDrift;
+    public float verticalDrift;
 
 
     public Bird(LevelInfo level){
@@ -30,7 +30,7 @@ public class Bird {
             position = new Vector2(level.foregroundLayer.getWidth() * 32, MathUtils.random(level.foregroundLayer.getHeight() * 32));
         }
         speed = MathUtils.random(40f, 70f);
-        verticleDrift = MathUtils.random(15f, 30f);
+        verticalDrift = MathUtils.random(15f, 30f);
         alive = true;
     }
 
@@ -45,7 +45,7 @@ public class Bird {
     }
 
     public void render(SpriteBatch batch){
-        float yFloat = MathUtils.sin(accumulator * .5f) * verticleDrift;
+        float yFloat = MathUtils.sin(accumulator * .5f) * verticalDrift;
 
         batch.draw(Assets.birdAnimations[type].getKeyFrame(accumulator), position.x, position.y + yFloat, 16 * -direction, 16);
     }

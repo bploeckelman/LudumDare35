@@ -52,6 +52,7 @@ public class Assets {
     public static TextureRegion   spikesTexture;
     public static TextureRegion   moteTexture;
     public static TextureRegion   buttonTexture;
+    public static TextureRegion   hotairTexture;
     public static TextureRegion[] cloudTextures;
 
 
@@ -121,6 +122,7 @@ public class Assets {
         spikesTexture      = atlas.findRegion("spikes");
         moteTexture        = atlas.findRegion("mote");
         buttonTexture      = atlas.findRegion("button_level");
+        hotairTexture      = atlas.findRegion("hotair_balloon");
 
         cloudTextures = new TextureRegion[3];
         cloudTextures[0] = atlas.findRegion("cloud1");
