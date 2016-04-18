@@ -31,6 +31,6 @@ public class Cloud {
 
     public void render(SpriteBatch batch, OrthographicCamera camera){
         TextureRegion tex = Assets.cloudTextures[type];
-        batch.draw(tex, position.x, position.y + (.01f * distance * camera.position.y), 0, 0, tex.getRegionWidth(), tex.getRegionHeight(), 2/distance, 2/distance, 0);
+        batch.draw(tex, position.x, position.y + (.04f * distance * camera.position.y), 0, 0, tex.getRegionWidth(), tex.getRegionHeight(), 2/distance, 2/distance, 0);
     }
 }

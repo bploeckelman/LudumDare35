@@ -48,8 +48,8 @@ public class GameScreen extends BaseScreen implements InputProcessor {
         rectPool = Pools.get(Rectangle.class);
         dustMotes = new Array<WindParticle>();
         clouds = new Array<Cloud>();
-//        loadLevel(0);
-        loadLevel(2);
+        loadLevel(0);
+//        loadLevel(2);
         updateCamera(1, true);
         Utils.glClearColor(Config.bgColor);
         Gdx.input.setInputProcessor(this);
@@ -315,8 +315,8 @@ public class GameScreen extends BaseScreen implements InputProcessor {
             }
         }
 
-        while (clouds.size < level.foregroundLayer.getHeight() / 3){
-            clouds.add(new Cloud(new Vector2(level.foregroundLayer.getWidth() * 32, MathUtils.random(level.foregroundLayer.getHeight()*32))));
+        while (clouds.size < level.foregroundLayer.getHeight() / 2){
+            clouds.add(new Cloud(new Vector2(level.foregroundLayer.getWidth() * 32 + MathUtils.random(200f), MathUtils.random(level.foregroundLayer.getHeight()*32))));
         }
     }
 
