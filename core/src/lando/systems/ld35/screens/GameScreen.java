@@ -456,8 +456,7 @@ public class GameScreen extends BaseScreen {
             if (obj instanceof Spikes) {
                 if (obj.collision(playerBalloon) != null) {
                     playerBalloon.kill(level);
-                    Statistics.endTime = TimeUtils.millis();
-                    Statistics.numDeaths++;
+
                 }
             }
             if (obj instanceof Door){

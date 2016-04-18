@@ -15,10 +15,12 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.TimeUtils;
 import lando.systems.ld35.screens.GameScreen;
 import lando.systems.ld35.utils.Assets;
 import lando.systems.ld35.utils.LevelBoundry;
 import lando.systems.ld35.utils.SoundManager;
+import lando.systems.ld35.utils.Statistics;
 
 /**
  * Created by Doug on 4/16/2016.
@@ -112,6 +114,8 @@ public class Balloon {
     public void kill(LevelInfo level) {
         if (currentState == State.POP || currentState == State.DEAD) return;
         currentState = State.POP;
+        Statistics.endTime = TimeUtils.millis();
+        Statistics.numDeaths++;
         SoundManager.playBalloonSound(currentState);
         currentAnimation = Assets.balloonToPopAnimation;
         Assets.particles.addExplosion(center, velocity);
