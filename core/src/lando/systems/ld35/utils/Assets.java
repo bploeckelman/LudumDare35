@@ -55,8 +55,9 @@ public class Assets {
     public static TextureRegion   buttonTexture;
     public static TextureRegion   hotairTexture;
     public static TextureRegion   titleTexture;
+    public static TextureRegion   mainMenuButtonTexture;
+    public static TextureRegion   levelResetButtonTexture;
     public static TextureRegion[] cloudTextures;
-
 
     public static NinePatch transparentNinepatch;
     public static NinePatch selectedNinepatch;
@@ -140,6 +141,8 @@ public class Assets {
         buttonTexture      = atlas.findRegion("button_level");
         hotairTexture      = atlas.findRegion("hotair_balloon");
         titleTexture       = new TextureRegion(mgr.get("title.png", Texture.class));
+        mainMenuButtonTexture = atlas.findRegion("button_level_select");
+        levelResetButtonTexture = atlas.findRegion("button_level_reset");
 
         cloudTextures = new TextureRegion[3];
         cloudTextures[0] = atlas.findRegion("cloud1");
@@ -218,6 +221,7 @@ public class Assets {
     }
 
     public static void setMaxLevelCompleted(int levelIndex) {
+        if (levelIndex < getMaxLevelCompleted()) return;
         Gdx.app.getPreferences(prefsName)
                .putInteger(prefMaxLevelCompleted, levelIndex)
                .flush();

@@ -23,6 +23,7 @@ import lando.systems.ld35.backgroundobjects.Bird;
 import lando.systems.ld35.backgroundobjects.Cloud;
 import lando.systems.ld35.backgroundobjects.HotairBalloon;
 import lando.systems.ld35.gameobjects.*;
+import lando.systems.ld35.ui.Button;
 import lando.systems.ld35.ui.StateButton;
 import lando.systems.ld35.utils.Assets;
 import lando.systems.ld35.utils.Config;
@@ -35,16 +36,18 @@ import lando.systems.ld35.utils.accessors.Vector2Accessor;
  */
 public class GameScreen extends BaseScreen {
 
-    LevelInfo level;
-    Balloon playerBalloon;
+    LevelInfo           level;
+    Balloon             playerBalloon;
     Array<WindParticle> dustMotes;
-    Array<Cloud> clouds;
-    Array<Bird> birds;
-    HotairBalloon hotairBalloon;
-    Array<StateButton> stateButtons;
-    Pool<Rectangle> rectPool;
-    Rectangle buttonTrayRect;
-    boolean pauseGame;
+    Array<Cloud>        clouds;
+    Array<Bird>         birds;
+    HotairBalloon       hotairBalloon;
+    Array<StateButton>  stateButtons;
+    Button              resetLevelButton;
+    Button              mainMenuButton;
+    Pool<Rectangle>     rectPool;
+    Rectangle           buttonTrayRect;
+    boolean             pauseGame;
 
     public GameScreen(int levelIndex) {
         super();
@@ -68,7 +71,7 @@ public class GameScreen extends BaseScreen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             LudumDare35.game.screen = new LevelSelectScreen();
         }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.P)){
+        if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
             pauseGame = !pauseGame;
         }
         updateCamera(dt, false);
@@ -76,7 +79,7 @@ public class GameScreen extends BaseScreen {
         updateBackgroundObjects(dt);
         level.update(dt);
 
-        if (pauseGame){ // Don't move the player or check for interactions
+        if (pauseGame) { // Don't move the player or check for interactions
             return;
         }
         playerBalloon.update(dt, level);
@@ -116,18 +119,31 @@ public class GameScreen extends BaseScreen {
             StateButton stateButton = stateButtons.get(i);
             if (stateButton.enabled) {
                 stateButton.render(batch);
-
-                batch.setShader(Assets.fontShader);
-                Assets.fontShader.setUniformf("u_scale", 0.45f);
-                Assets.font_round_32.getData().setScale(.45f);
-                Assets.font_round_32.setColor(stateButton.active ? Color.WHITE : Color.WHITE);
-                Assets.font_round_32.draw(batch, ""+Integer.toString(i+1),
-                                          stateButton.bounds.x + stateButton.bounds.width - 8f,
-                                          stateButton.bounds.y + stateButton.bounds.height - 3f);
-                batch.setShader(null);
             }
         }
+        mainMenuButton.render(batch);
+        resetLevelButton.render(batch);
+
+        batch.setShader(Assets.fontShader);
+        Assets.fontShader.setUniformf("u_scale", 0.45f);
+        Assets.font_round_32.getData().setScale(.45f);
+        for (int i = 0; i < stateButtons.size; ++i) {
+            StateButton stateButton = stateButtons.get(i);
+            if (stateButton.enabled) {
+                Assets.font_round_32.setColor(stateButton.active ? Color.WHITE : Color.WHITE);
+                Assets.font_round_32.draw(batch, Integer.toString(i + 1),
+                                          stateButton.bounds.x + stateButton.bounds.width - 8f,
+                                          stateButton.bounds.y + stateButton.bounds.height - 3f);
+            }
+        }
+        Assets.fontShader.setUniformf("u_scale", 0.75f);
+        Assets.font_round_32.getData().setScale(0.75f);
+        Assets.glyphLayout.setText(Assets.font_round_32, "Reset");
+        Assets.font_round_32.draw(batch, "Reset",
+                                  resetLevelButton.bounds.x + resetLevelButton.bounds.width / 2f - Assets.glyphLayout.width / 2f + 4f,
+                                  resetLevelButton.bounds.y + resetLevelButton.bounds.height - 7f);
         batch.end();
+        batch.setShader(null);
     }
 
     // ------------------------------------------------------------------------
@@ -142,8 +158,7 @@ public class GameScreen extends BaseScreen {
         touchPosScreen.set(touchPosUnproject.x, touchPosUnproject.y);
 
         if (playerBalloon.currentState == Balloon.State.POP ||
-            playerBalloon.currentState == Balloon.State.DEAD)
-        {
+            playerBalloon.currentState == Balloon.State.DEAD) {
             resetLevel();
             return false;
         }
@@ -163,6 +178,16 @@ public class GameScreen extends BaseScreen {
                     stateButton.active = false;
                 }
             }
+        }
+
+        if (mainMenuButton.checkForTouch(touchPosScreen.x, touchPosScreen.y)) {
+            LudumDare35.game.screen = new LevelSelectScreen();
+            return false;
+        }
+
+        if (resetLevelButton.checkForTouch(touchPosScreen.x, touchPosScreen.y)) {
+            resetLevel();
+            return false;
         }
 
         return false;
@@ -235,6 +260,9 @@ public class GameScreen extends BaseScreen {
         enableButtons();
 
         buttonTrayRect = new Rectangle(leftMargin - 10f, 0, width + 10, 52);
+
+        mainMenuButton = new Button(Assets.mainMenuButtonTexture, new Rectangle(padding, padding, 32, 32), false);
+        resetLevelButton = new Button(Assets.levelResetButtonTexture, new Rectangle(camera.viewportWidth - 100 - padding, padding, 100, 32), false);
    }
 
 

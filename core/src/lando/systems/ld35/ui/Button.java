@@ -16,11 +16,18 @@ public class Button {
     public final Rectangle     bounds;
 
     public boolean active;
+    public boolean drawNinePatch;
 
     public Button(TextureRegion region, Rectangle bounds) {
         this.region = region;
         this.bounds = new Rectangle(bounds);
         this.active = false;
+        this.drawNinePatch = true;
+    }
+
+    public Button(TextureRegion region, Rectangle bounds, boolean drawNinePatch) {
+        this(region, bounds);
+        this.drawNinePatch = drawNinePatch;
     }
 
     public boolean checkForTouch(float screenX, float screenY) {
@@ -28,8 +35,18 @@ public class Button {
     }
 
     public void render(SpriteBatch batch) {
-        if (active) Assets.selectedNinepatch.draw(batch, bounds.x - offset, bounds.y - offset, bounds.width + 2f * offset, bounds.height + 2f * offset);
-        else        Assets.transparentNinepatch.draw(batch, bounds.x - offset, bounds.y - offset, bounds.width + 2f * offset, bounds.height + 2f * offset);
+        if (drawNinePatch) {
+            if (active) Assets.selectedNinepatch.draw(batch,
+                                                      bounds.x - offset,
+                                                      bounds.y - offset,
+                                                      bounds.width + 2f * offset,
+                                                      bounds.height + 2f * offset);
+            else        Assets.transparentNinepatch.draw(batch,
+                                                      bounds.x - offset,
+                                                      bounds.y - offset,
+                                                      bounds.width + 2f * offset,
+                                                      bounds.height + 2f * offset);
+        }
         batch.draw(region, bounds.x, bounds.y, bounds.width, bounds.height);
     }
 
