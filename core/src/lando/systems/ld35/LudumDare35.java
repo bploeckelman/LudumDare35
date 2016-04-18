@@ -43,6 +43,7 @@ public class LudumDare35 extends ApplicationAdapter {
     public void render() {
         float dt = Math.min(Gdx.graphics.getDeltaTime(), 1f / 30f);
         Assets.tween.update(dt);
+        SoundManager.update(dt);
         screen.update(dt);
         screen.render(Assets.batch);
     }

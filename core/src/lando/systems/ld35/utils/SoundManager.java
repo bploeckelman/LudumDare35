@@ -1,6 +1,10 @@
 package lando.systems.ld35.utils;
 
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.equations.Sine;
+import aurelienribon.tweenengine.primitives.MutableFloat;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import lando.systems.ld35.gameobjects.Balloon;
 
@@ -35,6 +39,9 @@ public class SoundManager{
     private static HashMap<SoundOptions, Sound> soundMap = new HashMap<SoundOptions, Sound>();
     private static HashMap<MusicPieces, Sound> musicMap = new HashMap<MusicPieces, Sound>();
 
+    public static Music gameMusic;
+    public static MutableFloat musicVolume;
+
     public static void load() {
 
         soundMap.put(SoundOptions.Bounce, Gdx.audio.newSound(Gdx.files.internal("Sounds/bounce.mp3")));
@@ -49,8 +56,18 @@ public class SoundManager{
         soundMap.put(SoundOptions.Saw, Gdx.audio.newSound(Gdx.files.internal("Sounds/saw_trial.mp3")));
         soundMap.put(SoundOptions.Squeak, Gdx.audio.newSound(Gdx.files.internal("Sounds/squeek.mp3")));
         soundMap.put(SoundOptions.WeightDrop, Gdx.audio.newSound(Gdx.files.internal("Sounds/weight_dropped.mp3")));
+
+        musicVolume = new MutableFloat(0);
+        gameMusic = Gdx.audio.newMusic(Gdx.files.internal("Sounds/elevator.mp3"));
+        gameMusic.setLooping(true);
+//        gameMusic.play();
+        setMusicVolume(.3f);
     }
 
+
+    public static void update(float dt){
+        gameMusic.setVolume(musicVolume.floatValue());
+    }
     // -----------------------------------------------------------------------------------------------------------------
 
     public static void dispose() {
@@ -125,9 +142,11 @@ public class SoundManager{
     private static Sound currentLoopSound;
 
     public static void setMusicVolume(float level){
-        if (currentLoopSound != null){
-            currentLoopSound.setVolume(currentLoopID, level);
-        }
+        Assets.tween.killTarget(musicVolume);
+        Tween.to(musicVolume, 1, 4f)
+                .target(level)
+                .ease(Sine.IN)
+                .start(Assets.tween);
     }
 
     public static void playMusic(MusicOptions musicOption) {

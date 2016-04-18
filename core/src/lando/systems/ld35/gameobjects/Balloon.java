@@ -81,7 +81,7 @@ public class Balloon {
     }
 
     public void changeState(State state) {
-        SoundManager.playBalloonSound(currentState);
+        SoundManager.playBalloonSound(state);
         currentState = state;
 
         // Tween animation from 'previous' state to 'balloon'
@@ -110,6 +110,7 @@ public class Balloon {
     }
 
     public void kill(LevelInfo level) {
+        if (currentState == State.POP || currentState == State.DEAD) return;
         currentState = State.POP;
         SoundManager.playBalloonSound(currentState);
         currentAnimation = Assets.balloonToPopAnimation;
