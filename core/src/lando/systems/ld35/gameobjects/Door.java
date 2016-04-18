@@ -3,8 +3,10 @@ package lando.systems.ld35.gameobjects;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import lando.systems.ld35.utils.Assets;
 
 public class Door extends TriggerableEntity {
 
@@ -77,8 +79,11 @@ public class Door extends TriggerableEntity {
     // -----------------------------------------------------------------------------------------------------------------
 
     public void update(float dt) {
-
+        realWorldBounds.setWidth(Math.max(bounds.width, bounds.height) * MathUtils.cosDeg(rotation));
+        realWorldBounds.setHeight(Math.max(bounds.width, bounds.height) * MathUtils.sinDeg(rotation));
         float amountLeft = targetRotation - rotation;
+        if (amountLeft > 180) amountLeft -= 360;
+        if (amountLeft < -180) amountLeft += 360;
         if (amountLeft == 0 ) return;
 
         float dr = Math.signum(amountLeft) * MAX_ROTATION_SPEED * dt;
@@ -100,6 +105,8 @@ public class Door extends TriggerableEntity {
                 dimensions.x, dimensions.y,
                 1, 1, rotation
         );
+
+//        Assets.transparentNinepatch.draw(batch, realWorldBounds.x, realWorldBounds.y, realWorldBounds.width, realWorldBounds.height);
 //        batch.setColor(c);
     }
 
