@@ -89,7 +89,7 @@
     <property name="group" value="rope-group-1"/>
    </properties>
   </object>
-  <object id="32" type="door" gid="272" x="100" y="28" width="64" height="7" rotation="90">
+  <object id="32" type="door" gid="272" x="112" y="24" width="64" height="7" rotation="90">
    <properties>
     <property name="openRotation" type="float" value="0"/>
     <property name="triggeredByRopeGroup" value="rope-group-1"/>
