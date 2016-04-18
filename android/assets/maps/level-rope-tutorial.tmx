@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="26" height="30" tilewidth="32" tileheight="32" nextobjectid="84">
+ <tileset firstgid="1" name="basic" tilewidth="32" tileheight="32" tilecount="256" columns="16">
+  <image source="basic-tiles.png" width="512" height="512"/>
+ </tileset>
+ <tileset firstgid="257" name="objects" tilewidth="64" tileheight="64" tilecount="4" columns="0">
+  <tile id="1">
+   <image width="32" height="64" source="fan_0.png"/>
+  </tile>
+  <tile id="2">
+   <image width="32" height="32" source="spawn.png"/>
+  </tile>
+  <tile id="3">
+   <image width="32" height="32" source="exit.png"/>
+  </tile>
+  <tile id="9">
+   <image width="64" height="7" source="door.png"/>
+  </tile>
+ </tileset>
+ <layer name="background" width="26" height="30">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,85,0,0,101,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,85,0,0,101,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,85,0,0,101,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,85,0,0,101,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,85,0,0,101,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,56,57,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,72,73,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,46,47,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,85,62,63,101,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer name="foreground" width="26" height="30">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,4,66,67,68,69,5,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,17,0,0,0,0,17,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,33,0,0,0,0,33,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,49,0,0,0,0,49,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,65,0,0,0,0,65,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,17,0,0,0,0,17,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,33,0,0,0,0,33,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,49,0,0,0,0,49,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,65,0,0,0,0,65,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,17,0,0,0,0,17,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,33,0,0,0,0,33,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,49,0,0,0,0,49,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,65,0,0,0,0,65,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,17,0,0,0,0,17,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,33,0,0,0,0,33,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,49,0,0,0,0,49,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,65,0,0,0,0,65,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,17,0,0,0,0,17,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,33,0,0,0,0,33,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,49,0,0,0,0,49,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,65,0,0,0,0,65,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,17,0,0,0,0,17,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,33,0,0,0,0,33,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,49,0,0,0,0,49,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,65,0,0,0,0,65,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,17,0,0,0,0,17,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,33,0,0,0,0,33,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,49,0,0,0,0,49,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,65,0,0,0,0,65,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,3,66,67,68,69,2,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup name="objects" offsetx="0" offsety="1">
+  <object id="55" type="fan" gid="258" x="448" y="960" width="32" height="64" rotation="-90"/>
+  <object id="57" type="rope" gid="82" x="352" y="800" width="32" height="32">
+   <properties>
+    <property name="group" value="1"/>
+   </properties>
+  </object>
+  <object id="58" type="rope" gid="83" x="384" y="800" width="32" height="32">
+   <properties>
+    <property name="group" value="1"/>
+   </properties>
+  </object>
+  <object id="59" type="rope" gid="83" x="416" y="800" width="32" height="32">
+   <properties>
+    <property name="group" value="1"/>
+   </properties>
+  </object>
+  <object id="60" type="rope" gid="99" x="448" y="800" width="32" height="32">
+   <properties>
+    <property name="group" value="1"/>
+   </properties>
+  </object>
+  <object id="62" type="rope" gid="82" x="352" y="672" width="32" height="32">
+   <properties>
+    <property name="group" value="2"/>
+   </properties>
+  </object>
+  <object id="63" type="rope" gid="83" x="384" y="672" width="32" height="32">
+   <properties>
+    <property name="group" value="2"/>
+   </properties>
+  </object>
+  <object id="64" type="rope" gid="83" x="416" y="672" width="32" height="32">
+   <properties>
+    <property name="group" value="2"/>
+   </properties>
+  </object>
+  <object id="65" type="rope" gid="99" x="448" y="672" width="32" height="32">
+   <properties>
+    <property name="group" value="2"/>
+   </properties>
+  </object>
+  <object id="66" type="rope" gid="82" x="352" y="544" width="32" height="32">
+   <properties>
+    <property name="group" value="3"/>
+   </properties>
+  </object>
+  <object id="67" type="rope" gid="83" x="384" y="544" width="32" height="32">
+   <properties>
+    <property name="group" value="3"/>
+   </properties>
+  </object>
+  <object id="68" type="rope" gid="83" x="416" y="544" width="32" height="32">
+   <properties>
+    <property name="group" value="3"/>
+   </properties>
+  </object>
+  <object id="69" type="rope" gid="99" x="448" y="544" width="32" height="32">
+   <properties>
+    <property name="group" value="3"/>
+   </properties>
+  </object>
+  <object id="70" type="rope" gid="82" x="352" y="416" width="32" height="32">
+   <properties>
+    <property name="group" value="4"/>
+   </properties>
+  </object>
+  <object id="71" type="rope" gid="83" x="384" y="416" width="32" height="32">
+   <properties>
+    <property name="group" value="4"/>
+   </properties>
+  </object>
+  <object id="72" type="rope" gid="83" x="416" y="416" width="32" height="32">
+   <properties>
+    <property name="group" value="4"/>
+   </properties>
+  </object>
+  <object id="73" type="rope" gid="99" x="448" y="416" width="32" height="32">
+   <properties>
+    <property name="group" value="4"/>
+   </properties>
+  </object>
+  <object id="74" type="rope" gid="82" x="352" y="288" width="32" height="32">
+   <properties>
+    <property name="group" value="5"/>
+   </properties>
+  </object>
+  <object id="75" type="rope" gid="83" x="384" y="288" width="32" height="32">
+   <properties>
+    <property name="group" value="5"/>
+   </properties>
+  </object>
+  <object id="76" type="rope" gid="83" x="416" y="288" width="32" height="32">
+   <properties>
+    <property name="group" value="5"/>
+   </properties>
+  </object>
+  <object id="77" type="rope" gid="99" x="448" y="288" width="32" height="32">
+   <properties>
+    <property name="group" value="5"/>
+   </properties>
+  </object>
+  <object id="78" type="rope" gid="82" x="352" y="160" width="32" height="32">
+   <properties>
+    <property name="group" value="6"/>
+   </properties>
+  </object>
+  <object id="79" type="rope" gid="83" x="384" y="160" width="32" height="32">
+   <properties>
+    <property name="group" value="6"/>
+   </properties>
+  </object>
+  <object id="80" type="rope" gid="83" x="416" y="160" width="32" height="32">
+   <properties>
+    <property name="group" value="6"/>
+   </properties>
+  </object>
+  <object id="81" type="rope" gid="99" x="448" y="160" width="32" height="32">
+   <properties>
+    <property name="group" value="6"/>
+   </properties>
+  </object>
+  <object id="82" type="spawn" gid="259" x="400" y="881" width="32" height="32"/>
+  <object id="83" type="exit" gid="260" x="400" y="81" width="32" height="32"/>
+ </objectgroup>
+</map>

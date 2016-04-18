@@ -251,6 +251,11 @@ public class LevelInfo {
                             ropeGroups.put(groupName, group);
                         }
                         group.add(levelRope);
+
+                        Array<TriggerableEntity> triggerableEntities = triggeredByRopeGroup.get(groupName);
+                        if (triggerableEntities == null) {
+                            triggeredByRopeGroup.put(groupName, new Array<TriggerableEntity>());
+                        }
                     }
                     mapObjects.add(levelRope);
             }
