@@ -62,7 +62,7 @@ public class SoundManager{
         musicVolume = new MutableFloat(0);
         gameMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/elevator.mp3"));
         gameMusic.setLooping(true);
-//        gameMusic.play();
+        gameMusic.play();
         setMusicVolume(.3f);
     }
 
