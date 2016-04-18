@@ -223,16 +223,7 @@ public class Balloon {
                 }
 
             }
-            for (int i = 0; i < intersectMap.length;i++){
-                if (intersectMap[i]){
-                    collided = true;
-                    int x = 16 - (i % 32);
-                    int y = 16 - (i / 32);
-                    if (x <= 0) x--;
-                    if (y <= 0) y--;
-                    massOfCollision.add(x, y);
-                }
-            }
+
         }
 
         // Collide with map Objects
@@ -246,16 +237,7 @@ public class Balloon {
                     continue;
                 }
 
-                Rectangle ropeIntersection = obj.collision(this);
-                if (ropeIntersection != null) {
-                    collided = true;
-                    if (ropeIntersection.width > ropeIntersection.height){
-                        massOfCollision.add(Math.signum(velocity.x) * 30, Math.signum(velocity.y) * -300);
-                    } else {
-                        massOfCollision.add(Math.signum(velocity.x) * -300, Math.signum(velocity.y) * 30);
-                    }
-                }
-
+                obj.collisionMap(this, intersectMap);
                 continue;
             }
 
@@ -266,6 +248,17 @@ public class Balloon {
                 } else {
                     massOfCollision.add(Math.signum(velocity.x) * -300, Math.signum(velocity.y) * 30);
                 }
+            }
+        }
+
+        for (int i = 0; i < intersectMap.length;i++){
+            if (intersectMap[i]){
+                collided = true;
+                int x = 16 - (i % 32);
+                int y = 16 - (i / 32);
+                if (x <= 0) x--;
+                if (y <= 0) y--;
+                massOfCollision.add(x, y);
             }
         }
 

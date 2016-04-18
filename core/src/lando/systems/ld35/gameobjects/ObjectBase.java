@@ -58,13 +58,41 @@ public abstract class ObjectBase {
                         int index = (int)( intersectorRectangle.x - bounds.x) + x + (int)(intersectorRectangle.y - bounds.y + y) * 32;
                         if((pix & 0xFF) != 0x00) {
                             return intersectorRectangle;
-                        };
+                        }
                     }
                 }
             }
         }
 
         return null;
+    }
+
+    public boolean collisionMap(Balloon balloon, boolean[] intersectMap) {
+        boolean collides = false;
+        if (texturePixmap != null && balloon.bounds.overlaps(bounds)) {
+            if (Intersector.intersectRectangles(bounds, balloon.bounds, intersectorRectangle)){
+                Rectangle textureArea = new Rectangle(intersectorRectangle.x - bounds.x + keyframe.getRegionX(),
+                        intersectorRectangle.y - bounds.y + keyframe.getRegionY(),
+                        intersectorRectangle.width, intersectorRectangle.height);
+
+                int regionY = keyframe.getRegionY();
+                // This may need to be <=
+                for (int x = 0; x < textureArea.width; x++){
+                    for (int y = 0; y <  textureArea.height; y++){
+                        int texX = x + (int)textureArea.x;
+                        int texY = 31 - (int)(y + intersectorRectangle.y - bounds.y) + regionY;
+                        int pix = texturePixmap.getPixel(texX, texY);
+                        int index = (int)( intersectorRectangle.x - bounds.x) + x + (int)(intersectorRectangle.y - bounds.y + y) * 32;
+                        if((pix & 0xFF) != 0x00) {
+                            collides = true;
+                            intersectMap[index] = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        return collides;
     }
 
     public void render(SpriteBatch batch) {
