@@ -193,9 +193,9 @@ public class LevelInfo {
                     break;
                 case door:
                     String ropeGroupName = (String) props.get("triggeredByRopeGroup");
-                    Float openedRotation = (Float) props.get("openedRotation");
+                    float openedRotation = Float.parseFloat((String)props.get("openRotation"));
                     // If not set just use starting rotation.  Otherwise reverse it from Tiled.
-                    openedRotation = openedRotation == null ? rotation : openedRotation * -1;
+                    openedRotation *= -1;
                     Door door = new Door(
                             new Rectangle(x, y, w, h),
                             rotation,
