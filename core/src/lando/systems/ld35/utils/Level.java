@@ -4,15 +4,15 @@ import com.badlogic.gdx.math.Vector2;
 
 public enum Level {
 
-    ZERO  ("maps/level0.tmx",       32, 64, new boolean[] {true, false, false, false, false, false}),
-    ONE   ("maps/level1.tmx",       32, 64, new boolean[] {true,  true,  true, false, false, false}),
-    ANVILROCKETTEST   ("maps/level-rocket-anvil-medium.tmx",       32, 64, new boolean[] {true,  true,  true, false, false, false}),
-    L4x1  ("maps/level-4-1.tmx",    32, 64, new boolean[] {true,  true,  true,  true, false, false}),
-    L5x1  ("maps/level-5-1.tmx",    32, 64, new boolean[] {true,  true,  true,  true,  true, false}),
-    FOUR  ("maps/level_door_tutorial.tmx",       32, 64, new boolean[] {true,  true,  true,  true,  true,  true}),
-    FIVE  ("maps/level4.tmx",       32, 64, new boolean[] {true,  true,  true,  true,  true,  true}),
-    ROPE_TUTORIAL ("maps/level-rope-tutorial.tmx", 32, 64, new boolean[] {true,  true,  true,  true,  true,  true}),
-    ALT_SPIKES ("maps/level-alternate-spikes.tmx", 32, 64, new boolean[] {true,  true,  true,  true,  true,  true});
+    INTRODUCTION     ("maps/level-intro.tmx", 32, 64,               new boolean[] {true, false, false, false, false, false}),
+    ROCKETANVIL_EASY ("maps/level-rocket-anvil-easy.tmx", 32, 64,   new boolean[] {true,  true,  true, false, false, false}),
+    ROCKETANVIL_MED  ("maps/level-rocket-anvil-medium.tmx", 32, 64, new boolean[] {true,  true,  true, false, false, false}),
+    TORUS_MED        ("maps/level-torus-medium.tmx", 32, 64,        new boolean[] {true,  true,  true,  true, false, false}),
+    MAGNET_EASY      ("maps/level-magnet-easy.tmx", 32, 64,         new boolean[] {true,  true,  true,  true, false, false}),
+    MAGNET_TORUS_HARD("maps/level-magnet-torus-hard.tmx", 32, 64,   new boolean[] {true,  true,  true,  true,  true,  true}),
+    ROPE_TUTORIAL    ("maps/level-rope-tutorial.tmx", 32, 64,       new boolean[] {true,  true,  true,  true,  true,  true}),
+    DOOR_TUTORIAL    ("maps/level_door_tutorial.tmx", 32, 64,       new boolean[] {true,  true,  true,  true,  true,  true}),
+    SPIKES_HARD      ("maps/level-spikes-hard.tmx", 32, 64,         new boolean[] {true,  true,  true,  true,  true,  true});
 
     public String mapName;
     public float startX;
