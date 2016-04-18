@@ -9,6 +9,7 @@ import aurelienribon.tweenengine.primitives.MutableFloat;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -23,6 +24,7 @@ public class LevelButton extends Button {
 
     public final int          levelId;
     public       MutableFloat alpha;
+    public       MutableFloat angle;
     public       Color        color;
 
     private final String  levelIdString;
@@ -36,6 +38,7 @@ public class LevelButton extends Button {
         super(Assets.buttonTexture, bounds);
         this.levelId = levelId;
         this.alpha = new MutableFloat(0f);
+        this.angle = new MutableFloat(MathUtils.random(-5f, 5f));
         this.color = new Color(1f, 1f, 1f, 1f);
         this.levelIdString = Integer.toString(levelId + 1);
         this.accum = new Vector2(MathUtils.random(0.1f, 1f),
@@ -50,41 +53,47 @@ public class LevelButton extends Button {
         final Color newColor = new Color();
         if (levelId <= Assets.getMaxLevelCompleted()) newColor.set(237f / 255f, 28f / 255f, 36f / 255f, 1f);  // game balloon red
         else                                          newColor.set(18f / 255f, 227f / 255f, 119f / 255f, 1f); // greenish, sorta
+        Tween.to(angle, -1, MathUtils.random(1f, 1.5f))
+             .target(-1f * angle.floatValue())
+             .repeatYoyo(-1, 0f)
+             .start(Assets.tween);
         Timeline.createSequence()
-                .push(Tween.to(this.bounds, RectangleAccessor.Y, 1.5f)
+                .push(Tween.to(this.bounds, RectangleAccessor.Y, 1.2f)
                            .target(bounds.y)
                            .ease(Bounce.OUT)
-                           .delay(levelId * 0.2f)
+                           .delay(levelId * 0.3f)
                            .setCallback(new TweenCallback() {
                                @Override
                                public void onEvent(int type, BaseTween<?> source) {
                                    drawText = true;
                                }
                            }))
-                .push(Tween.to(this.color, ColorAccessor.RGB, .4f)
+                .push(Tween.to(this.color, ColorAccessor.RGB, 0.3f)
                            .target(newColor.r, newColor.g, newColor.b)
-                           .setCallback(new TweenCallback() {
-                               @Override
-                               public void onEvent(int type, BaseTween<?> source) {
-                                   settled = true;
-                               }
-                           }))
+                           .delay(levelId * 0.1f))
                 .start(Assets.tween);
 
     }
 
     public void update(float dt) {
-        if (settled) {
-            accum.add(dt, dt);
-            floatOffset.set(MathUtils.cos(accum.x * 2f) * 1.5f,
-                            MathUtils.sin(accum.y * 5f) * 2.0f);
-        }
+        accum.add(dt, dt);
+        floatOffset.set(MathUtils.cos(accum.x * 2f) * 1.5f,
+                        MathUtils.sin(accum.y * 5f) * 2.0f);
     }
 
     @Override
     public void render(SpriteBatch batch) {
         batch.setColor(color);
-        batch.draw(region, bounds.x + floatOffset.x, bounds.y + floatOffset.y, bounds.width, bounds.height);
+        batch.draw(region,
+                   bounds.x + floatOffset.x,
+                   bounds.y + floatOffset.y,
+                   bounds.width / 2f,
+                   bounds.height / 2f,
+                   bounds.width,
+                   bounds.height,
+                   1f,
+                   1f,
+                   angle.floatValue());
         batch.setColor(1f, 1f, 1f, 1f);
     }
 
