@@ -19,7 +19,7 @@ public class Button {
 
     public Button(TextureRegion region, Rectangle bounds) {
         this.region = region;
-        this.bounds = bounds;
+        this.bounds = new Rectangle(bounds);
         this.active = false;
     }
 

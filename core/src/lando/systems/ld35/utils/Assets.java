@@ -3,6 +3,7 @@ package lando.systems.ld35.utils;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenManager;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.TextureLoader;
 import com.badlogic.gdx.files.FileHandle;
@@ -74,6 +75,10 @@ public class Assets {
     public static Animation netAnimation;
     public static Animation fanAnimation;
 
+    public static String prefsName;
+    public static String prefMaxLevelCompleted;
+    public static int maxLevelCompleted;
+
     public static boolean initialized;
 
     public static void load() {
@@ -86,6 +91,9 @@ public class Assets {
             Tween.registerAccessor(Vector3.class, new Vector3Accessor());
             Tween.registerAccessor(OrthographicCamera.class, new CameraAccessor());
         }
+
+        prefsName = "shift-n-drift";
+        prefMaxLevelCompleted = "maxLevelCompleted";
 
         glyphLayout = new GlyphLayout();
         font = new BitmapFont();
@@ -101,6 +109,12 @@ public class Assets {
 
         mgr = new AssetManager();
         mgr.load("title.png", Texture.class);
+
+        Preferences prefs = Gdx.app.getPreferences(Assets.prefsName);
+        if (prefs.getInteger(prefMaxLevelCompleted, -999) == -999) {
+            prefs.putInteger(prefMaxLevelCompleted, -1);
+        }
+        prefs.flush();
 
         initialized = false;
     }
@@ -197,6 +211,16 @@ public class Assets {
         font_round_32.draw(batch, text, x, y);
         font_round_32.getData().setScale(1f);
         batch.setShader(null);
+    }
+
+    public static int getMaxLevelCompleted() {
+        return Gdx.app.getPreferences(prefsName).getInteger(prefMaxLevelCompleted);
+    }
+
+    public static void setMaxLevelCompleted(int levelIndex) {
+        Gdx.app.getPreferences(prefsName)
+               .putInteger(prefMaxLevelCompleted, levelIndex)
+               .flush();
     }
 
 }

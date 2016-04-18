@@ -1,8 +1,5 @@
 package lando.systems.ld35.screens;
 
-import aurelienribon.tweenengine.BaseTween;
-import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.TweenCallback;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
@@ -15,7 +12,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.ld35.LudumDare35;
-import lando.systems.ld35.ui.Button;
 import lando.systems.ld35.ui.LevelButton;
 import lando.systems.ld35.utils.Assets;
 import lando.systems.ld35.utils.Config;
@@ -27,57 +23,44 @@ import lando.systems.ld35.utils.Utils;
  */
 public class LevelSelectScreen extends BaseScreen {
 
-    int                numLevels;
+    int                maxLevelCompleted;
     Array<LevelButton> buttons;
     GlyphLayout        layout;
     BitmapFont         font;
 
     public LevelSelectScreen() {
-        numLevels = Level.values().length;
+        maxLevelCompleted = Math.min(Assets.getMaxLevelCompleted() + 1, Level.values().length);
         layout = new GlyphLayout();
         font = Assets.font_round_32;
         Utils.glClearColor(Config.bgColor);
         Gdx.input.setInputProcessor(this);
 
         int buttonsWide = 1;
-        while (buttonsWide * buttonsWide < numLevels) {
+        while (buttonsWide * buttonsWide <= maxLevelCompleted) {
             buttonsWide++;
         }
 
         float marginTop = 80f; // Change if title text scale changes
         float marginBottom = 20f;
-        float buttonWidth = Math.min(hudCamera.viewportWidth / buttonsWide,
-                                     (hudCamera.viewportHeight - marginBottom - marginTop) / buttonsWide);
+        float buttonSize = Math.min(hudCamera.viewportWidth / buttonsWide,
+                                    (hudCamera.viewportHeight - marginBottom - marginTop) / buttonsWide);
         final Rectangle buttonRegionBounds = new Rectangle(
-                hudCamera.viewportWidth / 2f - (buttonsWide * buttonWidth) / 2f,
+                hudCamera.viewportWidth / 2f - (buttonsWide * buttonSize) / 2f,
                 marginBottom,
-                buttonsWide * buttonWidth,
+                buttonsWide * buttonSize,
                 hudCamera.viewportHeight - marginBottom - marginTop);
 
         int levelIndex = 0;
         buttons = new Array<LevelButton>();
         for (int y = buttonsWide - 1; y >= 0; --y) {
             for (int x = 0; x < buttonsWide; ++x) {
-                if (levelIndex >= numLevels) break;
+                if (levelIndex >  maxLevelCompleted || levelIndex >= Level.values().length) break;
 
-                final LevelButton levelButton = new LevelButton(levelIndex,
-                        new Rectangle(buttonRegionBounds.x + x * buttonWidth,
-                                      buttonRegionBounds.y + y * buttonWidth,
-                                      buttonWidth,
-                                      buttonWidth));
-                buttons.add(levelButton);
-
-                Tween.to(buttons.get(levelIndex).alpha, -1, 0.3f)
-                        .target(1f)
-                        .delay(levelIndex * 0.2f)
-                        .setCallback(new TweenCallback() {
-                            @Override
-                            public void onEvent(int type, BaseTween<?> source) {
-                                levelButton.drawText = true;
-                            }
-                        })
-                        .start(Assets.tween);
-
+                buttons.add(new LevelButton(levelIndex,
+                        new Rectangle(buttonRegionBounds.x + x * buttonSize,
+                                      buttonRegionBounds.y + y * buttonSize,
+                                      buttonSize,
+                                      buttonSize)));
                 levelIndex++;
             }
         }

@@ -345,6 +345,7 @@ public class GameScreen extends BaseScreen {
                                 @Override
                                 public void onEvent(int i, BaseTween<?> baseTween) {
                                     dustMotes.clear();
+                                    Assets.setMaxLevelCompleted(level.levelIndex);
                                     level.nextLevel();
                                     enableButtons();
                                     playerBalloon = new Balloon(level.details.getStart(), GameScreen.this);
