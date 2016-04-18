@@ -11,7 +11,8 @@ public enum Level {
     L5x1  ("maps/level-5-1.tmx",    32, 64, new boolean[] {true,  true,  true,  true,  true, false}),
     FOUR  ("maps/level_door_tutorial.tmx",       32, 64, new boolean[] {true,  true,  true,  true,  true,  true}),
     FIVE  ("maps/level4.tmx",       32, 64, new boolean[] {true,  true,  true,  true,  true,  true}),
-    ROPE_TUTORIAL ("maps/level-rope-tutorial.tmx", 32, 64, new boolean[] {true,  true,  true,  true,  true,  true});
+    ROPE_TUTORIAL ("maps/level-rope-tutorial.tmx", 32, 64, new boolean[] {true,  true,  true,  true,  true,  true}),
+    ALT_SPIKES ("maps/level-alternate-spikes.tmx", 32, 64, new boolean[] {true,  true,  true,  true,  true,  true});
 
     public String mapName;
     public float startX;
