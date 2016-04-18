@@ -27,7 +27,6 @@ public class LevelButton extends Button {
     public       MutableFloat alpha;
     public       MutableFloat angle;
     public       Color        color;
-    public       Rectangle    textBounds;
 
     private final String  levelIdString;
     private       Vector2 accum;
@@ -35,6 +34,7 @@ public class LevelButton extends Button {
     private       Vector2 textPos;
     private       boolean settled;
     private       boolean drawText;
+    GlyphLayout layout;
 
     public LevelButton(int levelId, Rectangle bounds) {
         super(Assets.buttonTexture, bounds);
@@ -46,12 +46,11 @@ public class LevelButton extends Button {
         this.accum = new Vector2(MathUtils.random(0.1f, 1f),
                                  MathUtils.random(0.1f, 1f));
         this.floatOffset = new Vector2();
-        final GlyphLayout layout = new GlyphLayout(Assets.font_round_32, levelIdString);
-        this.textPos = new Vector2(bounds.x + (bounds.width / 2f - layout.width / 2f),
-                                   bounds.y + (bounds.height / 2f) + (layout.height / 2f) + 15f);
+        this.layout = new GlyphLayout(Assets.font_round_32, levelIdString);
+        this.textPos = new Vector2(bounds.x + (bounds.width / 2f),
+                                   bounds.y + ((bounds.height) / 1.7f));
         this.settled = false;
         this.drawText = false;
-//        textBounds = new Rectangle()
         this.bounds.y = -200f;
         final Color newColor = new Color();
         if (levelId <= Assets.getMaxLevelCompleted()) newColor.set(Config.balloonColor);  // game balloon red
@@ -102,7 +101,15 @@ public class LevelButton extends Button {
 
     public void renderText(SpriteBatch batch) {
         if (!drawText) return;
-        Assets.font_round_32.draw(batch, levelIdString, textPos.x + floatOffset.x, textPos.y + floatOffset.y);
+        Assets.font_round_32.getData().setScale(1);
+        layout.setText(Assets.font_round_32, levelIdString);
+        float scale = (bounds.width/3)/ layout.width;
+        Assets.font_round_32.getData().setScale(scale);
+        layout.setText(Assets.font_round_32, levelIdString);
+        Assets.fontShader.setUniformf("u_scale",scale);
+
+        Assets.font_round_32.draw(batch, levelIdString, textPos.x + floatOffset.x - (layout.width/3), textPos.y + floatOffset.y + layout.height/2f);
+        Assets.font_round_32.getData().setScale(1);
     }
 
 }
