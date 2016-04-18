@@ -29,28 +29,29 @@ public class Assets {
 
     public static AssetManager mgr;
 
-    public static TweenManager tween;
-    public static GlyphLayout  glyphLayout;
-    public static SpriteBatch  batch;
-    public static BitmapFont   font;
+    public static TweenManager  tween;
+    public static GlyphLayout   glyphLayout;
+    public static SpriteBatch   batch;
+    public static BitmapFont    font;
     public static BitmapFont    font_round_32;
     public static ShaderProgram fontShader;
     public static ShaderProgram fontNoShadowShader;
 
     public static TextureAtlas atlas;
 
-    public static TextureRegion whitePixelTexture;
-    public static TextureRegion whiteCircleTexture;
-    public static TextureRegion testTexture;
-    public static TextureRegion balloonTexture;
-    public static TextureRegion rocketTexture;
-    public static TextureRegion weightTexture;
-    public static TextureRegion torusTexture;
-    public static TextureRegion magnetTexture;
-    public static TextureRegion buzzsawTexture;
-    public static TextureRegion deadTexture;
-    public static TextureRegion spikesTexture;
-    public static TextureRegion moteTexture;
+    public static TextureRegion   whitePixelTexture;
+    public static TextureRegion   whiteCircleTexture;
+    public static TextureRegion   testTexture;
+    public static TextureRegion   balloonTexture;
+    public static TextureRegion   rocketTexture;
+    public static TextureRegion   weightTexture;
+    public static TextureRegion   torusTexture;
+    public static TextureRegion   magnetTexture;
+    public static TextureRegion   buzzsawTexture;
+    public static TextureRegion   deadTexture;
+    public static TextureRegion   spikesTexture;
+    public static TextureRegion   moteTexture;
+    public static TextureRegion   buttonTexture;
     public static TextureRegion[] cloudTextures;
 
 
@@ -105,7 +106,6 @@ public class Assets {
         initialized = true;
         batch = new SpriteBatch();
 
-
         testTexture        = atlas.findRegion("badlogic");
         whitePixelTexture  = atlas.findRegion("white-pixel");
         whiteCircleTexture = atlas.findRegion("white-circle");
@@ -118,6 +118,7 @@ public class Assets {
         deadTexture        = atlas.findRegion("balloon_pop", 3);
         spikesTexture      = atlas.findRegion("spikes");
         moteTexture        = atlas.findRegion("mote");
+        buttonTexture      = atlas.findRegion("button_level");
 
         cloudTextures = new TextureRegion[3];
         cloudTextures[0] = atlas.findRegion("cloud1");

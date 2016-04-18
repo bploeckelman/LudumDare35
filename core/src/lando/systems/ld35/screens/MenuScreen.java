@@ -25,7 +25,7 @@ public class MenuScreen extends BaseScreen {
         }
 
        if (Gdx.input.justTouched()){
-           LudumDare35.game.screen = new GameScreen();
+           LudumDare35.game.screen = new LevelSelectScreen();
        }
     }
 
@@ -36,7 +36,7 @@ public class MenuScreen extends BaseScreen {
 
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        Assets.drawString(batch, "Balloon Mania", 200, 300, Color.WHITE, 1);
+        Assets.drawString(batch, "Shift 'n Drift", 200, 300, Color.RED, 1);
         batch.end();
     }
 

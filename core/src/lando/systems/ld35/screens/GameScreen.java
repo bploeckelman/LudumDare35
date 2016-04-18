@@ -8,7 +8,6 @@ import aurelienribon.tweenengine.equations.Elastic;
 import aurelienribon.tweenengine.equations.Quad;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -31,7 +30,7 @@ import lando.systems.ld35.utils.accessors.Vector2Accessor;
 /**
  * Brian Ploeckelman created on 4/16/2016.
  */
-public class GameScreen extends BaseScreen implements InputProcessor {
+public class GameScreen extends BaseScreen {
 
     LevelInfo level;
     Balloon playerBalloon;
@@ -42,14 +41,13 @@ public class GameScreen extends BaseScreen implements InputProcessor {
     Rectangle buttonTrayRect;
     boolean pauseGame;
 
-    public GameScreen() {
+    public GameScreen(int levelIndex) {
         super();
         pauseGame = false;
         rectPool = Pools.get(Rectangle.class);
         dustMotes = new Array<WindParticle>();
         clouds = new Array<Cloud>();
-        loadLevel(0);
-//        loadLevel(2);
+        loadLevel(levelIndex);
         updateCamera(1, true);
         Utils.glClearColor(Config.bgColor);
         Gdx.input.setInputProcessor(this);
@@ -62,7 +60,7 @@ public class GameScreen extends BaseScreen implements InputProcessor {
     @Override
     public void update(float dt) {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-            LudumDare35.game.screen = new MenuScreen();
+            LudumDare35.game.screen = new LevelSelectScreen();
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.P)){
             pauseGame = !pauseGame;
@@ -159,28 +157,8 @@ public class GameScreen extends BaseScreen implements InputProcessor {
     }
 
     @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return false;
-    }
-
-    @Override
     public boolean keyDown(int keycode) {
         handleHotkeys(keycode);
-        return false;
-    }
-
-    @Override
-    public boolean keyUp(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyTyped(char character) {
         return false;
     }
 
@@ -203,11 +181,6 @@ public class GameScreen extends BaseScreen implements InputProcessor {
 //                Gdx.app.log("Touch", pix+"");
 //            }
 //        }
-        return false;
-    }
-
-    @Override
-    public boolean scrolled(int amount) {
         return false;
     }
 
