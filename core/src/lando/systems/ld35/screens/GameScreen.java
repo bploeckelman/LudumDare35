@@ -37,18 +37,18 @@ public class GameScreen extends BaseScreen implements InputProcessor {
     LevelInfo level;
     Balloon playerBalloon;
     Array<WindParticle> dustMotes;
+    Array<Cloud> clouds;
     Array<StateButton> stateButtons;
     Pool<Rectangle> rectPool;
     Rectangle buttonTrayRect;
     boolean pauseGame;
-    MutableFloat cameraZoomLevel;
 
     public GameScreen() {
         super();
-        cameraZoomLevel = new MutableFloat(1);
         pauseGame = false;
         rectPool = Pools.get(Rectangle.class);
         dustMotes = new Array<WindParticle>();
+        clouds = new Array<Cloud>();
         loadLevel(0);
         updateCamera(1, true);
         Utils.glClearColor(Config.bgColor);
@@ -69,6 +69,7 @@ public class GameScreen extends BaseScreen implements InputProcessor {
         }
         updateCamera(dt, false);
         updateDust(dt);
+        updateClouds(dt);
         level.update(dt);
 
         if (pauseGame){ // Don't move the player or check for interactions
@@ -87,6 +88,9 @@ public class GameScreen extends BaseScreen implements InputProcessor {
         batch.setProjectionMatrix(camera.combined);
 
         batch.begin();
+        for (Cloud c : clouds){
+            c.render(batch, camera);
+        }
 
         level.renderBackground();
         for (WindParticle mote : dustMotes){
@@ -299,6 +303,20 @@ public class GameScreen extends BaseScreen implements InputProcessor {
                 dustMotes.removeIndex(i);
 
             }
+        }
+    }
+
+    private void updateClouds(float dt){
+        for (int i = clouds.size -1; i >= 0; i--){
+            Cloud c = clouds.get(i);
+            c.update(dt, level);
+            if (!c.alive){
+                clouds.removeIndex(i);
+            }
+        }
+
+        while (clouds.size < level.foregroundLayer.getHeight() / 3){
+            clouds.add(new Cloud(new Vector2(level.foregroundLayer.getWidth() * 32, MathUtils.random(level.foregroundLayer.getHeight()*32))));
         }
     }
 

@@ -51,6 +51,8 @@ public class Assets {
     public static TextureRegion deadTexture;
     public static TextureRegion spikesTexture;
     public static TextureRegion moteTexture;
+    public static TextureRegion[] cloudTextures;
+
 
     public static NinePatch transparentNinepatch;
     public static NinePatch selectedNinepatch;
@@ -116,6 +118,11 @@ public class Assets {
         deadTexture        = atlas.findRegion("balloon_pop", 3);
         spikesTexture      = atlas.findRegion("spikes");
         moteTexture        = atlas.findRegion("mote");
+
+        cloudTextures = new TextureRegion[3];
+        cloudTextures[0] = atlas.findRegion("cloud1");
+        cloudTextures[1] = atlas.findRegion("cloud2");
+        cloudTextures[2] = atlas.findRegion("cloud3");
 
         balloonToBalloonAnimation = new Animation(.2f, balloonTexture, balloonTexture);
         balloonToRocketAnimation  = new Animation(.2f, atlas.findRegions("balloon_to_rocket"));
