@@ -43,7 +43,6 @@ public class Fan extends ForceEntity {
     public void update(float delta) {
         timer += delta;
         keyframe = animation.getKeyFrame(timer);
-        calcWindField();
     }
 
     @Override

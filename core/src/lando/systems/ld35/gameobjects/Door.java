@@ -31,6 +31,7 @@ public class Door extends TriggerableEntity {
     private State state;
     private float rotation;
     private TextureRegion textureRegion;
+    public boolean updateWindField;
 
     // -----------------------------------------------------------------------------------------------------------------
 
@@ -41,6 +42,7 @@ public class Door extends TriggerableEntity {
         this.closedRotation = closedRotation;
         this.openedRotation = openedRotation;
         this.textureRegion = textureRegion;
+        updateWindField = false;
         //
 
 //        this.rotationOrigin = new Vector2(bounds)
@@ -98,6 +100,7 @@ public class Door extends TriggerableEntity {
         float dr = Math.signum(amountLeft) * MAX_ROTATION_SPEED * dt;
         if (Math.abs(dr) > Math.abs(amountLeft)){
             rotation = targetRotation;
+            updateWindField = true;
         } else {
             rotation += dr;
         }

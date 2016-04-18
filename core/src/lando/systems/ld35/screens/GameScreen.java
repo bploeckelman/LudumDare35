@@ -48,6 +48,7 @@ public class GameScreen extends BaseScreen {
     Pool<Rectangle>     rectPool;
     Rectangle           buttonTrayRect;
     boolean             pauseGame;
+    boolean             updateWindField;
 
     public GameScreen(int levelIndex) {
         super();
@@ -60,6 +61,7 @@ public class GameScreen extends BaseScreen {
         updateCamera(1, true);
         Utils.glClearColor(Config.bgColor);
         Gdx.input.setInputProcessor(this);
+        updateWindField = true;
     }
 
     // ------------------------------------------------------------------------
@@ -74,6 +76,7 @@ public class GameScreen extends BaseScreen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
             pauseGame = !pauseGame;
         }
+
         updateCamera(dt, false);
         updateDust(dt);
         updateBackgroundObjects(dt);
@@ -85,6 +88,7 @@ public class GameScreen extends BaseScreen {
         playerBalloon.update(dt, level);
 
         updateMapObjects(dt);
+        updateWinds();
     }
 
     @Override
@@ -354,6 +358,18 @@ public class GameScreen extends BaseScreen {
         }
     }
 
+    private void updateWinds(){
+        if (updateWindField){
+            updateWindField = false;
+            for (int i = 0; i < level.mapObjects.size; i++ ){
+                if (level.mapObjects.get(i) instanceof Fan){
+                    Fan f = (Fan) level.mapObjects.get(i);
+                    f.calcWindField();
+                }
+            }
+        }
+    }
+
     private void updateMapObjects(float dt) {
         for (ObjectBase obj : level.mapObjects) {
             // Interact with level exit
@@ -406,6 +422,13 @@ public class GameScreen extends BaseScreen {
             if (obj instanceof Spikes) {
                 if (obj.collision(playerBalloon) != null) {
                     playerBalloon.kill(level);
+                }
+            }
+            if (obj instanceof Door){
+                Door d = (Door) obj;
+                if (d.updateWindField){
+                    d.updateWindField = false;
+                    updateWindField = true;
                 }
             }
             if (obj instanceof Rope) {
