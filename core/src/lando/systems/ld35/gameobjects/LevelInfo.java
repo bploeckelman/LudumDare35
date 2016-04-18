@@ -21,20 +21,22 @@ import static lando.systems.ld35.gameobjects.LevelObject.*;
 //import static lando.systems.ld35.utils.Assets.batch;
 
 public class LevelInfo {
+
     public static final float MAP_UNIT_SCALE    = 1f;
     public static final int   SCREEN_TILES_WIDE = 20;
     public static final int   SCREEN_TILES_HIGH = 15;
     public static final int   PIXELS_PER_TILE   = Config.gameWidth / SCREEN_TILES_WIDE;
 
-    public Pool<Rectangle>            rectanglePool;
-    public Array<LevelBoundry>        tiles;
-    public Level                      details;
-    public TiledMap                   map;
-    public Array<ObjectBase>          mapObjects;
-    public OrthogonalTiledMapRenderer mapRenderer;
-    public TiledMapTileLayer          foregroundLayer;
-    public TiledMapTileLayer          backgroundLayer;
-    public int                        levelIndex;
+    public Pool<Rectangle>                  rectanglePool;
+    public Array<LevelBoundry>              tiles;
+    public Level                            details;
+    public TiledMap                         map;
+    public Array<ObjectBase>                mapObjects;
+    public OrthogonalTiledMapRenderer       mapRenderer;
+    public TiledMapTileLayer                foregroundLayer;
+    public TiledMapTileLayer                backgroundLayer;
+    public int                              levelIndex;
+    public ObjectMap<String, Array<Rope>>   ropeGroups;
 
     public LevelInfo(int level, Pool<Rectangle> rectanglePool) {
         createLevel(level, rectanglePool);
@@ -45,6 +47,7 @@ public class LevelInfo {
         this.details = Level.values()[level];
         this.rectanglePool = rectanglePool;
         this.tiles = new Array<LevelBoundry>();
+        this.ropeGroups = new ObjectMap<String, Array<Rope>>();
         loadMap(details.mapName);
     }
 
@@ -166,8 +169,6 @@ public class LevelInfo {
 
         mapObjects = new Array<ObjectBase>();
 
-        ObjectMap<String, Array<Rope>> ropeGroups = new ObjectMap<String, Array<Rope>>();
-
         MapProperties props;
         MapLayer objectLayer = map.getLayers().get("objects");
         for (MapObject object : objectLayer.getObjects()) {
@@ -197,14 +198,21 @@ public class LevelInfo {
                     mapObjects.add(new Spikes(new Rectangle(x, y, w, h), rotation, flipX, tileObject.getTextureRegion()));
                     break;
                 case rope:
-                    Array<Rope> group = ropeGroups.get((String) props.get("group"));
-                    group = group == null ? new Array<Rope>() : group;
+                    String groupName = (String) props.get("group");
                     Rope levelRope = new Rope(new Rectangle(x, y, w, h),
-                        rotation,
-                        flipX,
-                        tileObject.getTextureRegion(),
-                        group);
-                    group.add(levelRope);
+                            rotation,
+                            flipX,
+                            tileObject.getTextureRegion(),
+                            groupName);
+                    // If it's part of a group...
+                    if (groupName != null) {
+                        Array<Rope> group = ropeGroups.get(groupName);
+                        if (group == null ) {
+                            group = new Array<Rope>();
+                            ropeGroups.put(groupName, group);
+                        }
+                        group.add(levelRope);
+                    }
                     mapObjects.add(levelRope);
             }
         }

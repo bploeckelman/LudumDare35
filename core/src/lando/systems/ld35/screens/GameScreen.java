@@ -6,7 +6,6 @@ import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.equations.Elastic;
 import aurelienribon.tweenengine.equations.Quad;
-import aurelienribon.tweenengine.primitives.MutableFloat;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
@@ -49,7 +48,8 @@ public class GameScreen extends BaseScreen implements InputProcessor {
         rectPool = Pools.get(Rectangle.class);
         dustMotes = new Array<WindParticle>();
         clouds = new Array<Cloud>();
-        loadLevel(0);
+//        loadLevel(0);
+        loadLevel(2);
         updateCamera(1, true);
         Utils.glClearColor(Config.bgColor);
         Gdx.input.setInputProcessor(this);
@@ -376,7 +376,11 @@ public class GameScreen extends BaseScreen implements InputProcessor {
             if (obj instanceof Rope) {
                 if (playerBalloon.currentState == Balloon.State.BUZZSAW && obj.collision(playerBalloon) != null) {
                     // TODO: Animate this?  Maybe some particle effects?
-                    level.mapObjects.removeAll(((Rope) obj).group, true);
+                    // Kill the rope!
+                    Array<Rope> ropeGroup = level.ropeGroups.get( ((Rope) obj).getGroupName(), null );
+                    if (ropeGroup != null) {
+                        level.mapObjects.removeAll(ropeGroup, true);
+                    }
                 }
             }
             // TODO: interact with other stuff

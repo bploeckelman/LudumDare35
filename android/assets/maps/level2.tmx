@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="40" height="30" tilewidth="32" tileheight="32" nextobjectid="17">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="40" height="30" tilewidth="32" tileheight="32" nextobjectid="38">
  <tileset firstgid="1" name="basic" tilewidth="32" tileheight="32" tilecount="256" columns="16">
   <image source="basic-tiles.png" width="512" height="512"/>
  </tileset>
- <tileset firstgid="257" name="objects" tilewidth="32" tileheight="64" tilecount="2" columns="0">
+ <tileset firstgid="257" name="objects" tilewidth="32" tileheight="64" tilecount="3" columns="0">
   <tile id="1">
    <image width="32" height="64" source="fan_0.png"/>
   </tile>
   <tile id="2">
    <image width="32" height="32" source="spawn.png"/>
+  </tile>
+  <tile id="3">
+   <image width="32" height="32" source="exit.png"/>
   </tile>
  </tileset>
  <layer name="background" width="40" height="30">
@@ -35,7 +38,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,85,0,0,0,0,0,0,101,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -79,7 +82,7 @@
 3,66,67,68,69,66,67,68,69,2,3,66,67,67,68,69,66,68,69,2,3,66,67,68,69,66,67,68,69,66,67,68,69,66,69,66,67,68,69,2
 </data>
  </layer>
- <objectgroup name="objects">
+ <objectgroup name="objects" offsetx="0" offsety="1">
   <object id="8" type="fan" gid="258" x="0" y="800" width="32" height="64">
    <properties>
     <property name="dir" value="e"/>
@@ -106,5 +109,46 @@
    </properties>
   </object>
   <object id="16" type="spawn" gid="259" x="144" y="912" width="32" height="32"/>
+  <object id="19" name="fred" type="exit" gid="260" x="624" y="272" width="32" height="32"/>
+  <object id="30" type="rope" gid="99" x="256" y="736" width="32" height="32">
+   <properties>
+    <property name="group" value="rope-group-1"/>
+   </properties>
+  </object>
+  <object id="31" type="rope" gid="83" x="224" y="736" width="32" height="32">
+   <properties>
+    <property name="group" value="rope-group-1"/>
+   </properties>
+  </object>
+  <object id="32" type="rope" gid="83" x="192" y="736" width="32" height="32">
+   <properties>
+    <property name="group" value="rope-group-1"/>
+   </properties>
+  </object>
+  <object id="33" type="rope" gid="83" x="160" y="736" width="32" height="32">
+   <properties>
+    <property name="group" value="rope-group-1"/>
+   </properties>
+  </object>
+  <object id="34" type="rope" gid="83" x="128" y="736" width="32" height="32">
+   <properties>
+    <property name="group" value="rope-group-1"/>
+   </properties>
+  </object>
+  <object id="35" type="rope" gid="83" x="96" y="736" width="32" height="32">
+   <properties>
+    <property name="group" value="rope-group-1"/>
+   </properties>
+  </object>
+  <object id="36" type="rope" gid="83" x="64" y="736" width="32" height="32">
+   <properties>
+    <property name="group" value="rope-group-1"/>
+   </properties>
+  </object>
+  <object id="37" type="rope" gid="82" x="32" y="736" width="32" height="32">
+   <properties>
+    <property name="group" value="rope-group-1"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

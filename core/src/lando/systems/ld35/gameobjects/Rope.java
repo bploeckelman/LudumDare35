@@ -2,15 +2,14 @@ package lando.systems.ld35.gameobjects;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.utils.Array;
 
 public class Rope extends ObjectBase {
-    public Array<Rope> group;
-    public boolean vertical;
+    private boolean vertical;
+    private String groupName;
 
-    public Rope(Rectangle bounds, float rotation, boolean flipX, TextureRegion textureRegion, Array<Rope> group) {
+    public Rope(Rectangle bounds, float rotation, boolean flipX, TextureRegion textureRegion, String groupName) {
         super(bounds, rotation, flipX);
-        this.group = group;
+        this.groupName = groupName;
         keyframe = textureRegion;
         texturePixmap = getPixmap();
     }
@@ -18,5 +17,9 @@ public class Rope extends ObjectBase {
     @Override
     public void update(float delta) {
 
+    }
+
+    public String getGroupName() {
+        return groupName;
     }
 }
