@@ -59,7 +59,9 @@ public class LevelInfo {
     }
 
     public void renderBackground() {
+        mapRenderer.getBatch().setColor(1f, 1f, 1f, 0.5f);
         mapRenderer.renderTileLayer(backgroundLayer);
+        mapRenderer.getBatch().setColor(1f, 1f, 1f, 1.0f);
     }
 
     public void renderForeground(SpriteBatch batch) {
