@@ -291,7 +291,13 @@ public class Balloon {
         if (animating && currentAnimation != null) {
             batch.draw(currentAnimation.getKeyFrame(animationTimer.floatValue()), position.x, position.y, 32, 32);
         } else {
-            batch.draw(currentTexture, position.x, position.y, 16, 16, 32, 32, 1, 1, rotation);
+            if (currentState == State.BUZZSAW){
+                batch.draw(Assets.buzzsawAnimation.getKeyFrame(accumulator), position.x, position.y, 16, 16, 32, 32, 1, 1, rotation);
+//                batch.draw(Assets.whitePixelTexture, position.x, position.y, 16, 16, 32, 32, 1, 1, rotation);
+
+            } else {
+                batch.draw(currentTexture, position.x, position.y, 16, 16, 32, 32, 1, 1, rotation);
+            }
         }
     }
 

@@ -53,7 +53,7 @@ public class SoundManager{
         soundMap.put(SoundOptions.Magnet, Gdx.audio.newSound(Gdx.files.internal("sound/magnet.mp3")));
         soundMap.put(SoundOptions.Pop, Gdx.audio.newSound(Gdx.files.internal("sound/pop.mp3")));
         soundMap.put(SoundOptions.Rocket, Gdx.audio.newSound(Gdx.files.internal("sound/rocket2.mp3")));
-        soundMap.put(SoundOptions.Saw, Gdx.audio.newSound(Gdx.files.internal("sound/saw_trial.mp3")));
+        soundMap.put(SoundOptions.Saw, Gdx.audio.newSound(Gdx.files.internal("sound/saw.mp3")));
         soundMap.put(SoundOptions.Squeak, Gdx.audio.newSound(Gdx.files.internal("sound/squeek.mp3")));
         soundMap.put(SoundOptions.WeightDrop, Gdx.audio.newSound(Gdx.files.internal("sound/weight_dropped.mp3")));
 
@@ -116,6 +116,9 @@ public class SoundManager{
                 break;
             case POP:
                 balloonSound = SoundOptions.Pop;
+                break;
+            case BUZZSAW:
+                balloonSound = SoundOptions.Saw;
                 break;
             default:
                 balloonSound = SoundOptions.Squeak;

@@ -73,6 +73,7 @@ public class Assets {
     public static Animation balloonToBuzzsawAnimation;
     public static Animation balloonToTorusAnimation;
     public static Animation balloonToPopAnimation;
+    public static Animation buzzsawAnimation;
 
     public static Animation[] birdAnimations;
 
@@ -167,6 +168,8 @@ public class Assets {
         balloonToBuzzsawAnimation = new Animation(.2f, atlas.findRegions("balloon_to_buzzsaw"));
         balloonToTorusAnimation   = new Animation(.2f, atlas.findRegions("balloon_to_torus"));
         balloonToPopAnimation     = new Animation(.1f, atlas.findRegions("balloon_pop"));
+        buzzsawAnimation          = new Animation(.1f, atlas.findRegions("buzz_saw_rotate"));
+        buzzsawAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
         fanAnimation = new Animation(.1f, atlas.findRegions("fan"));
         fanAnimation.setPlayMode(Animation.PlayMode.LOOP);
