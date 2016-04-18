@@ -69,6 +69,7 @@ public class GameScreen extends BaseScreen {
         birds = new Array<Bird>();
         retryTextColor = new Color(Config.balloonColor);
         loadLevel(levelIndex);
+        updateCamera(0f, true);
 
         Utils.glClearColor(Config.bgColor);
         Gdx.input.setInputProcessor(this);
