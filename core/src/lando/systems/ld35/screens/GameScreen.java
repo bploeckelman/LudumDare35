@@ -19,6 +19,8 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Pools;
 import lando.systems.ld35.LudumDare35;
+import lando.systems.ld35.backgroundobjects.Bird;
+import lando.systems.ld35.backgroundobjects.Cloud;
 import lando.systems.ld35.gameobjects.*;
 import lando.systems.ld35.ui.StateButton;
 import lando.systems.ld35.utils.Assets;
@@ -36,6 +38,7 @@ public class GameScreen extends BaseScreen {
     Balloon playerBalloon;
     Array<WindParticle> dustMotes;
     Array<Cloud> clouds;
+    Array<Bird> birds;
     Array<StateButton> stateButtons;
     Pool<Rectangle> rectPool;
     Rectangle buttonTrayRect;
@@ -47,6 +50,7 @@ public class GameScreen extends BaseScreen {
         rectPool = Pools.get(Rectangle.class);
         dustMotes = new Array<WindParticle>();
         clouds = new Array<Cloud>();
+        birds = new Array<Bird>();
         loadLevel(levelIndex);
         updateCamera(1, true);
         Utils.glClearColor(Config.bgColor);
@@ -67,7 +71,7 @@ public class GameScreen extends BaseScreen {
         }
         updateCamera(dt, false);
         updateDust(dt);
-        updateClouds(dt);
+        updateBackgroundObjects(dt);
         level.update(dt);
 
         if (pauseGame){ // Don't move the player or check for interactions
@@ -88,6 +92,10 @@ public class GameScreen extends BaseScreen {
         batch.begin();
         for (Cloud c : clouds){
             c.render(batch, camera);
+        }
+
+        for (Bird b : birds){
+            b.render(batch);
         }
 
         level.renderBackground();
@@ -279,7 +287,7 @@ public class GameScreen extends BaseScreen {
         }
     }
 
-    private void updateClouds(float dt){
+    private void updateBackgroundObjects(float dt){
         for (int i = clouds.size -1; i >= 0; i--){
             Cloud c = clouds.get(i);
             c.update(dt, level);
@@ -290,6 +298,18 @@ public class GameScreen extends BaseScreen {
 
         while (clouds.size < level.foregroundLayer.getHeight() / 2){
             clouds.add(new Cloud(new Vector2(level.foregroundLayer.getWidth() * 32 + MathUtils.random(200f), MathUtils.random(level.foregroundLayer.getHeight()*32))));
+        }
+
+        for (int i = birds.size -1; i >= 0; i--){
+            Bird b = birds.get(i);
+            b.update(dt, level);
+            if (!b.alive){
+                birds.removeIndex(i);
+            }
+        }
+
+        if (MathUtils.randomBoolean(.0015f)){
+            birds.add(new Bird(level));
         }
     }
 

@@ -1,10 +1,11 @@
-package lando.systems.ld35.gameobjects;
+package lando.systems.ld35.backgroundobjects;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import lando.systems.ld35.gameobjects.LevelInfo;
 import lando.systems.ld35.utils.Assets;
 
 /**
@@ -26,7 +27,7 @@ public class Cloud {
 
     public void update(float dt, LevelInfo level){
         position.x -= SPEED * (1/distance) * dt;
-        if (position.x <  -Assets.cloudTextures[type].getRegionWidth()) alive = false;
+        if (position.x <  -Assets.cloudTextures[type].getRegionWidth() * 2) alive = false;
     }
 
     public void render(SpriteBatch batch, OrthographicCamera camera){

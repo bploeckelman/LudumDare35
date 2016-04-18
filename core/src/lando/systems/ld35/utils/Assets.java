@@ -67,6 +67,8 @@ public class Assets {
     public static Animation balloonToTorusAnimation;
     public static Animation balloonToPopAnimation;
 
+    public static Animation[] birdAnimations;
+
     public static Animation netAnimation;
     public static Animation fanAnimation;
 
@@ -137,6 +139,12 @@ public class Assets {
         fanAnimation.setPlayMode(Animation.PlayMode.LOOP);
         netAnimation = new Animation(.1f, atlas.findRegions("net"));
         netAnimation.setPlayMode(Animation.PlayMode.LOOP);
+
+        birdAnimations = new Animation[2];
+        birdAnimations[0] = new Animation(.02f, atlas.findRegions("birdgreen"));
+        birdAnimations[0].setPlayMode(Animation.PlayMode.LOOP);
+        birdAnimations[1] = new Animation(.02f, atlas.findRegions("birdorange"));
+        birdAnimations[1].setPlayMode(Animation.PlayMode.LOOP);
 
         Texture distText = new Texture(Gdx.files.internal("fonts/simply_round_32.png"), true);
         distText.setFilter(Texture.TextureFilter.MipMapLinearNearest, Texture.TextureFilter.Linear);
