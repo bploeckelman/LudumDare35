@@ -2,6 +2,7 @@ package lando.systems.ld35;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.utils.TimeUtils;
 import lando.systems.ld35.screens.BaseScreen;
 import lando.systems.ld35.screens.MenuScreen;
 import lando.systems.ld35.utils.Assets;
@@ -10,7 +11,7 @@ import lando.systems.ld35.utils.SoundManager;
 public class LudumDare35 extends ApplicationAdapter {
 
     public static LudumDare35 game;
-    public static float timer = 0f;
+    public static long startTime = 0l;
 
     public BaseScreen screen;
 
@@ -24,6 +25,7 @@ public class LudumDare35 extends ApplicationAdapter {
         } while (progress != 1f);
         screen = new MenuScreen();
         game = this;
+        startTime = TimeUtils.millis();
     }
 
     @Override

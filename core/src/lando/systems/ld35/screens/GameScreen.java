@@ -10,6 +10,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
@@ -18,6 +20,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Pools;
+import com.badlogic.gdx.utils.TimeUtils;
 import lando.systems.ld35.LudumDare35;
 import lando.systems.ld35.ParticleSystem.WindParticle;
 import lando.systems.ld35.backgroundobjects.Bird;
@@ -28,6 +31,7 @@ import lando.systems.ld35.ui.Button;
 import lando.systems.ld35.ui.StateButton;
 import lando.systems.ld35.utils.Assets;
 import lando.systems.ld35.utils.Config;
+import lando.systems.ld35.utils.Statistics;
 import lando.systems.ld35.utils.Utils;
 import lando.systems.ld35.utils.accessors.CameraAccessor;
 import lando.systems.ld35.utils.accessors.ColorAccessor;
@@ -51,12 +55,14 @@ public class GameScreen extends BaseScreen {
     Rectangle           buttonTrayRect;
     boolean             pauseGame;
     boolean             updateWindField;
+    boolean             drawStats;
     Color               retryTextColor;
 
     public GameScreen(int levelIndex) {
         super();
         pauseGame = false;
         updateWindField = true;
+        drawStats = false;
         rectPool = Pools.get(Rectangle.class);
         dustMotes = new Array<WindParticle>();
         clouds = new Array<Cloud>();
@@ -66,7 +72,6 @@ public class GameScreen extends BaseScreen {
 
         Utils.glClearColor(Config.bgColor);
         Gdx.input.setInputProcessor(this);
-
 
         retryTextColor.a = 0.3f;
         Tween.to(retryTextColor, ColorAccessor.A, 1.0f).target(1f).repeatYoyo(-1, 0f).start(Assets.tween);
@@ -168,6 +173,9 @@ public class GameScreen extends BaseScreen {
                                       camera.viewportWidth / 2f - Assets.glyphLayout.width / 2f,
                                       camera.viewportHeight / 2f + Assets.glyphLayout.height);
             Assets.font_round_32.setColor(1f, 1f, 1f, 1f);
+
+            drawStats = true;
+            drawStatisticsText(batch);
         }
         batch.end();
         batch.setShader(null);
@@ -187,6 +195,7 @@ public class GameScreen extends BaseScreen {
         if (playerBalloon.currentState == Balloon.State.POP ||
             playerBalloon.currentState == Balloon.State.DEAD) {
             resetLevel();
+            drawStats = false;
             return false;
         }
 
@@ -197,6 +206,7 @@ public class GameScreen extends BaseScreen {
                 playerBalloon.changeState(stateButton.state);
                 activatedButton = stateButton;
                 stateButton.active = true;
+                Statistics.numShapeShifts++;
             }
         }
         if (activatedButton != null) {
@@ -214,6 +224,9 @@ public class GameScreen extends BaseScreen {
 
         if (resetLevelButton.checkForTouch(touchPosScreen.x, touchPosScreen.y)) {
             playerBalloon.kill(level);
+            // TODO: move to 'game completed trigger'
+            Statistics.endTime = TimeUtils.millis();
+            Statistics.numDeaths++;
             return false;
         }
 
@@ -415,6 +428,8 @@ public class GameScreen extends BaseScreen {
                                     dustMotes.clear();
                                     Assets.setMaxLevelCompleted(level.levelIndex);
                                     level.nextLevel();
+                                    Statistics.numLevelsCompleted = Assets.getMaxLevelCompleted() + 1;
+                                    // TODO: check for game over
                                     enableButtons();
                                     playerBalloon = new Balloon(level.details.getStart(), GameScreen.this);
                                     for (StateButton button : stateButtons) {
@@ -443,6 +458,8 @@ public class GameScreen extends BaseScreen {
             if (obj instanceof Spikes) {
                 if (obj.collision(playerBalloon) != null) {
                     playerBalloon.kill(level);
+                    Statistics.endTime = TimeUtils.millis();
+                    Statistics.numDeaths++;
                 }
             }
             if (obj instanceof Door){
@@ -495,6 +512,7 @@ public class GameScreen extends BaseScreen {
             button.active = (index == i);
             if (button.active) {
                 playerBalloon.changeState(button.state);
+                Statistics.numShapeShifts++;
             }
         }
     }
@@ -503,6 +521,81 @@ public class GameScreen extends BaseScreen {
         for (int i = 0; i < stateButtons.size; ++i) {
             stateButtons.get(i).enabled = level.details.uiButtonStates[i];
         }
+    }
+
+    GlyphLayout layout;
+    BitmapFont font;
+    String[] statsText = new String[] {
+              "Statistics:"
+            , " shape shifts"
+            , " levels completed"
+            , " resets"
+            , " deaths"
+            , " minutes "
+            , "Thanks for playing!"
+    };
+
+    private void drawStatisticsText(SpriteBatch batch) {
+        if (!drawStats) return;
+        if (layout == null) layout = new GlyphLayout();
+        if (font   == null) font = Assets.font_round_32;
+
+        Statistics.numLevelsCompleted = Assets.getMaxLevelCompleted() + 1;
+
+        int i = 0;
+        float padding = 10f;
+        float marginLeft = 100f;
+        float marginTop = 100f;
+        float lineY = 0f;
+        for (String text : statsText) {
+            // Special header shit
+            if (i == 0) {
+                Assets.fontShader.setUniformf("u_scale", 1.f);
+                font.getData().setScale(1.f);
+                font.setColor(Config.balloonColor);
+                layout.setText(font, text);
+                lineY = camera.viewportHeight - (marginTop + layout.height);
+                font.draw(batch, text, marginLeft, lineY);
+                lineY -= layout.height + padding;
+            }
+            // Special footer shit
+            else if (i == statsText.length - 1) {
+                Assets.fontShader.setUniformf("u_scale", 0.8f);
+                font.getData().setScale(0.8f);
+                font.setColor(Config.balloonColor);
+                layout.setText(font, text);
+                lineY -= layout.height + 2f * padding;
+                font.draw(batch, text, marginLeft, lineY);
+            }
+            // Everything else
+            else {
+                Assets.fontShader.setUniformf("u_scale", 0.6f);
+                font.getData().setScale(0.6f);
+                font.setColor(1f, 1f, 1f, 1f);
+                String fullText;
+                switch (i) {
+                    case 1: fullText = Integer.toString(Statistics.numShapeShifts) + text; break;
+                    case 2: fullText = Integer.toString(Statistics.numLevelsCompleted) + text; break;
+                    case 3: fullText = Integer.toString(Statistics.numResets) + text; break;
+                    case 4: fullText = Integer.toString(Statistics.numDeaths) + text; break;
+                    case 5: {
+                        long millis = Statistics.endTime - LudumDare35.startTime;
+                        long minutes = (millis / 1000l) / 60;
+                        fullText = Long.toString(minutes) + text;
+                    } break;
+                    default: fullText = "0" + text;
+                }
+                layout.setText(font, fullText);
+                lineY -= layout.height + padding;
+                font.draw(batch, fullText, 1.5f * marginLeft, lineY);
+            }
+
+            ++i;
+        }
+
+        Assets.fontShader.setUniformf("u_scale", 1.0f);
+        font.getData().setScale(1.0f);
+        font.setColor(1f, 1f, 1f, 1f);
     }
 
 }

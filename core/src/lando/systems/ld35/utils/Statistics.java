@@ -9,6 +9,6 @@ public class Statistics {
     public static int numResets = 0;
     public static int numShapeShifts = 0;
     public static int numLevelsCompleted = 0;
-    public static float timeSpent = 0f;
+    public static long endTime = 0l;
 
 }
