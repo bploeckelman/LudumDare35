@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import lando.systems.ld35.utils.Assets;
 
 /**
@@ -17,51 +18,43 @@ public class LevelButton extends Button {
 
     public final int levelId;
 
-    private final String levelIdString;
-    private float accumX;
-    private float accumY;
-    private float textX;
-    private float textY;
+    private final String  levelIdString;
+    private       Vector2 accum;
+    private       Vector2 floatOffset;
+    private       Vector2 textPos;
 
     public LevelButton(int levelId, Rectangle bounds) {
         super(Assets.buttonTexture, bounds);
         this.alpha = new MutableFloat(0f);
         this.drawText = false;
         this.levelId = levelId;
-        this.levelIdString = Integer.toString(levelId);
+        this.levelIdString = Integer.toString(levelId + 1);
+        this.accum = new Vector2(MathUtils.random(0.1f, 1f),
+                                 MathUtils.random(0.1f, 1f));
+        this.floatOffset = new Vector2();
 
-        this.accumX = MathUtils.random(0.1f, 1f);
-        this.accumY = MathUtils.random(0.1f, 1f);
-
-        final GlyphLayout layout = new GlyphLayout();
-        layout.setText(Assets.font_round_32, levelIdString);
-        this.textX = bounds.x + (bounds.width / 2f - layout.width / 2f);
-        this.textY = bounds.y + (bounds.height / 2f) + (layout.height / 2f) + 15f;
+        final GlyphLayout layout = new GlyphLayout(Assets.font_round_32, levelIdString);
+        this.textPos = new Vector2(bounds.x + (bounds.width / 2f - layout.width / 2f),
+                                   bounds.y + (bounds.height / 2f) + (layout.height / 2f) + 15f);
     }
 
     public void update(float dt) {
-        accumY += dt;
-
-        float danceMagicDance = MathUtils.sin(accumY * 4f) * 0.4f;
-        float magicDanceMagic = MathUtils.sin(accumY * 2f) * 0.2f;
-        bounds.x += magicDanceMagic;
-        bounds.y += danceMagicDance;
-
-        textX += magicDanceMagic;
-        textY += danceMagicDance;
+        accum.add(dt, dt);
+        floatOffset.set(MathUtils.cos(accum.x * 2f) * 1.5f,
+                        MathUtils.sin(accum.y * 5f) * 2.0f);
     }
 
     @Override
     public void render(SpriteBatch batch) {
         batch.setColor(1f, 1f, 1f, alpha.floatValue());
-        batch.draw(region, bounds.x, bounds.y, bounds.width, bounds.height);
+        batch.draw(region, bounds.x + floatOffset.x, bounds.y + floatOffset.y, bounds.width, bounds.height);
         batch.setColor(1f, 1f, 1f, 1f);
     }
 
     public void renderText(SpriteBatch batch) {
         if (!drawText) return;
         batch.setColor(1f, 1f, 1f, alpha.floatValue());
-        Assets.font_round_32.draw(batch, levelIdString, textX, textY);
+        Assets.font_round_32.draw(batch, levelIdString, textPos.x + floatOffset.x, textPos.y + floatOffset.y);
         batch.setColor(1f, 1f, 1f, 1f);
     }
 

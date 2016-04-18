@@ -53,6 +53,7 @@ public class Assets {
     public static TextureRegion   moteTexture;
     public static TextureRegion   buttonTexture;
     public static TextureRegion   hotairTexture;
+    public static TextureRegion   titleTexture;
     public static TextureRegion[] cloudTextures;
 
 
@@ -99,6 +100,7 @@ public class Assets {
         atlas = new TextureAtlas(Gdx.files.internal("sprites.atlas"));
 
         mgr = new AssetManager();
+        mgr.load("title.png", Texture.class);
 
         initialized = false;
     }
@@ -123,6 +125,7 @@ public class Assets {
         moteTexture        = atlas.findRegion("mote");
         buttonTexture      = atlas.findRegion("button_level");
         hotairTexture      = atlas.findRegion("hotair_balloon");
+        titleTexture       = new TextureRegion(mgr.get("title.png", Texture.class));
 
         cloudTextures = new TextureRegion[3];
         cloudTextures[0] = atlas.findRegion("cloud1");
@@ -167,6 +170,7 @@ public class Assets {
     }
 
     public static void dispose() {
+        atlas.dispose();
         batch.dispose();
         font.dispose();
         mgr.clear();
@@ -191,8 +195,8 @@ public class Assets {
         font_round_32.getData().setScale(scale);
         font_round_32.setColor(c);
         font_round_32.draw(batch, text, x, y);
+        font_round_32.getData().setScale(1f);
         batch.setShader(null);
-
     }
 
 }

@@ -1,10 +1,14 @@
 package lando.systems.ld35.screens;
 
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.primitives.MutableFloat;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import lando.systems.ld35.LudumDare35;
 import lando.systems.ld35.utils.Assets;
 
@@ -13,9 +17,28 @@ import lando.systems.ld35.utils.Assets;
  */
 public class MenuScreen extends BaseScreen {
 
+    GlyphLayout layout;
+    String      clickText;
+    String      title;
+    Vector2     titlePos;
+    MutableFloat alpha;
+    Color        color;
+
     public MenuScreen() {
         super();
         Gdx.input.setInputProcessor(null);
+        title = "Shift 'n Drift";
+        clickText = "Click to begin!";
+        Assets.font_round_32.getData().setScale(1.5f);
+        layout = new GlyphLayout(Assets.font_round_32, title);
+        titlePos = new Vector2(camera.viewportWidth / 2f - layout.width / 2f, camera.viewportHeight - layout.height);
+        Assets.font_round_32.getData().setScale(1f);
+        alpha = new MutableFloat(0.1f);
+        Tween.to(alpha, -1, 0.5f)
+                .target(1f)
+                .repeatYoyo(-1, 0f)
+                .start(Assets.tween);
+        color = new Color(1f, 1f, 1f, alpha.floatValue());
     }
 
     @Override
@@ -24,9 +47,11 @@ public class MenuScreen extends BaseScreen {
             Gdx.app.exit();
         }
 
-       if (Gdx.input.justTouched()){
-           LudumDare35.game.screen = new LevelSelectScreen();
-       }
+        if (Gdx.input.justTouched()) {
+            LudumDare35.game.screen = new LevelSelectScreen();
+        }
+
+        color.set(1f, 1f, 1f, alpha.floatValue());
     }
 
     @Override
@@ -36,7 +61,10 @@ public class MenuScreen extends BaseScreen {
 
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        Assets.drawString(batch, "Shift 'n Drift", 200, 300, Color.RED, 1);
+        batch.draw(Assets.titleTexture, 0, 0, camera.viewportWidth, camera.viewportHeight);
+        Assets.drawString(batch, title, titlePos.x, titlePos.y, Color.RED, 1.5f);
+        layout.setText(Assets.font_round_32, clickText);
+        Assets.drawString(batch, clickText, camera.viewportWidth / 2f - layout.width / 2f, camera.viewportHeight / 2f, color, 1f);
         batch.end();
     }
 
