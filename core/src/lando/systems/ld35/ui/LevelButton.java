@@ -14,6 +14,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import lando.systems.ld35.utils.Assets;
+import lando.systems.ld35.utils.Config;
 import lando.systems.ld35.utils.accessors.ColorAccessor;
 import lando.systems.ld35.utils.accessors.RectangleAccessor;
 
@@ -51,7 +52,7 @@ public class LevelButton extends Button {
         this.drawText = false;
         this.bounds.y = -200f;
         final Color newColor = new Color();
-        if (levelId <= Assets.getMaxLevelCompleted()) newColor.set(237f / 255f, 28f / 255f, 36f / 255f, 1f);  // game balloon red
+        if (levelId <= Assets.getMaxLevelCompleted()) newColor.set(Config.balloonColor);  // game balloon red
         else                                          newColor.set(18f / 255f, 227f / 255f, 119f / 255f, 1f); // greenish, sorta
         Tween.to(angle, -1, MathUtils.random(1f, 1.5f))
              .target(-1f * angle.floatValue())

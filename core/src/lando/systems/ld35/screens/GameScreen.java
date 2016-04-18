@@ -29,6 +29,7 @@ import lando.systems.ld35.utils.Assets;
 import lando.systems.ld35.utils.Config;
 import lando.systems.ld35.utils.Utils;
 import lando.systems.ld35.utils.accessors.CameraAccessor;
+import lando.systems.ld35.utils.accessors.ColorAccessor;
 import lando.systems.ld35.utils.accessors.Vector2Accessor;
 
 /**
@@ -49,19 +50,24 @@ public class GameScreen extends BaseScreen {
     Rectangle           buttonTrayRect;
     boolean             pauseGame;
     boolean             updateWindField;
+    Color               retryTextColor;
 
     public GameScreen(int levelIndex) {
         super();
         pauseGame = false;
+        updateWindField = true;
         rectPool = Pools.get(Rectangle.class);
         dustMotes = new Array<WindParticle>();
         clouds = new Array<Cloud>();
         birds = new Array<Bird>();
+        retryTextColor = new Color(Config.balloonColor);
         loadLevel(levelIndex);
-        updateCamera(1, true);
+
         Utils.glClearColor(Config.bgColor);
         Gdx.input.setInputProcessor(this);
-        updateWindField = true;
+
+        retryTextColor.a = 0.3f;
+        Tween.to(retryTextColor, ColorAccessor.A, 1.0f).target(1f).repeatYoyo(-1, 0f).start(Assets.tween);
     }
 
     // ------------------------------------------------------------------------
@@ -146,6 +152,17 @@ public class GameScreen extends BaseScreen {
         Assets.font_round_32.draw(batch, "Reset",
                                   resetLevelButton.bounds.x + resetLevelButton.bounds.width / 2f - Assets.glyphLayout.width / 2f + 4f,
                                   resetLevelButton.bounds.y + resetLevelButton.bounds.height - 7f);
+
+        if (playerBalloon.currentState == Balloon.State.DEAD) {
+            Assets.fontShader.setUniformf("u_scale", 1.5f);
+            Assets.font_round_32.getData().setScale(1.5f);
+            Assets.font_round_32.setColor(retryTextColor);
+            Assets.glyphLayout.setText(Assets.font_round_32, "Touch to retry");
+            Assets.font_round_32.draw(batch, "Touch to retry",
+                                      camera.viewportWidth / 2f - Assets.glyphLayout.width / 2f,
+                                      camera.viewportHeight / 2f + Assets.glyphLayout.height);
+            Assets.font_round_32.setColor(1f, 1f, 1f, 1f);
+        }
         batch.end();
         batch.setShader(null);
     }
@@ -190,7 +207,7 @@ public class GameScreen extends BaseScreen {
         }
 
         if (resetLevelButton.checkForTouch(touchPosScreen.x, touchPosScreen.y)) {
-            resetLevel();
+            playerBalloon.kill(level);
             return false;
         }
 
@@ -413,9 +430,6 @@ public class GameScreen extends BaseScreen {
                                 }
                             }))
                             .start(Assets.tween);
-
-
-
                 }
             }
 

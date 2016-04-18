@@ -10,6 +10,7 @@ import lando.systems.ld35.utils.SoundManager;
 public class LudumDare35 extends ApplicationAdapter {
 
     public static LudumDare35 game;
+    public static float timer = 0f;
 
     public BaseScreen screen;
 
