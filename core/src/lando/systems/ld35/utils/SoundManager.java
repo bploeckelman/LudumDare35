@@ -51,7 +51,7 @@ public class SoundManager{
         soundMap.put(SoundOptions.Laser2, Gdx.audio.newSound(Gdx.files.internal("sound/lazer2.mp3")));
         soundMap.put(SoundOptions.Laser3, Gdx.audio.newSound(Gdx.files.internal("sound/lazer3.mp3")));
         soundMap.put(SoundOptions.Magnet, Gdx.audio.newSound(Gdx.files.internal("sound/magnet.mp3")));
-        soundMap.put(SoundOptions.Pop, Gdx.audio.newSound(Gdx.files.internal("sound/POP!.mp3")));
+        soundMap.put(SoundOptions.Pop, Gdx.audio.newSound(Gdx.files.internal("sound/pop.mp3")));
         soundMap.put(SoundOptions.Rocket, Gdx.audio.newSound(Gdx.files.internal("sound/rocket2.mp3")));
         soundMap.put(SoundOptions.Saw, Gdx.audio.newSound(Gdx.files.internal("sound/saw_trial.mp3")));
         soundMap.put(SoundOptions.Squeak, Gdx.audio.newSound(Gdx.files.internal("sound/squeek.mp3")));
