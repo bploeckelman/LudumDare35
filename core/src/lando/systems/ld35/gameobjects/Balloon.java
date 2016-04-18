@@ -317,6 +317,7 @@ public class Balloon {
             case SPINNER:  currentTexture = Assets.torusTexture; break;
             case MAGNET:   currentTexture = Assets.magnetTexture; break;
             case BUZZSAW:  currentTexture = Assets.buzzsawTexture; break;
+            case POP:      currentTexture = Assets.deadTexture; break;
             case DEAD:     currentTexture = Assets.deadTexture; break;
             default:       currentTexture = Assets.testTexture; break;
         }
