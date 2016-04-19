@@ -79,7 +79,7 @@ public class MenuScreen extends BaseScreen {
             Assets.font_round_32.getData().setScale(.45f);
             layout.setText(Assets.font_round_32, name);
             Assets.drawString(batch, name, camera.viewportWidth / 2f - layout.width / 2f, nameY, Color.WHITE, .45f);
-            nameY -= 30;
+            nameY -= 25;
         }
 
 
