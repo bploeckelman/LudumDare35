@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 
 public enum Level {
 
+    CHALLENGE_1      ("maps/level-challenge-1.tmx", 32, 64,         new boolean[] {true,  true,  true,  true,  true,  true}),
     INTRODUCTION     ("maps/level-intro.tmx", 32, 64,               new boolean[] {true, false, false, false, false, false}),
     ROCKETANVIL_EASY ("maps/level-rocket-anvil-easy.tmx", 32, 64,   new boolean[] {true,  true,  true, false, false, false}),
     ROCKETANVIL_MED  ("maps/level-rocket-anvil-medium.tmx", 32, 64, new boolean[] {true,  true,  true, false, false, false}),
@@ -14,8 +15,7 @@ public enum Level {
     ROPE_TUTORIAL    ("maps/level-rope-tutorial.tmx", 32, 64,       new boolean[] {true,  true,  true,  true,  true,  true}),
     DOOR_TUTORIAL    ("maps/level_door_tutorial.tmx", 32, 64,       new boolean[] {true,  true,  true,  true,  true,  true}),
     DOOR_MED         ("maps/level-branching-doors.tmx", 32, 64,     new boolean[] {true,  true,  true,  true,  true,  true}),
-    SPIKES_HARD      ("maps/level-spikes-hard.tmx", 32, 64,         new boolean[] {true,  true,  true,  true,  true,  true}),
-    CHALLENGE_1      ("maps/level-challenge1.tmx", 32, 64,          new boolean[] {true,  true,  true,  true,  true,  true});
+    SPIKES_HARD      ("maps/level-spikes-hard.tmx", 32, 64,         new boolean[] {true,  true,  true,  true,  true,  true});
 
     public String mapName;
     public float startX;
