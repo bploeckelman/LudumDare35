@@ -163,13 +163,19 @@ public class GameScreen extends BaseScreen {
                                   resetLevelButton.bounds.y + resetLevelButton.bounds.height - 7f);
 
         if (playerBalloon.currentState == Balloon.State.DEAD) {
+            batch.setShader(null);
+            batch.setColor(new Color(0,0,0,.6f));
+            batch.draw(Assets.whitePixelTexture, 0, 0, camera.viewportWidth, camera.viewportHeight);
+            batch.setColor(Color.WHITE);
+            batch.setShader(Assets.fontShader);
+
             Assets.fontShader.setUniformf("u_scale", 1.5f);
             Assets.font_round_32.getData().setScale(1.5f);
             Assets.font_round_32.setColor(retryTextColor);
             Assets.glyphLayout.setText(Assets.font_round_32, "Touch to retry");
             Assets.font_round_32.draw(batch, "Touch to retry",
                                       camera.viewportWidth / 2f - Assets.glyphLayout.width / 2f,
-                                      camera.viewportHeight / 2f + Assets.glyphLayout.height);
+                                      camera.viewportHeight - 40 - Assets.glyphLayout.height);
             Assets.font_round_32.setColor(1f, 1f, 1f, 1f);
 
             drawStats = true;
@@ -224,7 +230,7 @@ public class GameScreen extends BaseScreen {
             playerBalloon.kill(level);
             // TODO: move to 'game completed trigger'
             Statistics.endTime = TimeUtils.millis();
-            Statistics.numDeaths++;
+            Statistics.numResets++;
             return false;
         }
 
@@ -540,10 +546,12 @@ public class GameScreen extends BaseScreen {
 
         Statistics.numLevelsCompleted = Assets.getMaxLevelCompleted() + 1;
 
+
+
         int i = 0;
         float padding = 10f;
         float marginLeft = 100f;
-        float marginTop = 100f;
+        float marginTop = 130f;
         float lineY = 0f;
         for (String text : statsText) {
             // Special header shit
