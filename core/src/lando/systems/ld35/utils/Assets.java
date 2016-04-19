@@ -60,6 +60,7 @@ public class Assets {
     public static TextureRegion   titleTexture;
     public static TextureRegion   mainMenuButtonTexture;
     public static TextureRegion   levelResetButtonTexture;
+    public static TextureRegion   libgdxTexture;
     public static TextureRegion[] cloudTextures;
 
     public static NinePatch transparentNinepatch;
@@ -155,6 +156,7 @@ public class Assets {
         titleTexture       = new TextureRegion(mgr.get("title.png", Texture.class));
         mainMenuButtonTexture = atlas.findRegion("button_level_select");
         levelResetButtonTexture = atlas.findRegion("button_level_reset");
+        libgdxTexture      = atlas.findRegion("logo");
 
         cloudTextures = new TextureRegion[3];
         cloudTextures[0] = atlas.findRegion("cloud1");

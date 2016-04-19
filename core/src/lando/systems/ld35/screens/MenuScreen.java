@@ -62,9 +62,15 @@ public class MenuScreen extends BaseScreen {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         batch.draw(Assets.titleTexture, 0, 0, camera.viewportWidth, camera.viewportHeight);
+        float logoWidth = Assets.libgdxTexture.getRegionWidth()/ 2;
+        float logoHeight=  Assets.libgdxTexture.getRegionHeight() /2;
+        batch.draw(Assets.libgdxTexture, (camera.viewportWidth - logoWidth)/2, 10, logoWidth, logoHeight);
         Assets.drawString(batch, title, titlePos.x, titlePos.y, Color.RED, 1.5f);
         layout.setText(Assets.font_round_32, clickText);
         Assets.drawString(batch, clickText, camera.viewportWidth / 2f - layout.width / 2f, camera.viewportHeight / 2f, color, 1f);
+
+        layout.setText(Assets.font_round_32, "Ludum Dare 35");
+        Assets.drawString(batch, "Ludum Dare 35", camera.viewportWidth / 2f - layout.width / 2f, 20 + logoHeight + layout.height, Color.WHITE, 1f);
         batch.end();
     }
 
