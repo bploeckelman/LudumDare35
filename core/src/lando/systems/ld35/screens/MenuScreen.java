@@ -23,6 +23,7 @@ public class MenuScreen extends BaseScreen {
     Vector2     titlePos;
     MutableFloat alpha;
     Color        color;
+    String[] names = new String[]{"Doug Graham", "Brian Ploeckelman", "Collin Kennedy", "Ian McNamara", "Brian Rossman", "Luke Bain", "Troy Sullivan"};
 
     public MenuScreen() {
         super();
@@ -67,8 +68,22 @@ public class MenuScreen extends BaseScreen {
         batch.draw(Assets.libgdxTexture, (camera.viewportWidth - logoWidth)/2, 10, logoWidth, logoHeight);
         Assets.drawString(batch, title, titlePos.x, titlePos.y, Color.RED, 1.5f);
         layout.setText(Assets.font_round_32, clickText);
-        Assets.drawString(batch, clickText, camera.viewportWidth / 2f - layout.width / 2f, camera.viewportHeight / 2f, color, 1f);
+        Assets.drawString(batch, clickText, camera.viewportWidth / 2f - layout.width / 2f, 380, color, 1f);
 
+        Assets.font_round_32.getData().setScale(.7f);
+        String madeBy = "Made with <3 by:";
+        layout.setText(Assets.font_round_32, madeBy);
+        Assets.drawString(batch, madeBy, camera.viewportWidth / 2f - layout.width / 2f, 330, Color.WHITE, .7f);
+        float nameY = 300;
+        for (String name : names){
+            Assets.font_round_32.getData().setScale(.45f);
+            layout.setText(Assets.font_round_32, name);
+            Assets.drawString(batch, name, camera.viewportWidth / 2f - layout.width / 2f, nameY, Color.WHITE, .45f);
+            nameY -= 30;
+        }
+
+
+        Assets.font_round_32.getData().setScale(1);
         layout.setText(Assets.font_round_32, "Ludum Dare 35");
         Assets.drawString(batch, "Ludum Dare 35", camera.viewportWidth / 2f - layout.width / 2f, 20 + logoHeight + layout.height, Color.WHITE, 1f);
         batch.end();
