@@ -13,6 +13,7 @@ public enum Level {
     MAGNET_TORUS_HARD("maps/level-magnet-torus-hard.tmx", 32, 64,   new boolean[] {true,  true,  true,  true,  true, false}),
     ROPE_TUTORIAL    ("maps/level-rope-tutorial.tmx", 32, 64,       new boolean[] {true,  true,  true,  true,  true,  true}),
     DOOR_TUTORIAL    ("maps/level_door_tutorial.tmx", 32, 64,       new boolean[] {true,  true,  true,  true,  true,  true}),
+    DOOR_MED         ("maps/level-branching-doors.tmx", 32, 64,     new boolean[] {true,  true,  true,  true,  true,  true}),
     SPIKES_HARD      ("maps/level-spikes-hard.tmx", 32, 64,         new boolean[] {true,  true,  true,  true,  true,  true});
 
     public String mapName;
