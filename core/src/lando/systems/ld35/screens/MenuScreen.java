@@ -23,7 +23,7 @@ public class MenuScreen extends BaseScreen {
     Vector2     titlePos;
     MutableFloat alpha;
     Color        color;
-    String[] names = new String[]{"Doug Graham", "Brian Ploeckelman", "Collin Kennedy", "Ian McNamara", "Brian Rossman", "Luke Bain", "Troy Sullivan"};
+    String[] names = new String[]{"Doug Graham", "Brian Ploeckelman", "Colin Kennedy", "Ian McNamara", "Brian Rossman", "Luke Bain", "Troy Sullivan"};
 
     public MenuScreen() {
         super();
