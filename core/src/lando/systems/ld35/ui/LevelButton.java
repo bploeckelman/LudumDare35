@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import lando.systems.ld35.screens.LevelSelectScreen;
 import lando.systems.ld35.utils.Assets;
 import lando.systems.ld35.utils.Config;
 import lando.systems.ld35.utils.accessors.ColorAccessor;
@@ -36,45 +37,64 @@ public class LevelButton extends Button {
     private       boolean drawText;
     GlyphLayout layout;
 
+    public LevelButton(int levelId, float x, float y, float w, float h) {
+        this(levelId, new Rectangle(x, y, w, h));
+    }
+
     public LevelButton(int levelId, Rectangle bounds) {
         super(Assets.buttonTexture, bounds);
         this.levelId = levelId;
         this.alpha = new MutableFloat(0f);
         this.angle = new MutableFloat(MathUtils.random(-5f, 5f));
         this.color = new Color(1f, 1f, 1f, 1f);
-        this.levelIdString = Integer.toString(levelId + 1);
+
+        if      (levelId == Integer.MIN_VALUE) this.levelIdString = "<";
+        else if (levelId == Integer.MAX_VALUE) this.levelIdString = ">";
+        else {
+            this.levelIdString = Integer.toString(levelId + 1);
+        }
+
         this.accum = new Vector2(MathUtils.random(0.1f, 1f),
                                  MathUtils.random(0.1f, 1f));
         this.floatOffset = new Vector2();
         this.layout = new GlyphLayout(Assets.font_round_32, levelIdString);
         this.textPos = new Vector2(bounds.x + (bounds.width / 2f),
                                    bounds.y + ((bounds.height) / 1.7f));
-        this.settled = false;
         this.drawText = false;
-        this.bounds.y = -200f;
+        this.settled = false;
         final Color newColor = new Color();
-        if (levelId <= Assets.getMaxLevelCompleted()) newColor.set(Config.balloonColor);  // game balloon red
+        if (levelId < Assets.getMaxLevelCompleted())  newColor.set(Config.balloonColor);  // game balloon red
         else                                          newColor.set(18f / 255f, 227f / 255f, 119f / 255f, 1f); // greenish, sorta
+
         Tween.to(angle, -1, MathUtils.random(1f, 1.5f))
              .target(-1f * angle.floatValue())
              .repeatYoyo(-1, 0f)
              .start(Assets.tween);
-        Timeline.createSequence()
-                .push(Tween.to(this.bounds, RectangleAccessor.Y, 1.2f)
-                           .target(bounds.y)
-                           .ease(Bounce.OUT)
-                           .delay(levelId * 0.2f)
-                           .setCallback(new TweenCallback() {
-                               @Override
-                               public void onEvent(int type, BaseTween<?> source) {
-                                   drawText = true;
-                               }
-                           }))
-                .push(Tween.to(this.color, ColorAccessor.RGB, 0.3f)
-                           .target(newColor.r, newColor.g, newColor.b)
-                           .delay(levelId * 0.1f))
-                .start(Assets.tween);
 
+        // Only bounce in actual level buttons, not the 'paging' buttons
+        if (levelId != Integer.MIN_VALUE && levelId != Integer.MAX_VALUE) {
+            this.bounds.y = -200f;
+            Timeline.createSequence()
+                    .push(Tween.to(this.bounds, RectangleAccessor.Y, 1.2f)
+                               .target(bounds.y)
+                               .ease(Bounce.OUT)
+                               .delay((levelId % LevelSelectScreen.LEVELS_PER_PAGE) * 0.2f)
+                               .setCallback(new TweenCallback() {
+                                   @Override
+                                   public void onEvent(int type, BaseTween<?> source) {
+                                       drawText = true;
+                                   }
+                               }))
+                    .push(Tween.to(this.color, ColorAccessor.RGB, 0.3f)
+                               .target(newColor.r, newColor.g, newColor.b)
+                               .delay((levelId % LevelSelectScreen.LEVELS_PER_PAGE) * 0.1f))
+                    .start(Assets.tween);
+        } else {
+            // Show pagination buttons (visibility checks handled in LevelSelectScreen)
+            this.drawText = true;
+            this.settled = true;
+            this.color.set(Config.pageBtnColor);
+        }
     }
 
     public void update(float dt) {

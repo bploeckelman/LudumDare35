@@ -224,7 +224,6 @@ public class Assets {
     }
 
     public static void drawString(SpriteBatch batch, String text, float x, float y, Color c, float scale){
-
         batch.setShader(Assets.fontShader);
         Assets.fontShader.setUniformf("u_scale", scale);
         font_round_32.getData().setScale(scale);
@@ -235,7 +234,8 @@ public class Assets {
     }
 
     public static int getMaxLevelCompleted() {
-        return 64;
+//        return 13;
+        return 63;
 //        return Gdx.app.getPreferences(prefsName).getInteger(prefMaxLevelCompleted);
     }
 

@@ -23,47 +23,38 @@ import lando.systems.ld35.utils.Utils;
  */
 public class LevelSelectScreen extends BaseScreen {
 
+    public static final int LEVELS_PER_PAGE = 9;
+
+    private final float MARGIN_TOP = 80f; // NOTE: change if title text scale changes
+    private final float MARGIN_BOTTOM = 20f;
+    private final float MARGIN_SIDE = 10f;
+
+    int                numPages = 1;
+    int                currentPage = 1;
     int                maxLevelCompleted;
+
     Array<LevelButton> buttons;
     GlyphLayout        layout;
     BitmapFont         font;
 
+    Rectangle buttonRegionBounds;
+    float     buttonSize;
+    float     buttonHeight;
+    int       buttonsWide;
+
+    LevelButton pagePrevBtn;
+    LevelButton pageNextBtn;
+
     public LevelSelectScreen() {
-        maxLevelCompleted = Math.min(Assets.getMaxLevelCompleted() + 1, Level.values().length);
         layout = new GlyphLayout();
         font = Assets.font_round_32;
         Utils.glClearColor(Config.bgColor);
         Gdx.input.setInputProcessor(this);
 
-        int buttonsWide = 1;
-        while (buttonsWide * buttonsWide <= maxLevelCompleted) {
-            buttonsWide++;
-        }
+        generateLevelButtons();
 
-        float marginTop = 80f; // Change if title text scale changes
-        float marginBottom = 20f;
-        float buttonSize = Math.min(hudCamera.viewportWidth / buttonsWide,
-                                    (hudCamera.viewportHeight - marginBottom - marginTop) / buttonsWide);
-        final Rectangle buttonRegionBounds = new Rectangle(
-                hudCamera.viewportWidth / 2f - (buttonsWide * buttonSize) / 2f,
-                marginBottom,
-                buttonsWide * buttonSize,
-                hudCamera.viewportHeight - marginBottom - marginTop);
-
-        int levelIndex = 0;
-        buttons = new Array<LevelButton>();
-        for (int y = buttonsWide - 1; y >= 0; --y) {
-            for (int x = 0; x < buttonsWide; ++x) {
-                if (levelIndex >  maxLevelCompleted || levelIndex >= Level.values().length) break;
-
-                buttons.add(new LevelButton(levelIndex,
-                        new Rectangle(buttonRegionBounds.x + x * buttonSize,
-                                      buttonRegionBounds.y + y * buttonSize,
-                                      buttonSize,
-                                      buttonSize)));
-                levelIndex++;
-            }
-        }
+        pagePrevBtn = new LevelButton(Integer.MIN_VALUE, MARGIN_SIDE, hudCamera.viewportHeight / 2f - buttonSize / 4f, buttonSize / 2f, buttonSize / 2f);
+        pageNextBtn = new LevelButton(Integer.MAX_VALUE, hudCamera.viewportWidth - buttonSize / 2f - MARGIN_SIDE, hudCamera.viewportHeight / 2f - buttonSize / 4f, buttonSize / 2f, buttonSize / 2f);
     }
 
     @Override
@@ -75,6 +66,9 @@ public class LevelSelectScreen extends BaseScreen {
         for (LevelButton button : buttons) {
             button.update(dt);
         }
+
+        pagePrevBtn.update(dt);
+        pageNextBtn.update(dt);
     }
 
     @Override
@@ -90,10 +84,16 @@ public class LevelSelectScreen extends BaseScreen {
             button.render(batch);
         }
 
+        if (isPrevButtonVisible()) pagePrevBtn.render(batch);
+        if (isNextButtonVisible()) pageNextBtn.render(batch);
+
         batch.setShader(Assets.fontShader);
         for (LevelButton button : buttons) {
             button.renderText(batch);
         }
+
+        if (isPrevButtonVisible()) pagePrevBtn.renderText(batch);
+        if (isNextButtonVisible()) pageNextBtn.renderText(batch);
 
         Assets.fontShader.setUniformf("u_scale",1.2f);
         font.getData().setScale(1.2f);
@@ -106,6 +106,49 @@ public class LevelSelectScreen extends BaseScreen {
 
         batch.end();
         batch.setShader(null);
+    }
+
+    private boolean isPrevButtonVisible() {
+        return (currentPage > 1);
+    }
+
+    private boolean isNextButtonVisible() {
+        return (currentPage < numPages);
+    }
+
+    private void generateLevelButtons() {
+        maxLevelCompleted = Math.min(Assets.getMaxLevelCompleted() + 1, Level.values().length);
+        numPages = (int) Math.ceil(maxLevelCompleted / (float) LEVELS_PER_PAGE);
+
+        buttonsWide = 1;
+        while (buttonsWide * buttonsWide < LEVELS_PER_PAGE) {
+            buttonsWide++;
+        }
+
+        buttonHeight = hudCamera.viewportHeight - MARGIN_BOTTOM - MARGIN_TOP;
+        buttonSize = Math.min(hudCamera.viewportWidth / buttonsWide, buttonHeight / buttonsWide);
+        buttonRegionBounds = new Rectangle(
+                hudCamera.viewportWidth / 2f - (buttonsWide * buttonSize) / 2f,
+                MARGIN_BOTTOM,
+                buttonsWide * buttonSize,
+                buttonHeight);
+
+        int levelIndex = (currentPage - 1) * LEVELS_PER_PAGE;
+
+        buttons = new Array<LevelButton>();
+        for (int y = buttonsWide - 1; y >= 0; --y) {
+            for (int x = 0; x < buttonsWide; ++x) {
+                if (levelIndex >=  maxLevelCompleted || levelIndex >= Level.values().length) break;
+
+                buttons.add(
+                        new LevelButton(levelIndex,
+                                buttonRegionBounds.x + x * buttonSize,
+                                buttonRegionBounds.y + y * buttonSize,
+                                buttonSize,
+                                buttonSize));
+                levelIndex++;
+            }
+        }
     }
 
     // ------------------------------------------------------------------------
@@ -123,6 +166,15 @@ public class LevelSelectScreen extends BaseScreen {
             if (levelButton.checkForTouch(touchPosScreen.x, touchPosScreen.y)) {
                 LudumDare35.game.screen = new GameScreen(levelButton.levelId);
             }
+        }
+
+        if (isPrevButtonVisible() && pagePrevBtn.checkForTouch(touchPosScreen.x, touchPosScreen.y)) {
+            currentPage--;
+            generateLevelButtons();
+        }
+        if (isNextButtonVisible() && pageNextBtn.checkForTouch(touchPosScreen.x, touchPosScreen.y)) {
+            currentPage++;
+            generateLevelButtons();
         }
 
         return false;
