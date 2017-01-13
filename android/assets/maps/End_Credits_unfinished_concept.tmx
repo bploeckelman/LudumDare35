@@ -18,37 +18,34 @@
   </tile>
  </tileset>
  <tileset firstgid="263" name="Background text idea" tilewidth="32" tileheight="32" tilecount="22" columns="11">
-  <image source="../Credits/Background text idea.png" width="352" height="70"/>
+  <image source="../credits/Background_text_idea.png" width="352" height="70"/>
  </tileset>
  <tileset firstgid="285" name="My Name" tilewidth="32" tileheight="32" tilecount="24" columns="12">
-  <image source="../Credits/My Name.png" width="387" height="77"/>
+  <image source="../credits/My_Name.png" width="387" height="77"/>
  </tileset>
  <tileset firstgid="309" name="Luke" tilewidth="32" tileheight="32" tilecount="24" columns="12">
-  <image source="../Credits/Luke.png" width="387" height="77"/>
- </tileset>
- <tileset firstgid="333" name="cartoony clouds" tilewidth="32" tileheight="32" tilecount="184" columns="46">
-  <image source="../../Ludum Dare 35/Clouds/cartoony clouds.png" width="1478" height="128"/>
+  <image source="../credits/Luke.png" width="387" height="77"/>
  </tileset>
  <tileset firstgid="517" name="Brian P" tilewidth="32" tileheight="32" tilecount="24" columns="12">
-  <image source="../Credits/Brian P.png" width="387" height="77"/>
+  <image source="../credits/Brian_P.png" width="387" height="77"/>
  </tileset>
  <tileset firstgid="541" name="Brian Rossman" tilewidth="32" tileheight="32" tilecount="24" columns="12">
-  <image source="../Credits/Brian Rossman.png" width="387" height="77"/>
+  <image source="../credits/Brian_Rossman.png" width="387" height="77"/>
  </tileset>
  <tileset firstgid="565" name="Colin" tilewidth="32" tileheight="32" tilecount="24" columns="12">
-  <image source="../Credits/Colin.png" width="387" height="77"/>
+  <image source="../credits/Colin.png" width="387" height="77"/>
  </tileset>
  <tileset firstgid="589" name="Doug" tilewidth="32" tileheight="32" tilecount="24" columns="12">
-  <image source="../Credits/Doug.png" width="387" height="77"/>
+  <image source="../credits/Doug.png" width="387" height="77"/>
  </tileset>
  <tileset firstgid="613" name="Ian" tilewidth="32" tileheight="32" tilecount="24" columns="12">
-  <image source="../Credits/Ian.png" width="387" height="77"/>
+  <image source="../credits/Ian.png" width="387" height="77"/>
  </tileset>
  <tileset firstgid="637" name="Special Thanks" tilewidth="32" tileheight="32" tilecount="62" columns="31">
-  <image source="../Credits/Special Thanks.png" width="1000" height="77"/>
+  <image source="../credits/Special_Thanks.png" width="1000" height="77"/>
  </tileset>
  <tileset firstgid="699" name="Congratulations" tilewidth="32" tileheight="32" tilecount="62" columns="31">
-  <image source="../Credits/Congratulations.png" width="1000" height="77"/>
+  <image source="../credits/Congratulations.png" width="1000" height="77"/>
  </tileset>
  <layer name="clouds" width="320" height="12">
   <data encoding="base64">
