@@ -83,9 +83,9 @@ public class MenuScreen extends BaseScreen {
         }
 
 
-        Assets.font_round_32.getData().setScale(1);
-        layout.setText(Assets.font_round_32, "Ludum Dare 35");
-        Assets.drawString(batch, "Ludum Dare 35", camera.viewportWidth / 2f - layout.width / 2f, 20 + logoHeight + layout.height, Color.WHITE, 1f);
+        Assets.font_round_32.getData().setScale(0.5f);
+        layout.setText(Assets.font_round_32, "originally made for ludum dare 35");
+        Assets.drawString(batch, "originally made for ludum dare 35", camera.viewportWidth / 2f - layout.width / 2f, 20 + logoHeight + layout.height, Color.WHITE, 0.5f);
         batch.end();
     }
 
