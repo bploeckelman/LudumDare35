@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="32" tileheight="32" nextobjectid="83">
  <tileset firstgid="1" name="basic-tiles" tilewidth="32" tileheight="32" tilecount="256" columns="16">
-  <image source="../maps/basic-tiles.png" width="512" height="512"/>
+  <image source="../../maps/basic-tiles.png" width="512" height="512"/>
  </tileset>
  <tileset firstgid="257" name="objects" tilewidth="64" tileheight="64" tilecount="4" columns="0">
   <tile id="1">
-   <image width="32" height="64" source="../maps/fan_0.png"/>
+   <image width="32" height="64" source="../../maps/fan_0.png"/>
   </tile>
   <tile id="3">
-   <image width="32" height="32" source="../maps/exit.png"/>
+   <image width="32" height="32" source="../../maps/exit.png"/>
   </tile>
   <tile id="4">
-   <image width="32" height="32" source="../maps/spawn.png"/>
+   <image width="32" height="32" source="../../maps/spawn.png"/>
   </tile>
   <tile id="5">
-   <image width="64" height="7" source="../maps/door.png"/>
+   <image width="64" height="7" source="../../maps/door.png"/>
   </tile>
  </tileset>
  <tileset firstgid="263" name="objects" tilewidth="64" tileheight="64" tilecount="4" columns="0">
   <tile id="1">
-   <image width="32" height="64" source="../maps/fan_0.png"/>
+   <image width="32" height="64" source="../../maps/fan_0.png"/>
   </tile>
   <tile id="2">
-   <image width="32" height="32" source="../maps/spawn.png"/>
+   <image width="32" height="32" source="../../maps/spawn.png"/>
   </tile>
   <tile id="3">
-   <image width="32" height="32" source="../maps/exit.png"/>
+   <image width="32" height="32" source="../../maps/exit.png"/>
   </tile>
   <tile id="9">
-   <image width="64" height="7" source="../maps/door.png"/>
+   <image width="64" height="7" source="../../maps/door.png"/>
   </tile>
  </tileset>
  <layer name="background" width="32" height="32">
@@ -66,78 +66,78 @@
   </object>
   <object id="41" type="rope" gid="99" x="544" y="384" width="32" height="32">
    <properties>
-    <property name="group" value="rope-group-1"/>
+    <property name="group" value="rope-group-2"/>
    </properties>
   </object>
   <object id="42" type="rope" gid="83" x="512" y="384" width="32" height="32">
    <properties>
-    <property name="group" value="rope-group-1"/>
+    <property name="group" value="rope-group-2"/>
    </properties>
   </object>
   <object id="43" type="rope" gid="83" x="480" y="384" width="32" height="32">
    <properties>
-    <property name="group" value="rope-group-1"/>
+    <property name="group" value="rope-group-2"/>
    </properties>
   </object>
   <object id="44" type="rope" gid="82" x="448" y="384" width="32" height="32">
    <properties>
-    <property name="group" value="rope-group-1"/>
+    <property name="group" value="rope-group-2"/>
    </properties>
   </object>
   <object id="45" type="rope" gid="83" x="768" y="384" width="32" height="32">
    <properties>
-    <property name="group" value="rope-group-1"/>
+    <property name="group" value="rope-group-3"/>
    </properties>
   </object>
   <object id="46" type="rope" gid="82" x="704" y="384" width="32" height="32">
    <properties>
-    <property name="group" value="rope-group-1"/>
+    <property name="group" value="rope-group-3"/>
    </properties>
   </object>
   <object id="47" type="rope" gid="99" x="800" y="384" width="32" height="32">
    <properties>
-    <property name="group" value="rope-group-1"/>
+    <property name="group" value="rope-group-3"/>
    </properties>
   </object>
   <object id="48" type="rope" gid="83" x="736" y="384" width="32" height="32">
    <properties>
-    <property name="group" value="rope-group-1"/>
+    <property name="group" value="rope-group-3"/>
    </properties>
   </object>
-  <object id="55" type="door" gid="272" x="320" y="512" width="64" height="7" rotation="539.99">
+  <object id="55" type="door" gid="272" x="320" y="512" width="64" height="7" rotation="180">
    <properties>
     <property name="openRotation" type="float" value="0"/>
     <property name="triggeredByRopeGroup" value="rope-group-1"/>
    </properties>
   </object>
-  <object id="56" type="door" gid="272" x="256" y="512" width="64" height="7" rotation="539.99">
+  <object id="56" type="door" gid="272" x="191.75" y="519" width="64" height="7">
    <properties>
     <property name="openRotation" type="float" value="0"/>
     <property name="triggeredByRopeGroup" value="rope-group-1"/>
    </properties>
   </object>
-  <object id="57" type="door" gid="272" x="512" y="512" width="64" height="7" rotation="539.99">
+  <object id="57" type="door" gid="272" x="447.25" y="519" width="64" height="7">
    <properties>
-    <property name="openRotation" type="float" value="0"/>
-    <property name="triggeredByRopeGroup" value="rope-group-1"/>
+    <property name="openRotation" type="float" value="180"/>
+    <property name="triggeredByRopeGroup" value="rope-group-2"/>
    </properties>
   </object>
-  <object id="58" type="door" gid="272" x="768" y="512" width="64" height="7" rotation="539.99">
+  <object id="58" type="door" gid="272" x="703.75" y="519" width="64" height="7">
    <properties>
-    <property name="openRotation" type="float" value="0"/>
-    <property name="triggeredByRopeGroup" value="rope-group-1"/>
+    <property name="openRotation" type="float" value="180"/>
+    <property name="triggeredByRopeGroup" value="rope-group-3"/>
    </properties>
   </object>
-  <object id="59" type="door" gid="272" x="576" y="512" width="64" height="7" rotation="539.99">
+  <object id="59" type="door" gid="272" x="576" y="512" width="64" height="7" rotation="180">
    <properties>
     <property name="openRotation" type="float" value="0"/>
-    <property name="triggeredByRopeGroup" value="rope-group-1"/>
+    <property name="triggeredByRopeGroup" value="rope-group-2"/>
    </properties>
   </object>
-  <object id="60" type="door" gid="272" x="832" y="512" width="64" height="7" rotation="539.99">
+  <object id="60" type="door" gid="272" x="832" y="512" width="64" height="7" rotation="180">
    <properties>
     <property name="openRotation" type="float" value="0"/>
-    <property name="triggeredByRopeGroup" value="rope-group-1"/>
+    <property name="triggeredByRopeGroup" value="rope-group-3"/>
    </properties>
   </object>
   <object id="61" type="fan" gid="258" x="0" y="512" width="32" height="64"/>

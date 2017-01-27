@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="32" height="16" tilewidth="32" tileheight="32" nextobjectid="26">
  <tileset firstgid="1" name="basic-tiles" tilewidth="32" tileheight="32" tilecount="256" columns="16">
-  <image source="../maps/basic-tiles.png" width="512" height="512"/>
+  <image source="../../maps/basic-tiles.png" width="512" height="512"/>
  </tileset>
  <tileset firstgid="257" name="objects" tilewidth="64" tileheight="64" tilecount="4" columns="0">
   <tile id="1">
-   <image width="32" height="64" source="../maps/fan_0.png"/>
+   <image width="32" height="64" source="../../maps/fan_0.png"/>
   </tile>
   <tile id="3">
-   <image width="32" height="32" source="../maps/exit.png"/>
+   <image width="32" height="32" source="../../maps/exit.png"/>
   </tile>
   <tile id="4">
-   <image width="32" height="32" source="../maps/spawn.png"/>
+   <image width="32" height="32" source="../../maps/spawn.png"/>
   </tile>
   <tile id="5">
-   <image width="64" height="7" source="../maps/door.png"/>
+   <image width="64" height="7" source="../../maps/door.png"/>
   </tile>
  </tileset>
  <layer name="background" width="32" height="16">
@@ -31,26 +31,25 @@
   <object id="1" type="fan" gid="2147483906" x="960" y="320" width="32" height="64"/>
   <object id="2" type="fan" gid="258" x="0" y="256" width="32" height="64"/>
   <object id="3" type="spawn" gid="261" x="47.5" y="460" width="32" height="32"/>
-  <object id="4" type="fan" gid="258" x="128" y="416" width="32" height="64"/>
   <object id="5" type="fan" gid="2147483906" x="544" y="480" width="32" height="64"/>
   <object id="6" type="rope" gid="83" x="672" y="352" width="32" height="32">
    <properties>
-    <property name="group" value="rope-group-1"/>
+    <property name="group" value="rope-group-2"/>
    </properties>
   </object>
   <object id="7" type="rope" gid="82" x="640" y="352" width="32" height="32">
    <properties>
-    <property name="group" value="rope-group-1"/>
+    <property name="group" value="rope-group-2"/>
    </properties>
   </object>
   <object id="8" type="rope" gid="83" x="704" y="352" width="32" height="32">
    <properties>
-    <property name="group" value="rope-group-1"/>
+    <property name="group" value="rope-group-2"/>
    </properties>
   </object>
   <object id="9" type="rope" gid="99" x="736" y="352" width="32" height="32">
    <properties>
-    <property name="group" value="rope-group-1"/>
+    <property name="group" value="rope-group-2"/>
    </properties>
   </object>
   <object id="10" type="rope" gid="82" x="576" y="256" width="32" height="32">
