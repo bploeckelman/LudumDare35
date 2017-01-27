@@ -11,6 +11,7 @@ public class DesktopLauncher {
 		config.width = Config.gameWidth;
 		config.height = Config.gameHeight;
 		config.resizable = false;
+		config.fullscreen = true;
 		new LwjglApplication(new LudumDare35(), config);
 	}
 }
