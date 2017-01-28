@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="12" height="32" tilewidth="32" tileheight="32" nextobjectid="68">
  <tileset firstgid="1" name="basic-tiles" tilewidth="32" tileheight="32" tilecount="256" columns="16">
-  <image source="../maps/basic-tiles.png" width="512" height="512"/>
+  <image source="basic-tiles.png" width="512" height="512"/>
  </tileset>
  <tileset firstgid="257" name="objects" tilewidth="64" tileheight="64" tilecount="4" columns="0">
   <tile id="1">
-   <image width="32" height="64" source="../maps/fan_0.png"/>
+   <image width="32" height="64" source="fan_0.png"/>
   </tile>
   <tile id="3">
-   <image width="32" height="32" source="../maps/exit.png"/>
+   <image width="32" height="32" source="exit.png"/>
   </tile>
   <tile id="4">
-   <image width="32" height="32" source="../maps/spawn.png"/>
+   <image width="32" height="32" source="spawn.png"/>
   </tile>
   <tile id="5">
-   <image width="64" height="7" source="../maps/door.png"/>
+   <image width="64" height="7" source="door.png"/>
   </tile>
  </tileset>
  <layer name="background" width="12" height="32">
@@ -34,18 +34,6 @@
   <object id="4" type="spawn" gid="261" x="96" y="96" width="32" height="32"/>
   <object id="5" type="fan" gid="258" x="224" y="640" width="32" height="64" rotation="90"/>
   <object id="6" type="fan" gid="258" x="96" y="800" width="32" height="64" rotation="90"/>
-  <object id="7" type="spikes" gid="18" x="224" y="288" width="32" height="32"/>
-  <object id="8" type="spikes" gid="18" x="288" y="288" width="32" height="32"/>
-  <object id="9" type="spikes" gid="18" x="256" y="288" width="32" height="32"/>
-  <object id="12" type="spikes" gid="18" x="96" y="448" width="32" height="32"/>
-  <object id="13" type="spikes" gid="18" x="64" y="448" width="32" height="32"/>
-  <object id="14" type="spikes" gid="18" x="128" y="448" width="32" height="32"/>
-  <object id="15" type="spikes" gid="18" x="224" y="608" width="32" height="32"/>
-  <object id="16" type="spikes" gid="18" x="288" y="608" width="32" height="32"/>
-  <object id="17" type="spikes" gid="18" x="256" y="608" width="32" height="32"/>
-  <object id="20" type="spikes" gid="18" x="96" y="768" width="32" height="32"/>
-  <object id="21" type="spikes" gid="18" x="64" y="768" width="32" height="32"/>
-  <object id="22" type="spikes" gid="18" x="128" y="768" width="32" height="32"/>
   <object id="23" type="spikes" gid="18" x="32" y="992" width="32" height="32"/>
   <object id="24" type="spikes" gid="18" x="96" y="992" width="32" height="32"/>
   <object id="25" type="spikes" gid="18" x="64" y="992" width="32" height="32"/>
