@@ -70,7 +70,9 @@ public enum Level {
     TROY_IS_SUPER_PROUD_OF_THIS_ONE  ("maps/Troy_Is_Super_Proud_of_This_One.tmx",  32, 64, new boolean[] { true, true, true, true, true, true}),
     UNNECESSARY_ROPES_               ("maps/Unnecessary_Ropes.tmx",                32, 64, new boolean[] { true, true, true, true, true, true}),
     UP_AROUND_AND_BACK_AGAIN         ("maps/Up_Around_and_Back_Again.tmx",         32, 64, new boolean[] { true, true, true, true, true, true}),
-//    WIDE_PATHWAYS_AND_LONG_ROPES     ("maps/Wide_Pathways_and_Long_Ropes.tmx",     32, 64, new boolean[] { true, true, true, true, true, true}),
+    JANUARY_NEW_LEVEL_1              ("maps/January_New_Level_1.tmx",              32, 64, new boolean[] { true, true, true, true, true, true}),
+    JANUARY_NEW_LEVEL_2              ("maps/January_New_Level_2.tmx",              32, 64, new boolean[] { true, true, true, true, true, true}),
+    //    WIDE_PATHWAYS_AND_LONG_ROPES     ("maps/Wide_Pathways_and_Long_Ropes.tmx",     32, 64, new boolean[] { true, true, true, true, true, true}),
     END_CREDITS                      ("maps/End_Credits.tmx",   32, 64, new boolean[] { true, true, true, true, true, true});
 
 

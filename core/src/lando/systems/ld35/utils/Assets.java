@@ -234,8 +234,8 @@ public class Assets {
     }
 
     public static int getMaxLevelCompleted() {
-//        return 13;
-        return 57;//63 - 6;
+
+        return 59;
 //        return Gdx.app.getPreferences(prefsName).getInteger(prefMaxLevelCompleted);
     }
 
