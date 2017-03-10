@@ -156,9 +156,9 @@ public class GameScreen extends BaseScreen {
             }
         }
         Assets.fontShader.setUniformf("u_scale", 0.75f);
-        Assets.font_round_32.getData().setScale(0.75f);
-        Assets.glyphLayout.setText(Assets.font_round_32, "Reset");
-        Assets.font_round_32.draw(batch, "Reset",
+        Assets.font_round_32.getData().setScale(0.6f);
+        Assets.glyphLayout.setText(Assets.font_round_32, "Suicide");
+        Assets.font_round_32.draw(batch, "Suicide",
                                   resetLevelButton.bounds.x + resetLevelButton.bounds.width / 2f - Assets.glyphLayout.width / 2f + 4f,
                                   resetLevelButton.bounds.y + resetLevelButton.bounds.height - 7f);
 
