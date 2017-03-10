@@ -40,6 +40,11 @@ public class HtmlLauncher extends GwtApplication implements ActionResolver{
         }
 
         @Override
+        public boolean showFPS() {
+                return false;
+        }
+
+        @Override
         public boolean showMouseCursor() {
                 return false;
         }

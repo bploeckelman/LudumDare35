@@ -13,6 +13,8 @@ public class DesktopLauncher {
             try {
                 if (arg.equalsIgnoreCase("help") || arg.equalsIgnoreCase("h")) {
                     showHelp();
+                } else if (arg.equalsIgnoreCase("fps")){
+                   actionResolver.showFPS = true;
                 } else if (arg.equalsIgnoreCase("freeplay")){
                     actionResolver.freePlay = true;
                 } else if (arg.contains("fullscreen")) {

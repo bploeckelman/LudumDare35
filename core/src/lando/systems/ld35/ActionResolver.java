@@ -9,4 +9,5 @@ public interface ActionResolver {
     boolean isFreePlay();
     int livesPerCredit();
     int continuesPerCredit();
+    boolean showFPS();
 }

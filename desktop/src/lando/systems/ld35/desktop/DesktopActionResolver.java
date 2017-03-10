@@ -11,6 +11,7 @@ public class DesktopActionResolver implements ActionResolver {
     public boolean showMouseCursor = false;
     public int livesPerCredit = 5;
     public int continuesPerCredit = 3;
+    public boolean showFPS = false;
 
     public DesktopActionResolver(){
     }
@@ -33,6 +34,11 @@ public class DesktopActionResolver implements ActionResolver {
     @Override
     public int continuesPerCredit() {
         return continuesPerCredit;
+    }
+
+    @Override
+    public boolean showFPS() {
+        return showFPS;
     }
 
     @Override

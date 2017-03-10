@@ -56,9 +56,13 @@ public class GameScreen extends BaseScreen {
     boolean             drawStats;
     Color               retryTextColor;
     Color               levelNameColor;
+    Array<Vector2>      windGrid;
+    int                 mapWidth;
+    Vector2             tempVec2;
 
     public GameScreen(int levelIndex) {
         super();
+        tempVec2 = new Vector2();
         pauseGame = false;
         updateWindField = true;
         drawStats = false;
@@ -68,6 +72,7 @@ public class GameScreen extends BaseScreen {
         birds = new Array<Bird>();
         retryTextColor = new Color(Config.balloonColor);
         loadLevel(levelIndex);
+        updateWindGrid();
         updateCamera(0f, true);
 
         Utils.glClearColor(Config.bgColor);
@@ -138,6 +143,9 @@ public class GameScreen extends BaseScreen {
         playerBalloon.render(batch);
 
         batch.setProjectionMatrix(hudCamera.combined);
+        if (LudumDare35.game.resolver.showFPS()) {
+            Assets.font.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 0, hudCamera.viewportHeight);
+        }
         Assets.trayNinepatch.draw(batch, buttonTrayRect.x, buttonTrayRect.y, buttonTrayRect.width, buttonTrayRect.height);
         for (int i = 0; i < stateButtons.size; ++i) {
             StateButton stateButton = stateButtons.get(i);
@@ -327,6 +335,7 @@ public class GameScreen extends BaseScreen {
 
 
     private Vector2 getCameraTarget(){
+        //TODO: make this not janky when the board is smaller than the screen.
         Vector2 targetCameraPosition = playerBalloon.position.cpy();
         targetCameraPosition.x = MathUtils.clamp(targetCameraPosition.x, camera.viewportWidth/2f, level.foregroundLayer.getWidth()*32 -camera.viewportWidth/2f );
         targetCameraPosition.y = MathUtils.clamp(targetCameraPosition.y, Math.min(camera.viewportHeight/2f - buttonTrayRect.height, level.foregroundLayer.getHeight()*16), Math.max(level.foregroundLayer.getHeight()*32 -camera.viewportHeight/2f, level.foregroundLayer.getHeight()*16) );
@@ -359,13 +368,19 @@ public class GameScreen extends BaseScreen {
 
         for (int i = dustMotes.size -1; i >= 0; i--){
             WindParticle mote = dustMotes.get(i);
-            for (ObjectBase obj : level.mapObjects){
-                if (obj instanceof Fan){
-                    Fan f = (Fan) obj;
-                    Vector2 force = f.getWindForce(mote.pos);
-                    if (!force.epsilonEquals( Vector2.Zero, 1f))
-                        mote.vel.add(force.add(MathUtils.random(10f) -5f, MathUtils.random(10f) -5f).scl(dt * 10));
-                }
+            int index = getWindMapIndex(mote.pos);
+            if (index >= 0 && index < windGrid.size) {
+                tempVec2.set(windGrid.get(index));
+//            for (ObjectBase obj : level.mapObjects){
+//                if (obj instanceof Fan){
+//                    Fan f = (Fan) obj;
+//                    Vector2 force = f.getWindForce(mote.pos);
+//                    if (!force.epsilonEquals( Vector2.Zero, 1f))
+//                        mote.vel.add(force.add(MathUtils.random(10f) -5f, MathUtils.random(10f) -5f).scl(dt * 10));
+//                }
+//            }
+                if (!tempVec2.epsilonEquals(Vector2.Zero, 1f))
+                    mote.vel.add(tempVec2.add(MathUtils.random(10f) - 5f, MathUtils.random(10f) - 5f).scl(dt * 10));
             }
             mote.update(dt);
             if (mote.TTL < 0 || mote.vel.len2() < 50) {
@@ -423,6 +438,7 @@ public class GameScreen extends BaseScreen {
                     f.calcWindField();
                 }
             }
+            updateWindGrid();
         }
     }
 
@@ -554,6 +570,36 @@ public class GameScreen extends BaseScreen {
             , " minutes "
             , "Thanks for playing!"
     };
+
+    private void updateWindGrid(){
+        int mapHeight = level.foregroundLayer.getHeight();
+        if (windGrid == null){
+            mapWidth = level.foregroundLayer.getWidth();
+            windGrid = new Array<Vector2>();
+            for (int i = 0; i < mapHeight * mapWidth; i++){
+                windGrid.add(new Vector2());
+            }
+        }
+        for (int i = 0; i < mapWidth * mapHeight; i++){
+            float x = 16 + (i % mapWidth * 32);
+            float y = 16 + (i /mapWidth * 32);
+            tempVec2.set(x, y);
+            Vector2 pointV = windGrid.get(i);
+            pointV.set(0,0);
+            for (int j = 0; j < level.mapObjects.size; j++ ){
+                if (level.mapObjects.get(j) instanceof Fan){
+                    Fan f = (Fan) level.mapObjects.get(j);
+                    pointV.add(f.getWindForce(tempVec2));
+                }
+            }
+        }
+    }
+
+    private int getWindMapIndex(Vector2 pos){
+        int worldX = (int)pos.x / 32;
+        int worldY = (int)pos.y / 32;
+        return worldX + worldY * mapWidth;
+    }
 
     private void drawStatisticsText(SpriteBatch batch) {
         if (!drawStats) return;

@@ -37,4 +37,9 @@ public class AndroidLauncher extends AndroidApplication implements ActionResolve
 	public int continuesPerCredit() {
 		return 0;
 	}
+
+	@Override
+	public boolean showFPS() {
+		return false;
+	}
 }
