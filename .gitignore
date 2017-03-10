@@ -67,3 +67,4 @@ build/
 
 ## OS Specific
 .DS_Store
+android/assets/maps/Thumbs.db
