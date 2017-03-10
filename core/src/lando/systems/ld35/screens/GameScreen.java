@@ -40,6 +40,7 @@ import lando.systems.ld35.utils.accessors.Vector2Accessor;
 public class GameScreen extends BaseScreen {
 
     LevelInfo           level;
+    String              levelName;
     Balloon             playerBalloon;
     Array<WindParticle> dustMotes;
     Array<Cloud>        clouds;
@@ -54,6 +55,7 @@ public class GameScreen extends BaseScreen {
     boolean             updateWindField;
     boolean             drawStats;
     Color               retryTextColor;
+    Color               levelNameColor;
 
     public GameScreen(int levelIndex) {
         super();
@@ -76,6 +78,9 @@ public class GameScreen extends BaseScreen {
 
         Assets.particles.clear();
 
+        levelName = Level.values()[levelIndex].name().replace("_", " ");
+        levelNameColor = new Color(1f, 1f, 1f, 1f);
+        Tween.to(levelNameColor, ColorAccessor.A, 3f).target(0f).start(Assets.tween);
     }
 
     // ------------------------------------------------------------------------
@@ -162,6 +167,16 @@ public class GameScreen extends BaseScreen {
         Assets.font_round_32.draw(batch, "Suicide",
                                   resetLevelButton.bounds.x + resetLevelButton.bounds.width / 2f - Assets.glyphLayout.width / 2f + 4f,
                                   resetLevelButton.bounds.y + resetLevelButton.bounds.height - 7f);
+
+        // Draw Level Name
+        Assets.fontShader.setUniformf("u_scale", 1f);
+        Assets.font_round_32.getData().setScale(1f);
+        Assets.glyphLayout.setText(Assets.font_round_32, levelName);
+        Assets.font_round_32.setColor(levelNameColor);
+        Assets.font_round_32.draw(batch, levelName,
+                camera.viewportWidth / 2f - Assets.glyphLayout.width / 2f,
+                camera.viewportHeight / 2f - Assets.glyphLayout.height / 2f + 50f);
+        Assets.font_round_32.setColor(Color.WHITE);
 
         if (playerBalloon.currentState == Balloon.State.DEAD) {
             batch.setShader(null);
