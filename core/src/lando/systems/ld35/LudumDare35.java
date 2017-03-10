@@ -8,12 +8,18 @@ import lando.systems.ld35.screens.MenuScreen;
 import lando.systems.ld35.utils.Assets;
 import lando.systems.ld35.utils.SoundManager;
 
+
 public class LudumDare35 extends ApplicationAdapter {
 
     public static LudumDare35 game;
     public static long startTime = 0l;
 
     public BaseScreen screen;
+    public ActionResolver resolver;
+
+    public LudumDare35(ActionResolver actionResolver) {
+        resolver = actionResolver;
+    }
 
     @Override
     public void create() {
@@ -26,6 +32,7 @@ public class LudumDare35 extends ApplicationAdapter {
         screen = new MenuScreen();
         game = this;
         startTime = TimeUtils.millis();
+        Gdx.input.setCursorCatched(!resolver.showMouseCursor());
     }
 
     @Override
