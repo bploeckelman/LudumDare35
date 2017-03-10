@@ -144,17 +144,18 @@ public class GameScreen extends BaseScreen {
         resetLevelButton.render(batch);
 
         batch.setShader(Assets.fontShader);
-        Assets.fontShader.setUniformf("u_scale", 0.45f);
-        Assets.font_round_32.getData().setScale(.45f);
-        for (int i = 0; i < stateButtons.size; ++i) {
-            StateButton stateButton = stateButtons.get(i);
-            if (stateButton.enabled) {
-                Assets.font_round_32.setColor(stateButton.active ? Color.WHITE : Color.WHITE);
-                Assets.font_round_32.draw(batch, Integer.toString(i + 1),
-                                          stateButton.bounds.x + stateButton.bounds.width - 8f,
-                                          stateButton.bounds.y + stateButton.bounds.height - 3f);
-            }
-        }
+        // Draw button number if its the active state
+//        Assets.fontShader.setUniformf("u_scale", 0.45f);
+//        Assets.font_round_32.getData().setScale(.45f);
+//        for (int i = 0; i < stateButtons.size; ++i) {
+//            StateButton stateButton = stateButtons.get(i);
+//            if (stateButton.enabled) {
+//                Assets.font_round_32.setColor(stateButton.active ? Color.GREEN: Color.WHITE);
+//                Assets.font_round_32.draw(batch, Integer.toString(i + 1),
+//                                          stateButton.bounds.x + stateButton.bounds.width - 8f,
+//                                          stateButton.bounds.y + stateButton.bounds.height - 3f);
+//            }
+//        }
         Assets.fontShader.setUniformf("u_scale", 0.75f);
         Assets.font_round_32.getData().setScale(0.6f);
         Assets.glyphLayout.setText(Assets.font_round_32, "Suicide");
