@@ -220,8 +220,8 @@ public class GameScreen extends BaseScreen {
         touchPosUnproject = hudCamera.unproject(new Vector3(screenX, screenY, 0));
         touchPosScreen.set(touchPosUnproject.x, touchPosUnproject.y);
 
-        if (playerBalloon.currentState == Balloon.State.POP ||
-            playerBalloon.currentState == Balloon.State.DEAD) {
+        if ((playerBalloon.currentState == Balloon.State.POP ||
+             playerBalloon.currentState == Balloon.State.DEAD) && drawStats) {
             resetLevel();
             drawStats = false;
             return false;
