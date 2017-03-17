@@ -2,7 +2,6 @@ package lando.systems.ld35.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import lando.systems.ld35.ActionResolver;
 import lando.systems.ld35.LudumDare35;
 import lando.systems.ld35.utils.Config;
 
@@ -26,6 +25,11 @@ public class DesktopLauncher {
                     String[] parts = arg.split("=");
                     if (parts.length >= 2) {
                         actionResolver.showMouseCursor = Boolean.parseBoolean(parts[1]);
+                    }
+                } else if (arg.contains("playmusic")) {
+                    String[] parts = arg.split("=");
+                    if (parts.length >= 2) {
+                        actionResolver.playMusic = Boolean.parseBoolean(parts[1]);
                     }
                 } else if (arg.contains("lives")){
                     String[] parts = arg.split("=");
@@ -63,6 +67,7 @@ public class DesktopLauncher {
         System.out.println("freeplay - Don't use coins to add credits (Default: coin op)");
         System.out.println("fullscreen={true:false} - make the game full screen (Default: true)");
         System.out.println("showmouse={true:false} - Show the mouse cursor (Default: false)");
+        System.out.println("playmusic={true:false} - Play the music (Default: true)");
         System.out.println("lives=# - Number of lives per credit (Default: 5)");
         System.out.println("continues=# - Number of Continues (Default: 3)");
         System.out.println("Exiting");

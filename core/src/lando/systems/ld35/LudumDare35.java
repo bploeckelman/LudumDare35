@@ -25,7 +25,7 @@ public class LudumDare35 extends ApplicationAdapter {
     @Override
     public void create() {
         Assets.load();
-        SoundManager.load();
+        SoundManager.load(resolver.playMusic());
         float progress = 0f;
         do {
             progress = Assets.update();
@@ -49,7 +49,7 @@ public class LudumDare35 extends ApplicationAdapter {
     @Override
     public void resume() {
         Assets.load();
-        SoundManager.load();
+        SoundManager.load(resolver.playMusic());
         game = this;
     }
 

@@ -42,4 +42,9 @@ public class AndroidLauncher extends AndroidApplication implements ActionResolve
 	public boolean showFPS() {
 		return false;
 	}
+
+	@Override
+	public boolean playMusic() {
+		return true;
+	}
 }

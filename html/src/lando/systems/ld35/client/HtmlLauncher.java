@@ -48,4 +48,9 @@ public class HtmlLauncher extends GwtApplication implements ActionResolver{
         public boolean showMouseCursor() {
                 return false;
         }
+
+        @Override
+        public boolean playMusic() {
+                return true;
+        }
 }

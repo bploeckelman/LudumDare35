@@ -43,7 +43,7 @@ public class SoundManager{
     public static Music gameMusic;
     public static MutableFloat musicVolume;
 
-    public static void load() {
+    public static void load(boolean playMusic) {
 
         soundMap.put(SoundOptions.Bounce, Gdx.audio.newSound(Gdx.files.internal("sound/bounce.mp3")));
         soundMap.put(SoundOptions.Deflate, Gdx.audio.newSound(Gdx.files.internal("sound/deflate.mp3")));
@@ -64,7 +64,9 @@ public class SoundManager{
             musicVolume = new MutableFloat(0);
             gameMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/elevator.mp3"));
             gameMusic.setLooping(true);
-            gameMusic.play();
+            if (playMusic) {
+                gameMusic.play();
+            }
             setMusicVolume(.3f);
         }
     }
