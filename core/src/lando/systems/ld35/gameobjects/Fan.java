@@ -26,8 +26,9 @@ public class Fan extends ForceEntity {
 
     }
 
+    Vector2 force = new Vector2();
     public Vector2 getWindForce(Vector2 pos){
-        Vector2 force = new Vector2();
+        force.set(0f, 0f);
         if (windField.bounds.contains(pos)){
             force.add(direction).scl(60);
         }

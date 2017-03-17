@@ -34,8 +34,8 @@ public class WindParticle {
     }
 
     public void update(float dt){
-        trail.add(vector2Pool.obtain().set(pos.cpy()));
-        pos.add(vel.cpy().scl(dt));
+        trail.add(vector2Pool.obtain().set(pos.x, pos.y));
+        pos.add(vel.x * dt, vel.y * dt);
         vel.scl(.99f);
         vel.x = MathUtils.clamp(vel.x, -MAX_SPEED, MAX_SPEED);
         vel.y = MathUtils.clamp(vel.y, -MAX_SPEED, MAX_SPEED);

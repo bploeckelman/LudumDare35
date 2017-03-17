@@ -334,9 +334,10 @@ public class GameScreen extends BaseScreen {
    }
 
 
+   Vector2 targetCameraPosition = new Vector2();
     private Vector2 getCameraTarget(){
         //TODO: make this not janky when the board is smaller than the screen.
-        Vector2 targetCameraPosition = playerBalloon.position.cpy();
+        targetCameraPosition.set(playerBalloon.position);
         targetCameraPosition.x = MathUtils.clamp(targetCameraPosition.x, camera.viewportWidth/2f, level.foregroundLayer.getWidth()*32 -camera.viewportWidth/2f );
         targetCameraPosition.y = MathUtils.clamp(targetCameraPosition.y, Math.min(camera.viewportHeight/2f - buttonTrayRect.height, level.foregroundLayer.getHeight()*16), Math.max(level.foregroundLayer.getHeight()*32 -camera.viewportHeight/2f, level.foregroundLayer.getHeight()*16) );
 

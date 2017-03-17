@@ -135,6 +135,7 @@ public class Balloon {
             .start(Assets.tween);
     }
 
+    Vector2 nextPos = new Vector2();
     public void update(float dt, LevelInfo levelInfo){
         accumulator+= dt;
         switch (currentState){
@@ -183,7 +184,7 @@ public class Balloon {
         velocity.x = MathUtils.clamp(velocity.x, -MAX_SPEED, MAX_SPEED);
         velocity.y = MathUtils.clamp(velocity.y, -MAX_SPEED, MAX_SPEED);
 
-        Vector2 nextPos = position.cpy().add(velocity.cpy().scl(dt));
+        nextPos.set(position.x, position.y).add(velocity.x * dt, velocity.y * dt);
 
         float yFloat = MathUtils.sin(accumulator * 4f) * .4f;
 
