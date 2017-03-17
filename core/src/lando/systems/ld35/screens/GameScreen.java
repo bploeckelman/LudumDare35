@@ -431,6 +431,7 @@ public class GameScreen extends BaseScreen {
 
     private void updateWinds(){
         if (updateWindField){
+            windGrid = null;
             updateWindField = false;
             for (int i = 0; i < level.mapObjects.size; i++ ){
                 if (level.mapObjects.get(i) instanceof Fan){
@@ -464,6 +465,7 @@ public class GameScreen extends BaseScreen {
                                     dustMotes.clear();
                                     Assets.setMaxLevelCompleted(level.levelIndex);
                                     level.nextLevel();
+                                    updateWindField = true;
                                     Statistics.numLevelsCompleted = Assets.getMaxLevelCompleted() + 1;
                                     // TODO: check for game over
                                     enableButtons();
