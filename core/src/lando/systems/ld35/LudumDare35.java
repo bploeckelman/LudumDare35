@@ -2,6 +2,7 @@ package lando.systems.ld35;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.utils.TimeUtils;
 import lando.systems.ld35.screens.BaseScreen;
 import lando.systems.ld35.screens.MenuScreen;
@@ -32,7 +33,17 @@ public class LudumDare35 extends ApplicationAdapter {
         screen = new MenuScreen();
         game = this;
         startTime = TimeUtils.millis();
-        Gdx.input.setCursorCatched(!resolver.showMouseCursor());
+
+        if (!resolver.showMouseCursor()) {
+            int x = 16;
+            int y = 16;
+            Pixmap pm = new Pixmap(x, y, Pixmap.Format.RGBA8888);
+            Pixmap.setBlending(Pixmap.Blending.None);
+            pm.setColor(0f, 0f, 0f, 0f);
+            pm.fillRectangle(0, 0, x, y);
+            Gdx.graphics.setCursor(Gdx.graphics.newCursor(pm, 0, 0));
+        }
+
     }
 
     @Override
