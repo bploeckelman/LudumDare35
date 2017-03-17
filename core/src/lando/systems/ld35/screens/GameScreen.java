@@ -59,10 +59,12 @@ public class GameScreen extends BaseScreen {
     Array<Vector2>      windGrid;
     int                 mapWidth;
     Vector2             tempVec2;
+    TouchAnimation      touchPoint;
 
     public GameScreen(int levelIndex) {
         super();
         tempVec2 = new Vector2();
+        touchPoint = new TouchAnimation();
         pauseGame = false;
         updateWindField = true;
         drawStats = false;
@@ -100,7 +102,7 @@ public class GameScreen extends BaseScreen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
             pauseGame = !pauseGame;
         }
-
+        touchPoint.update(dt);
         updateCamera(dt, false);
         updateDust(dt);
         Assets.particles.update(dt, level);
@@ -155,7 +157,7 @@ public class GameScreen extends BaseScreen {
         }
         mainMenuButton.render(batch);
         resetLevelButton.render(batch);
-
+        touchPoint.render(batch);
         batch.setShader(Assets.fontShader);
         // Draw button number if its the active state
 //        Assets.fontShader.setUniformf("u_scale", 0.45f);
@@ -219,6 +221,7 @@ public class GameScreen extends BaseScreen {
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         touchPosUnproject = hudCamera.unproject(new Vector3(screenX, screenY, 0));
         touchPosScreen.set(touchPosUnproject.x, touchPosUnproject.y);
+        touchPoint.setPoint(touchPosScreen.x, touchPosScreen.y);
 
         if ((playerBalloon.currentState == Balloon.State.POP ||
              playerBalloon.currentState == Balloon.State.DEAD) && drawStats) {
