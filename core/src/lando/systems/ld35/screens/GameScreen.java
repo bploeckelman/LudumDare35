@@ -148,6 +148,7 @@ public class GameScreen extends BaseScreen {
         if (LudumDare35.game.resolver.showFPS()) {
             Assets.font.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 0, hudCamera.viewportHeight);
         }
+//        batch.draw(playerBalloon.collisionTex, 0, hudCamera.viewportHeight - 80, 32,-32);
         Assets.trayNinepatch.draw(batch, buttonTrayRect.x, buttonTrayRect.y, buttonTrayRect.width, buttonTrayRect.height);
         for (int i = 0; i < stateButtons.size; ++i) {
             StateButton stateButton = stateButtons.get(i);

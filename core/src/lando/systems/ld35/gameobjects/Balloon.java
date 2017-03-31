@@ -4,6 +4,7 @@ import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.primitives.MutableFloat;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -50,6 +51,9 @@ public class Balloon {
     float rotation;
     Vector2 magnetForce;
     float accumulator;
+//    Pixmap              _collisionPixmap;
+//    public Texture      collisionTex;
+    Vector2 massOfCollision;
 
     public Balloon(Vector2 position, GameScreen screen){
         accumulator = 0;
@@ -66,6 +70,7 @@ public class Balloon {
         this.intersectorRectangle = new Rectangle();
         this.intersectMap = new boolean[32 * 32];
         magnetForce = new Vector2();
+        massOfCollision = new Vector2();
         bounds.x = position.x + BOUNDS_MARGIN;
         bounds.y = position.y + BOUNDS_MARGIN;
         bounds.getCenter(center);
@@ -80,6 +85,8 @@ public class Balloon {
             stateToAnimationMap.put(State.BUZZSAW, Assets.balloonToBuzzsawAnimation);
             stateToAnimationMap.put(State.POP, Assets.balloonToPopAnimation);
         }
+//        _collisionPixmap = new Pixmap(32, 32, Pixmap.Format.RGB888);
+//        collisionTex = new Texture(_collisionPixmap);
     }
 
     public void changeState(State state) {
@@ -193,7 +200,7 @@ public class Balloon {
         if (currentState != State.SPINNER) velocity.scl(.99f);
 
         boolean collided = false;
-        Vector2 massOfCollision = new Vector2();
+        massOfCollision.set(0,0);
         int tileX = (int)(nextPos.x / 32);
         int tileY = (int)(nextPos.y / 32);
         Array<LevelBoundry> cells = levelInfo.getTiles(tileX - 1, tileY - 1, tileX + 1, tileY + 1);
@@ -214,7 +221,7 @@ public class Balloon {
                     Rectangle textureArea = new Rectangle(intersectorRectangle.x - boundry.rect.x + boundry.tile.getTile().getTextureRegion().getRegionX(),
                                                       intersectorRectangle.y - boundry.rect.y + boundry.tile.getTile().getTextureRegion().getRegionY(),
                                                       intersectorRectangle.width, intersectorRectangle.height);
-
+                    Rectangle overlapRect = new Rectangle(intersectorRectangle.x - bounds.x, intersectorRectangle.y - bounds.y, intersectorRectangle.width, intersectorRectangle.height);
                     int regionY = boundry.tile.getTile().getTextureRegion().getRegionY();
                     // This may need to be <=
                     for (int x = 0; x < textureArea.width; x++){
@@ -222,9 +229,11 @@ public class Balloon {
                             int texX = x + (int)textureArea.x;
                             int texY = 31 - (int)(y + Math.abs(intersectorRectangle.y - boundry.rect.y)) + regionY;
                             int pix = tilePixmap.getPixel(texX, texY);
+                            if (intersectorRectangle.x - bounds.x >= 32 || intersectorRectangle.x - bounds.x < 0) continue;
+                            if (intersectorRectangle.y - bounds.y >= 32 || intersectorRectangle.y - bounds.y < 0) continue;
                             int index = (int)( intersectorRectangle.x - bounds.x) + x + (int)(intersectorRectangle.y - bounds.y + y) * 32;
                             if (index >= intersectMap.length) continue;
-                            intersectMap[index] = (pix & 0xFF) != 0x00;
+                            if ((pix & 0xFF) != 0x00) intersectMap[index] = true;
                         }
                     }
 //                    Gdx.app.log("Collision", textureArea.toString());
@@ -258,10 +267,14 @@ public class Balloon {
                 }
             }
         }
-
+//        _collisionPixmap.setColor(Color.BLACK);
+//        _collisionPixmap.fill();
         for (int i = 0; i < intersectMap.length;i++){
+            int cX = i %32;
+            int cY = i /32;
             if (intersectMap[i]){
                 collided = true;
+//                _collisionPixmap.drawPixel(cX, cY, Color.RED.toIntBits());
                 int x = 16 - (i % 32);
                 int y = 16 - (i / 32);
                 if (x <= 0) x--;
@@ -269,25 +282,29 @@ public class Balloon {
                 massOfCollision.add(x, y);
             }
         }
+//        collisionTex = new Texture(_collisionPixmap);
 
         if (collided){
             massOfCollision.nor();
+//            massOfCollision.scl(-1);
             float dot = 2f * massOfCollision.dot(velocity);  // r = d - 2(d . n)n
-            velocity.sub(massOfCollision.scl(dot));
+            if (Math.abs(massOfCollision.angle(velocity)) > 90)
+                velocity.sub(massOfCollision.x *dot, massOfCollision.y * dot);
             if (currentState == State.DEAD){
                 velocity.scl(.8f);
             } else {
                 velocity.scl(.9f);
             }
-            nextPos = position;
-
+//            nextPos = position;
+            velocity.add(massOfCollision.x * 10, massOfCollision.y * 10);
+        } else {
+            position.set(nextPos);
         }
 
         for(int i =0; i < intersectMap.length; i++){
             intersectMap[i] = false;
         }
 
-        position = nextPos;
 
 
 
@@ -305,6 +322,18 @@ public class Balloon {
                 batch.draw(currentTexture, position.x, position.y, 16, 16, 32, 32, 1, 1, rotation);
             }
         }
+//        Vector2 norm = velocity.cpy();
+//        norm.nor();
+//        for (int i = 0; i < velocity.len(); i++){
+//            batch.draw(Assets.whitePixelTexture, center.x + i * norm.x, center.y + i * norm.y, 1, 1);
+//        }
+//        batch.setColor(Color.GREEN);
+//        norm = massOfCollision.cpy();
+//        norm.nor();
+//        for (int i = 0; i < 30; i++){
+//            batch.draw(Assets.whitePixelTexture, center.x + i * norm.x, center.y + i * norm.y, 1, 1);
+//        }
+//        batch.setColor(Color.WHITE);
     }
 
     // ------------------------------------------------------------------------
