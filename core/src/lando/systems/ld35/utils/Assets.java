@@ -86,6 +86,7 @@ public class Assets {
     public static String prefMaxLevelCompleted;
     public static int maxLevelCompleted;
 
+
     public static boolean initialized;
     public static ParticleManager particles;
 
@@ -237,8 +238,8 @@ public class Assets {
 
     public static int getMaxLevelCompleted() {
 
-        return 59;
-//        return Gdx.app.getPreferences(prefsName).getInteger(prefMaxLevelCompleted);
+//        return 59;
+        return Gdx.app.getPreferences(prefsName).getInteger(prefMaxLevelCompleted, 0);
     }
 
     public static void setMaxLevelCompleted(int levelIndex) {
@@ -248,4 +249,10 @@ public class Assets {
                .flush();
     }
 
+    public static void resetGameState(){
+        Preferences prefs = Gdx.app.getPreferences(prefsName);
+        prefs.putInteger(prefMaxLevelCompleted, 0);
+        //TODO reset all game state
+        prefs.flush();
+    }
 }

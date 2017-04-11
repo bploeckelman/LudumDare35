@@ -35,6 +35,7 @@ public class LevelButton extends Button {
     private       Vector2 textPos;
     private       boolean settled;
     private       boolean drawText;
+    public        boolean active;
     GlyphLayout layout;
 
     public LevelButton(int levelId, float x, float y, float w, float h) {
@@ -62,9 +63,10 @@ public class LevelButton extends Button {
                                    bounds.y + ((bounds.height) / 1.7f));
         this.drawText = false;
         this.settled = false;
+        this.active = levelId <= Assets.getMaxLevelCompleted();
         final Color newColor = new Color();
-        if (levelId < Assets.getMaxLevelCompleted())  newColor.set(Config.balloonColor);  // game balloon red
-        else                                          newColor.set(18f / 255f, 227f / 255f, 119f / 255f, 1f); // greenish, sorta
+        if (!active)  newColor.set(Config.balloonColor);  // game balloon red
+        else          newColor.set(18f / 255f, 227f / 255f, 119f / 255f, 1f); // greenish, sorta
 
         Tween.to(angle, -1, MathUtils.random(1f, 1.5f))
              .target(-1f * angle.floatValue())

@@ -99,6 +99,9 @@ public class GameScreen extends BaseScreen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             LudumDare35.game.screen = new LevelSelectScreen();
         }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_0)){
+            LudumDare35.game.resetGame();
+        }
         if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
             pauseGame = !pauseGame;
         }

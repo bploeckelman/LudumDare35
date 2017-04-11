@@ -68,4 +68,9 @@ public class LudumDare35 extends ApplicationAdapter {
         screen.render(Assets.batch);
     }
 
+    public void resetGame(){
+        Assets.resetGameState();
+        screen = new MenuScreen();
+    }
+
 }

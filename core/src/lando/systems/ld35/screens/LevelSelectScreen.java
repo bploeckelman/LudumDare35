@@ -118,7 +118,7 @@ public class LevelSelectScreen extends BaseScreen {
 
     private void generateLevelButtons() {
         maxLevelCompleted = Math.min(Assets.getMaxLevelCompleted() + 1, Level.values().length);
-        numPages = (int) Math.ceil(maxLevelCompleted / (float) LEVELS_PER_PAGE);
+        numPages = (int) Math.ceil(Level.values().length / (float) LEVELS_PER_PAGE);
 
         buttonsWide = 1;
         while (buttonsWide * buttonsWide < LEVELS_PER_PAGE) {
@@ -138,7 +138,7 @@ public class LevelSelectScreen extends BaseScreen {
         buttons = new Array<LevelButton>();
         for (int y = buttonsWide - 1; y >= 0; --y) {
             for (int x = 0; x < buttonsWide; ++x) {
-                if (levelIndex >=  maxLevelCompleted || levelIndex >= Level.values().length) break;
+                if ( levelIndex >= Level.values().length) break;
 
                 buttons.add(
                         new LevelButton(levelIndex,
@@ -163,7 +163,7 @@ public class LevelSelectScreen extends BaseScreen {
         touchPosScreen.set(touchPosUnproject.x, touchPosUnproject.y);
 
         for (LevelButton levelButton : buttons) {
-            if (levelButton.checkForTouch(touchPosScreen.x, touchPosScreen.y)) {
+            if (levelButton.active && levelButton.checkForTouch(touchPosScreen.x, touchPosScreen.y)) {
                 LudumDare35.game.screen = new GameScreen(levelButton.levelId);
             }
         }
