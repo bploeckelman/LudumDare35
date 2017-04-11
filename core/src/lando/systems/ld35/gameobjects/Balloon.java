@@ -17,6 +17,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.TimeUtils;
+import lando.systems.ld35.LudumDare35;
 import lando.systems.ld35.screens.GameScreen;
 import lando.systems.ld35.utils.Assets;
 import lando.systems.ld35.utils.LevelBoundry;
@@ -51,8 +52,8 @@ public class Balloon {
     float rotation;
     Vector2 magnetForce;
     float accumulator;
-//    Pixmap              _collisionPixmap;
-//    public Texture      collisionTex;
+    Pixmap              _collisionPixmap;
+    public Texture      collisionTex;
     Vector2 massOfCollision;
 
     public Balloon(Vector2 position, GameScreen screen){
@@ -85,8 +86,8 @@ public class Balloon {
             stateToAnimationMap.put(State.BUZZSAW, Assets.balloonToBuzzsawAnimation);
             stateToAnimationMap.put(State.POP, Assets.balloonToPopAnimation);
         }
-//        _collisionPixmap = new Pixmap(32, 32, Pixmap.Format.RGB888);
-//        collisionTex = new Texture(_collisionPixmap);
+        _collisionPixmap = new Pixmap(32, 32, Pixmap.Format.RGB888);
+        collisionTex = new Texture(_collisionPixmap);
     }
 
     public void changeState(State state) {
@@ -267,14 +268,19 @@ public class Balloon {
                 }
             }
         }
-//        _collisionPixmap.setColor(Color.BLACK);
-//        _collisionPixmap.fill();
+        boolean debug = LudumDare35.game.resolver.showDebug();
+        if (debug) {
+        _collisionPixmap.setColor(Color.BLACK);
+        _collisionPixmap.fill();
+        }
         for (int i = 0; i < intersectMap.length;i++){
             int cX = i %32;
             int cY = i /32;
             if (intersectMap[i]){
                 collided = true;
-//                _collisionPixmap.drawPixel(cX, cY, Color.RED.toIntBits());
+                if (debug) {
+                    _collisionPixmap.drawPixel(cX, cY, Color.RED.toIntBits());
+                }
                 int x = 16 - (i % 32);
                 int y = 16 - (i / 32);
                 if (x <= 0) x--;
@@ -282,8 +288,9 @@ public class Balloon {
                 massOfCollision.add(x, y);
             }
         }
-//        collisionTex = new Texture(_collisionPixmap);
-
+        if (debug) {
+            collisionTex = new Texture(_collisionPixmap);
+        }
         if (collided){
             massOfCollision.nor();
 //            massOfCollision.scl(-1);
@@ -322,18 +329,20 @@ public class Balloon {
                 batch.draw(currentTexture, position.x, position.y, 16, 16, 32, 32, 1, 1, rotation);
             }
         }
-//        Vector2 norm = velocity.cpy();
-//        norm.nor();
-//        for (int i = 0; i < velocity.len(); i++){
-//            batch.draw(Assets.whitePixelTexture, center.x + i * norm.x, center.y + i * norm.y, 1, 1);
-//        }
-//        batch.setColor(Color.GREEN);
-//        norm = massOfCollision.cpy();
-//        norm.nor();
-//        for (int i = 0; i < 30; i++){
-//            batch.draw(Assets.whitePixelTexture, center.x + i * norm.x, center.y + i * norm.y, 1, 1);
-//        }
-//        batch.setColor(Color.WHITE);
+        if (LudumDare35.game.resolver.showDebug()) {
+            Vector2 norm = velocity.cpy();
+            norm.nor();
+            for (int i = 0; i < velocity.len(); i++){
+                batch.draw(Assets.whitePixelTexture, center.x + i * norm.x, center.y + i * norm.y, 1, 1);
+            }
+            batch.setColor(Color.GREEN);
+            norm = massOfCollision.cpy();
+            norm.nor();
+            for (int i = 0; i < 30; i++){
+                batch.draw(Assets.whitePixelTexture, center.x + i * norm.x, center.y + i * norm.y, 1, 1);
+            }
+            batch.setColor(Color.WHITE);
+        }
     }
 
     // ------------------------------------------------------------------------

@@ -39,6 +39,8 @@ import lando.systems.ld35.utils.accessors.Vector2Accessor;
  */
 public class GameScreen extends BaseScreen {
 
+    static float        TIMEOUTLIMIT = 10;
+    static float        CONTINUETIME = 10;
     LevelInfo           level;
     String              levelName;
     Balloon             playerBalloon;
@@ -60,9 +62,14 @@ public class GameScreen extends BaseScreen {
     int                 mapWidth;
     Vector2             tempVec2;
     TouchAnimation      touchPoint;
+    float               timeoutDelay;
+    boolean             showContinue;
+    float               continueTimer;
 
     public GameScreen(int levelIndex) {
         super();
+        showContinue = false;
+        timeoutDelay = 0;
         tempVec2 = new Vector2();
         touchPoint = new TouchAnimation();
         pauseGame = false;
@@ -96,6 +103,12 @@ public class GameScreen extends BaseScreen {
 
     @Override
     public void update(float dt) {
+        timeoutDelay += dt;
+
+        if (timeoutDelay > TIMEOUTLIMIT && !showContinue){
+            setShowContinue();
+        }
+
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             LudumDare35.game.screen = new LevelSelectScreen();
         }
@@ -105,6 +118,11 @@ public class GameScreen extends BaseScreen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
             pauseGame = !pauseGame;
         }
+        if (Gdx.input.justTouched()){
+            timeoutDelay = 0;
+            showContinue = false;
+        }
+
         touchPoint.update(dt);
         updateCamera(dt, false);
         updateDust(dt);
@@ -112,7 +130,7 @@ public class GameScreen extends BaseScreen {
         updateBackgroundObjects(dt);
         level.update(dt);
 
-        if (pauseGame) { // Don't move the player or check for interactions
+        if (pauseGame || showContinue) { // Don't move the player or check for interactions
             return;
         }
         playerBalloon.update(dt, level);
@@ -151,7 +169,9 @@ public class GameScreen extends BaseScreen {
         if (LudumDare35.game.resolver.showFPS()) {
             Assets.font.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 0, hudCamera.viewportHeight);
         }
-//        batch.draw(playerBalloon.collisionTex, 0, hudCamera.viewportHeight - 80, 32,-32);
+        if (LudumDare35.game.resolver.showDebug()) {
+            batch.draw(playerBalloon.collisionTex, 0, hudCamera.viewportHeight - 80, 32, -32);
+        }
         Assets.trayNinepatch.draw(batch, buttonTrayRect.x, buttonTrayRect.y, buttonTrayRect.width, buttonTrayRect.height);
         for (int i = 0; i < stateButtons.size; ++i) {
             StateButton stateButton = stateButtons.get(i);
@@ -674,6 +694,11 @@ public class GameScreen extends BaseScreen {
         Assets.fontShader.setUniformf("u_scale", 1.0f);
         font.getData().setScale(1.0f);
         font.setColor(1f, 1f, 1f, 1f);
+    }
+
+    public void setShowContinue(){
+        showContinue = true;
+        continueTimer = 0;
     }
 
 }

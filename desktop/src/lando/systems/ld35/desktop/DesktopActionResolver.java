@@ -13,6 +13,7 @@ public class DesktopActionResolver implements ActionResolver {
     public int continuesPerCredit = 3;
     public boolean showFPS = false;
     public boolean playMusic = true;
+    public boolean showDebug = false;
 
     public DesktopActionResolver(){
     }
@@ -40,6 +41,11 @@ public class DesktopActionResolver implements ActionResolver {
     @Override
     public boolean showFPS() {
         return showFPS;
+    }
+
+    @Override
+    public boolean showDebug(){
+        return showDebug;
     }
 
     @Override

@@ -14,6 +14,8 @@ public class DesktopLauncher {
                     showHelp();
                 } else if (arg.equalsIgnoreCase("fps")){
                    actionResolver.showFPS = true;
+                } else if (arg.equalsIgnoreCase("showdebug")){
+                  actionResolver.showDebug = true;
                 } else if (arg.equalsIgnoreCase("freeplay")){
                     actionResolver.freePlay = true;
                 } else if (arg.contains("fullscreen")) {

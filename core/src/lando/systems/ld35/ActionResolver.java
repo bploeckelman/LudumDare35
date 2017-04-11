@@ -11,4 +11,5 @@ public interface ActionResolver {
     int continuesPerCredit();
     boolean showFPS();
     boolean playMusic();
+    boolean showDebug();
 }
