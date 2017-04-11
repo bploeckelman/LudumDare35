@@ -39,8 +39,8 @@ import lando.systems.ld35.utils.accessors.Vector2Accessor;
  */
 public class GameScreen extends BaseScreen {
 
-    static float        TIMEOUTLIMIT = 10;
-    static float        CONTINUETIME = 10;
+    static float        TIMEOUTLIMIT = 300;
+    static float        CONTINUETIME = 30;
     LevelInfo           level;
     String              levelName;
     Balloon             playerBalloon;
@@ -63,12 +63,10 @@ public class GameScreen extends BaseScreen {
     Vector2             tempVec2;
     TouchAnimation      touchPoint;
     float               timeoutDelay;
-    boolean             showContinue;
     float               continueTimer;
 
     public GameScreen(int levelIndex) {
         super();
-        showContinue = false;
         timeoutDelay = 0;
         tempVec2 = new Vector2();
         touchPoint = new TouchAnimation();
@@ -104,8 +102,17 @@ public class GameScreen extends BaseScreen {
     @Override
     public void update(float dt) {
         timeoutDelay += dt;
+        if (playerBalloon.currentState == Balloon.State.DEAD) {
+            continueTimer += dt;
+            if (continueTimer > CONTINUETIME){
+                LudumDare35.game.resetGame();
+            }
+        }
+        if (Gdx.input.justTouched()){
+            timeoutDelay = 0;
+        }
 
-        if (timeoutDelay > TIMEOUTLIMIT && !showContinue){
+        if (timeoutDelay > TIMEOUTLIMIT && playerBalloon.currentState != Balloon.State.DEAD){
             setShowContinue();
         }
 
@@ -118,10 +125,7 @@ public class GameScreen extends BaseScreen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
             pauseGame = !pauseGame;
         }
-        if (Gdx.input.justTouched()){
-            timeoutDelay = 0;
-            showContinue = false;
-        }
+
 
         touchPoint.update(dt);
         updateCamera(dt, false);
@@ -130,7 +134,7 @@ public class GameScreen extends BaseScreen {
         updateBackgroundObjects(dt);
         level.update(dt);
 
-        if (pauseGame || showContinue) { // Don't move the player or check for interactions
+        if (pauseGame) { // Don't move the player or check for interactions
             return;
         }
         playerBalloon.update(dt, level);
@@ -226,6 +230,12 @@ public class GameScreen extends BaseScreen {
             Assets.font_round_32.draw(batch, "Touch to retry",
                                       camera.viewportWidth / 2f - Assets.glyphLayout.width / 2f,
                                       camera.viewportHeight - 40 - Assets.glyphLayout.height);
+
+            int timeLeft = (int)(CONTINUETIME - continueTimer) + 1;
+            Assets.glyphLayout.setText(Assets.font_round_32, "Continue? "+ timeLeft);
+            Assets.font_round_32.draw(batch, "Continue? "+ timeLeft,
+                    camera.viewportWidth / 2f - Assets.glyphLayout.width / 2f,
+                    camera.viewportHeight - 100 - Assets.glyphLayout.height);
             Assets.font_round_32.setColor(1f, 1f, 1f, 1f);
 
             drawStats = true;
@@ -491,10 +501,11 @@ public class GameScreen extends BaseScreen {
                                 @Override
                                 public void onEvent(int i, BaseTween<?> baseTween) {
                                     dustMotes.clear();
-                                    Assets.setMaxLevelCompleted(level.levelIndex);
+                                    timeoutDelay = 0;
+                                    Assets.setMaxLevelCompleted(level.levelIndex + 1);
                                     level.nextLevel();
                                     updateWindField = true;
-                                    Statistics.numLevelsCompleted = Assets.getMaxLevelCompleted() + 1;
+                                    Statistics.numLevelsCompleted = Assets.getMaxLevelCompleted();
                                     // TODO: check for game over
                                     enableButtons();
                                     playerBalloon = new Balloon(level.details.getStart(), GameScreen.this);
@@ -636,14 +647,14 @@ public class GameScreen extends BaseScreen {
         if (layout == null) layout = new GlyphLayout();
         if (font   == null) font = Assets.font_round_32;
 
-        Statistics.numLevelsCompleted = Assets.getMaxLevelCompleted() + 1;
+        Statistics.numLevelsCompleted = Assets.getMaxLevelCompleted();
 
 
 
         int i = 0;
         float padding = 10f;
         float marginLeft = 100f;
-        float marginTop = 130f;
+        float marginTop = 180f;
         float lineY = 0f;
         for (String text : statsText) {
             // Special header shit
@@ -697,7 +708,7 @@ public class GameScreen extends BaseScreen {
     }
 
     public void setShowContinue(){
-        showContinue = true;
+        playerBalloon.kill(level);
         continueTimer = 0;
     }
 

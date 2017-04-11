@@ -31,7 +31,6 @@ public class LevelSelectScreen extends BaseScreen {
 
     int                numPages = 1;
     int                currentPage = 1;
-    int                maxLevelCompleted;
 
     Array<LevelButton> buttons;
     GlyphLayout        layout;
@@ -117,7 +116,6 @@ public class LevelSelectScreen extends BaseScreen {
     }
 
     private void generateLevelButtons() {
-        maxLevelCompleted = Math.min(Assets.getMaxLevelCompleted() + 1, Level.values().length);
         numPages = (int) Math.ceil(Level.values().length / (float) LEVELS_PER_PAGE);
 
         buttonsWide = 1;
