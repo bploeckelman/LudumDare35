@@ -349,7 +349,7 @@ public class GameScreen extends BaseScreen {
 
     private void loadLevel(int levelId){
         level = new LevelInfo(levelId, rectPool);
-        playerBalloon = new Balloon(level.details.getStart(), this);
+        playerBalloon = new Balloon(level.details.getStart());
         layoutUI();
     }
 
@@ -525,7 +525,7 @@ public class GameScreen extends BaseScreen {
                                     Statistics.numLevelsCompleted = Assets.getMaxLevelCompleted();
                                     // TODO: check for game over
                                     enableButtons();
-                                    playerBalloon = new Balloon(level.details.getStart(), GameScreen.this);
+                                    playerBalloon = new Balloon(level.details.getStart());
                                     for (StateButton button : stateButtons) {
                                         button.active = false;
                                     }

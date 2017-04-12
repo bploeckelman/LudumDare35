@@ -18,7 +18,6 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.TimeUtils;
 import lando.systems.ld35.LudumDare35;
-import lando.systems.ld35.screens.GameScreen;
 import lando.systems.ld35.utils.Assets;
 import lando.systems.ld35.utils.LevelBoundry;
 import lando.systems.ld35.utils.SoundManager;
@@ -43,7 +42,6 @@ public class Balloon {
     public boolean       animating;
     public MutableFloat  animationTimer;
     public Animation     currentAnimation;
-    public GameScreen    screen;
     public Rectangle     bounds;
     public Rectangle     intersectorRectangle;
     public Pixmap        tilePixmap;
@@ -56,10 +54,9 @@ public class Balloon {
     public Texture      collisionTex;
     Vector2 massOfCollision;
 
-    public Balloon(Vector2 position, GameScreen screen){
+    public Balloon(Vector2 position) {
         accumulator = 0;
         this.center = new Vector2();
-        this.screen = screen;
         this.currentState = State.NORMAL;
         this.position = position;
         this.velocity = new Vector2(0, 0);
