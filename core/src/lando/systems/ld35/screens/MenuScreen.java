@@ -32,7 +32,7 @@ public class MenuScreen extends BaseScreen {
         super();
         Gdx.input.setInputProcessor(null);
         title = "Shift 'n Drift";
-        clickText = "Click to begin!";
+        clickText = "Touch to begin!";
         Assets.font_round_32.getData().setScale(1.5f);
         layout = new GlyphLayout(Assets.font_round_32, title);
         titlePos = new Vector2(camera.viewportWidth / 2f - layout.width / 2f, camera.viewportHeight - layout.height);
