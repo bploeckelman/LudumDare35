@@ -23,6 +23,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.GdxRuntimeException;
+import lando.systems.ld35.LudumDare35;
 import lando.systems.ld35.ParticleSystem.ParticleManager;
 import lando.systems.ld35.utils.accessors.*;
 
@@ -237,8 +238,9 @@ public class Assets {
     }
 
     public static int getMaxLevelCompleted() {
-
-//        return 59;
+        if (LudumDare35.game.resolver.unlockAll()){
+            return 59;
+        }
         return Gdx.app.getPreferences(prefsName).getInteger(prefMaxLevelCompleted, 0);
     }
 

@@ -14,6 +14,7 @@ public class DesktopActionResolver implements ActionResolver {
     public boolean showFPS = false;
     public boolean playMusic = true;
     public boolean showDebug = false;
+    public boolean unlockAll = false;
 
     public DesktopActionResolver(){
     }
@@ -46,6 +47,11 @@ public class DesktopActionResolver implements ActionResolver {
     @Override
     public boolean showDebug(){
         return showDebug;
+    }
+
+    @Override
+    public boolean unlockAll(){
+        return unlockAll;
     }
 
     @Override

@@ -16,7 +16,9 @@ public class DesktopLauncher {
                    actionResolver.showFPS = true;
                 } else if (arg.equalsIgnoreCase("showdebug")){
                   actionResolver.showDebug = true;
-                } else if (arg.equalsIgnoreCase("freeplay")){
+                } else if (arg.equalsIgnoreCase("unlock")) {
+                    actionResolver.unlockAll = true;
+                }else if (arg.equalsIgnoreCase("freeplay")){
                     actionResolver.freePlay = true;
                 } else if (arg.contains("fullscreen")) {
                     String[] parts = arg.split("=");

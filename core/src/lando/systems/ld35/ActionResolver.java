@@ -12,4 +12,5 @@ public interface ActionResolver {
     boolean showFPS();
     boolean playMusic();
     boolean showDebug();
+    boolean unlockAll();
 }
