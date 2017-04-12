@@ -472,8 +472,8 @@ public class AttractScreen extends BaseScreen {
 
             if (obj instanceof Spikes) {
                 if (obj.collision(playerBalloon) != null) {
+                    actionTimer = 2f; // DON'T change states when dead!
                     playerBalloon.kill(level);
-
                 }
             }
             if (obj instanceof Door){
