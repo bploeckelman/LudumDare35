@@ -18,10 +18,7 @@ import lando.systems.ld35.backgroundobjects.Bird;
 import lando.systems.ld35.backgroundobjects.Cloud;
 import lando.systems.ld35.gameobjects.*;
 import lando.systems.ld35.ui.StateButton;
-import lando.systems.ld35.utils.Assets;
-import lando.systems.ld35.utils.Config;
-import lando.systems.ld35.utils.SoundManager;
-import lando.systems.ld35.utils.Utils;
+import lando.systems.ld35.utils.*;
 import lando.systems.ld35.utils.accessors.ColorAccessor;
 
 /**
@@ -29,7 +26,7 @@ import lando.systems.ld35.utils.accessors.ColorAccessor;
  */
 public class AttractScreen extends BaseScreen {
 
-    private static final float TIMEOUT_SECONDS = 10;
+    private static final float TIMEOUT_SECONDS = 60;
 
     LevelInfo level;
     Balloon playerBalloon;
@@ -43,6 +40,8 @@ public class AttractScreen extends BaseScreen {
     Array<Vector2> windGrid;
     Array<WindParticle> dustMotes;
     boolean updateWindField;
+
+    float actionTimer = 1f;
 
     int mapWidth;
     Vector2 tempVec2;
@@ -67,7 +66,7 @@ public class AttractScreen extends BaseScreen {
         dustMotes = new Array<WindParticle>();
         rectPool = Pools.get(Rectangle.class);
 
-        loadLevel(0);
+        loadLevel(MathUtils.random(1, Level.values().length - 2));
         updateWindGrid();
         updateCamera(0f, true);
 
@@ -82,30 +81,93 @@ public class AttractScreen extends BaseScreen {
         }
 
         if (Gdx.input.justTouched()) {
-            LudumDare35.game.screen = new LevelSelectScreen();
+            LudumDare35.game.resetGame();
         }
 
         timer += dt;
         if (timer > TIMEOUT_SECONDS) {
-            LudumDare35.game.screen = new MenuScreen();
+            LudumDare35.game.resetGame();
         }
 
-
-
-//        touchPoint.update(dt);
         updateCamera(dt, false);
         updateDust(dt);
         Assets.particles.update(dt, level);
         updateBackgroundObjects(dt);
         level.update(dt);
 
-//        if (pauseGame) { // Don't move the player or check for interactions
-//            return;
-//        }
+        updateFakeInput(dt);
+
         playerBalloon.update(dt, level);
 
         updateMapObjects(dt);
         updateWinds();
+
+        if (playerBalloon.currentState == Balloon.State.DEAD) {
+            loadLevel(level.levelIndex);
+        }
+    }
+
+    private void updateFakeInput(float dt) {
+        actionTimer -= dt;
+        if (actionTimer > 0f) {
+            return;
+        }
+
+        // do a random action
+        int action = MathUtils.random(0,5);
+        switch (action) {
+            case 0:
+                if (playerBalloon.currentState != Balloon.State.NORMAL) {
+                    playerBalloon.changeState(Balloon.State.NORMAL);
+                    deactivateButtons();
+                    stateButtons.get(0).active = true;
+                }
+                break;
+            case 1:
+                if (playerBalloon.currentState != Balloon.State.LIFT) {
+                    playerBalloon.changeState(Balloon.State.LIFT);
+                    deactivateButtons();
+                    stateButtons.get(1).active = true;
+                }
+                break;
+            case 2:
+                if (playerBalloon.currentState != Balloon.State.HEAVY) {
+                    playerBalloon.changeState(Balloon.State.HEAVY);
+                    deactivateButtons();
+                    stateButtons.get(2).active = true;
+                }
+                break;
+            case 3:
+                if (playerBalloon.currentState != Balloon.State.SPINNER) {
+                    playerBalloon.changeState(Balloon.State.SPINNER);
+                    deactivateButtons();
+                    stateButtons.get(3).active = true;
+                }
+                break;
+            case 4:
+                if (playerBalloon.currentState != Balloon.State.MAGNET) {
+                    playerBalloon.changeState(Balloon.State.MAGNET);
+                    deactivateButtons();
+                    stateButtons.get(4).active = true;
+                }
+                break;
+            case 5:
+                if (playerBalloon.currentState != Balloon.State.BUZZSAW) {
+                    playerBalloon.changeState(Balloon.State.BUZZSAW);
+                    deactivateButtons();
+                    stateButtons.get(5).active = true;
+                }
+                break;
+        }
+
+        // reset to random time for next action
+        actionTimer = MathUtils.random(2f, 5f);
+    }
+
+    private void deactivateButtons() {
+        for (StateButton button : stateButtons) {
+            button.active = false;
+        }
     }
 
     @Override
@@ -166,7 +228,7 @@ public class AttractScreen extends BaseScreen {
 //        Assets.drawString(batch, "so allure", 200, camera.viewportHeight - 200, color, 1f);
 //        Assets.drawString(batch, "wow!", 300, camera.viewportHeight - 300, color, 1f);
 //
-        Assets.drawString(batch, "" + (int) (timer + 1), 20, camera.viewportHeight - 30, Color.YELLOW, 1f);
+        Assets.drawString(batch, "" + (int) (TIMEOUT_SECONDS - timer + 1), 10, camera.viewportHeight - 10, Color.YELLOW, 0.25f);
         batch.end();
     }
 
