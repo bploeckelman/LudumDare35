@@ -17,6 +17,8 @@ import lando.systems.ld35.utils.Assets;
  */
 public class MenuScreen extends BaseScreen {
 
+    private static final float ATTRACT_TIMEOUT_SECONDS = 10;
+
     GlyphLayout layout;
     String      clickText;
     String      title;
@@ -24,6 +26,7 @@ public class MenuScreen extends BaseScreen {
     MutableFloat alpha;
     Color        color;
     String[] names = new String[]{"Doug Graham", "Brian Ploeckelman", "Colin Kennedy", "Ian McNamara", "Brian Rossman", "Luke Bain", "Troy Sullivan"};
+    float timer = 0f;
 
     public MenuScreen() {
         super();
@@ -53,6 +56,11 @@ public class MenuScreen extends BaseScreen {
         }
 
         color.set(1f, 1f, 1f, alpha.floatValue());
+
+        timer += dt;
+        if (timer > ATTRACT_TIMEOUT_SECONDS) {
+            LudumDare35.game.screen = new AttractScreen();
+        }
     }
 
     @Override
@@ -86,6 +94,8 @@ public class MenuScreen extends BaseScreen {
         Assets.font_round_32.getData().setScale(0.5f);
         layout.setText(Assets.font_round_32, "originally made for ludum dare 35");
         Assets.drawString(batch, "originally made for ludum dare 35", camera.viewportWidth / 2f - layout.width / 2f, 20 + logoHeight + layout.height, Color.WHITE, 0.5f);
+
+        Assets.drawString(batch, "" + (int) (timer + 1), 20, camera.viewportHeight - 30, Color.YELLOW, 1f);
         batch.end();
     }
 
