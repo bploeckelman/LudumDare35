@@ -40,6 +40,7 @@ import lando.systems.ld35.utils.accessors.Vector2Accessor;
 public class GameScreen extends BaseScreen {
 
     static float        TIMEOUTLIMIT = 300;
+    static float        TIMEOUTWARNING = 10;
     static float        CONTINUETIME = 30;
     LevelInfo           level;
     String              levelName;
@@ -203,6 +204,26 @@ public class GameScreen extends BaseScreen {
                                   resetLevelButton.bounds.x + resetLevelButton.bounds.width / 2f - Assets.glyphLayout.width / 2f + 4f,
                                   resetLevelButton.bounds.y + resetLevelButton.bounds.height - 7f);
 
+        int timeoutLeft = (int)(TIMEOUTLIMIT - timeoutDelay) + 1;
+        if (timeoutLeft < TIMEOUTWARNING && !drawStats){
+            String timeoutText = "Still Playing?";
+            Assets.fontShader.setUniformf("u_scale", 1.5f);
+            Assets.font_round_32.getData().setScale(1.5f);
+            Assets.font_round_32.setColor(retryTextColor);
+            Assets.glyphLayout.setText(Assets.font_round_32, timeoutText);
+            Assets.font_round_32.draw(batch, timeoutText,
+                    camera.viewportWidth / 2f - Assets.glyphLayout.width / 2f,
+                    camera.viewportHeight /2f + Assets.glyphLayout.height /2f + 50);
+            timeoutText = "Touch to Continue " + timeoutLeft;
+            Assets.fontShader.setUniformf("u_scale", 1.4f);
+            Assets.font_round_32.getData().setScale(1.4f);
+            Assets.font_round_32.setColor(retryTextColor);
+            Assets.glyphLayout.setText(Assets.font_round_32, timeoutText);
+            Assets.font_round_32.draw(batch, timeoutText,
+                    camera.viewportWidth / 2f - Assets.glyphLayout.width / 2f,
+                    camera.viewportHeight /2f + Assets.glyphLayout.height /2f);
+        }
+
         // Draw Level Name
         Assets.fontShader.setUniformf("u_scale", 1f);
         Assets.font_round_32.getData().setScale(1f);
@@ -254,8 +275,7 @@ public class GameScreen extends BaseScreen {
         touchPosScreen.set(touchPosUnproject.x, touchPosUnproject.y);
         touchPoint.setPoint(touchPosScreen.x, touchPosScreen.y);
 
-        if ((playerBalloon.currentState == Balloon.State.POP ||
-             playerBalloon.currentState == Balloon.State.DEAD) && drawStats) {
+        if ((playerBalloon.currentState == Balloon.State.DEAD) && drawStats) {
             resetLevel();
             drawStats = false;
             return false;
@@ -284,7 +304,7 @@ public class GameScreen extends BaseScreen {
             return false;
         }
 
-        if (resetLevelButton.checkForTouch(touchPosScreen.x, touchPosScreen.y)) {
+        if (resetLevelButton.checkForTouch(touchPosScreen.x, touchPosScreen.y) && !pauseGame) {
             playerBalloon.kill(level);
             // TODO: move to 'game completed trigger'
             Statistics.endTime = TimeUtils.millis();
