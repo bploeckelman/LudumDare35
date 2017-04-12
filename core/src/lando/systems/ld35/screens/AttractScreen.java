@@ -53,7 +53,7 @@ public class AttractScreen extends BaseScreen {
         batch.draw(Assets.whitePixelTexture, 10, 10, camera.viewportWidth-20, camera.viewportHeight-20);
         Assets.drawString(batch, "Much attract", 100, camera.viewportHeight - 100, color, 1f);
         Assets.drawString(batch, "so allure", 200, camera.viewportHeight - 200, color, 1f);
-        Assets.drawString(batch, "wow", 300, camera.viewportHeight - 300, color, 1f);
+        Assets.drawString(batch, "wow!", 300, camera.viewportHeight - 300, color, 1f);
 
         Assets.drawString(batch, "" + (int) (timer + 1), 20, camera.viewportHeight - 30, Color.YELLOW, 1f);
         batch.end();
