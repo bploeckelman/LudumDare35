@@ -24,6 +24,7 @@ import lando.systems.ld35.utils.Utils;
 public class LevelSelectScreen extends BaseScreen {
 
     public static final int LEVELS_PER_PAGE = 9;
+    public static final float TIMEOUT = 300;
 
     private final float MARGIN_TOP = 80f; // NOTE: change if title text scale changes
     private final float MARGIN_BOTTOM = 20f;
@@ -43,8 +44,10 @@ public class LevelSelectScreen extends BaseScreen {
 
     LevelButton pagePrevBtn;
     LevelButton pageNextBtn;
+    float timeoutTimer;
 
     public LevelSelectScreen() {
+        timeoutTimer = 0;
         layout = new GlyphLayout();
         font = Assets.font_round_32;
         Utils.glClearColor(Config.bgColor);
@@ -60,6 +63,13 @@ public class LevelSelectScreen extends BaseScreen {
     public void update(float dt) {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             LudumDare35.game.screen = new MenuScreen();
+        }
+        timeoutTimer += dt;
+        if (Gdx.input.justTouched()){
+            timeoutTimer = 0;
+        }
+        if (timeoutTimer > TIMEOUT){
+            LudumDare35.game.resetGame();
         }
 
         for (LevelButton button : buttons) {
