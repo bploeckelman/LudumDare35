@@ -26,7 +26,7 @@ import lando.systems.ld35.utils.accessors.ColorAccessor;
  */
 public class AttractScreen extends BaseScreen {
 
-    private static final float TIMEOUT_SECONDS = 60;
+    private static final float TIMEOUT_SECONDS = 45;
 
     LevelInfo level;
     Balloon playerBalloon;
