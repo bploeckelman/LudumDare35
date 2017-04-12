@@ -53,4 +53,14 @@ public class HtmlLauncher extends GwtApplication implements ActionResolver{
         public boolean playMusic() {
                 return true;
         }
+
+        @Override
+        public boolean showDebug() {
+                return false;
+        }
+
+        @Override
+        public boolean unlockAll() {
+                return false;
+        }
 }
