@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.ld35.LudumDare35;
+import lando.systems.ld35.ui.Button;
 import lando.systems.ld35.ui.LevelButton;
 import lando.systems.ld35.utils.Assets;
 import lando.systems.ld35.utils.Config;
@@ -45,6 +46,14 @@ public class LevelSelectScreen extends BaseScreen {
     LevelButton pageNextBtn;
     float timeoutTimer;
 
+    boolean showConfirmDlg;
+    Rectangle resetConfirmDlgRect;
+    Button confirmYesBtn;
+    Button confirmNoBtn;
+    Button resetProgressBtn;
+    String confirmString1;
+    String confirmString2;
+
     public LevelSelectScreen(int levelToCenter) {
         timeoutTimer = 0;
         layout = new GlyphLayout();
@@ -57,6 +66,27 @@ public class LevelSelectScreen extends BaseScreen {
 
         pagePrevBtn = new LevelButton(Integer.MIN_VALUE, MARGIN_SIDE, hudCamera.viewportHeight / 2f - buttonSize / 4f, buttonSize / 2f, buttonSize / 2f);
         pageNextBtn = new LevelButton(Integer.MAX_VALUE, hudCamera.viewportWidth - buttonSize / 2f - MARGIN_SIDE, hudCamera.viewportHeight / 2f - buttonSize / 4f, buttonSize / 2f, buttonSize / 2f);
+
+        showConfirmDlg = false;
+        confirmString1 = "Clear level progress";
+        confirmString2 = "Are you sure?";
+
+        float width = hudCamera.viewportWidth / 2f;
+        float height = hudCamera.viewportHeight / 4f;
+        resetConfirmDlgRect = new Rectangle(hudCamera.viewportWidth / 2f - width / 2f, hudCamera.viewportHeight / 2f - height / 2f, width, height);
+
+        float buttonWidth = 100f;
+        float buttonHeight = 32f;
+        float buttonPadding = 10f;
+        Rectangle confirmYesRect = new Rectangle(resetConfirmDlgRect.x + resetConfirmDlgRect.width / 2f - buttonWidth - buttonPadding,
+                                                 resetConfirmDlgRect.y + buttonPadding, buttonWidth, buttonHeight);
+        Rectangle confirmNoRect = new Rectangle(resetConfirmDlgRect.x + resetConfirmDlgRect.width / 2f + buttonPadding,
+                                                resetConfirmDlgRect.y + buttonPadding, buttonWidth, buttonHeight);
+        confirmYesBtn = new Button(Assets.levelResetButtonTexture, confirmYesRect, false);
+        confirmNoBtn  = new Button(Assets.levelResetButtonTexture, confirmNoRect, false);
+
+        Rectangle resetProgressBtnRect = new Rectangle(buttonPadding, buttonPadding, buttonWidth, buttonHeight);
+        resetProgressBtn = new Button(Assets.levelResetButtonTexture, resetProgressBtnRect, false);
     }
 
     @Override
@@ -96,6 +126,8 @@ public class LevelSelectScreen extends BaseScreen {
         if (isPrevButtonVisible()) pagePrevBtn.render(batch);
         if (isNextButtonVisible()) pageNextBtn.render(batch);
 
+        resetProgressBtn.render(batch);
+
         batch.setShader(Assets.fontShader);
         for (LevelButton button : buttons) {
             button.renderText(batch);
@@ -113,8 +145,48 @@ public class LevelSelectScreen extends BaseScreen {
         y = camera.viewportHeight - layout.height;
         font.draw(batch, "Levels", x, y);
 
+        // wtf, which scale is used?
+        Assets.fontShader.setUniformf("u_scale", 0.7f);
+        font.getData().setScale(0.7f);
+        layout.setText(font, "Clear");
+        font.draw(batch, "Clear",
+                resetProgressBtn.bounds.x + resetProgressBtn.bounds.width / 2f - layout.width / 2f + 3f,
+                resetProgressBtn.bounds.y + resetProgressBtn.bounds.height - 8f);
+
         batch.end();
         batch.setShader(null);
+
+        if (!showConfirmDlg) return;
+        batch.setProjectionMatrix(hudCamera.combined);
+        batch.begin();
+        {
+            Assets.trayNinepatch.draw(batch, resetConfirmDlgRect.x, resetConfirmDlgRect.y, resetConfirmDlgRect.width, resetConfirmDlgRect.height);
+            confirmYesBtn.render(batch);
+            confirmNoBtn.render(batch);
+        }
+        batch.setShader(Assets.fontShader);
+        {
+            // draw main confirm dialog text
+            Assets.fontShader.setUniformf("u_scale", 0.6f);
+            font.getData().setScale(0.6f);
+            layout.setText(font, confirmString1);
+            font.draw(batch, confirmString1, resetConfirmDlgRect.x + resetConfirmDlgRect.width / 2f - layout.width / 2f, resetConfirmDlgRect.y + resetConfirmDlgRect.height - layout.height - 10f);
+            layout.setText(font, confirmString2);
+            font.draw(batch, confirmString2, resetConfirmDlgRect.x + resetConfirmDlgRect.width / 2f - layout.width / 2f, resetConfirmDlgRect.y + resetConfirmDlgRect.height - layout.height - 10f - 25f);
+
+            // draw yes, no button text
+            Assets.fontShader.setUniformf("u_scale", 0.7f);
+            font.getData().setScale(0.7f);
+            layout.setText(font, "Yes");
+            font.draw(batch, "Yes",
+                    confirmYesBtn.bounds.x + confirmYesBtn.bounds.width / 2f - layout.width / 2f + 3f,
+                    confirmYesBtn.bounds.y + confirmYesBtn.bounds.height - 8f);
+            layout.setText(font, "No");
+            font.draw(batch, "No",
+                    confirmNoBtn.bounds.x + confirmNoBtn.bounds.width / 2f - layout.width / 2f + 3f,
+                    confirmNoBtn.bounds.y + confirmNoBtn.bounds.height - 8f);
+        }
+        batch.end();
     }
 
     private boolean isPrevButtonVisible() {
@@ -166,9 +238,25 @@ public class LevelSelectScreen extends BaseScreen {
     private Vector3 touchPosUnproject = new Vector3();
 
     @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         touchPosUnproject = hudCamera.unproject(new Vector3(screenX, screenY, 0));
         touchPosScreen.set(touchPosUnproject.x, touchPosUnproject.y);
+
+        if (resetProgressBtn.checkForTouch(touchPosScreen.x, touchPosScreen.y)) {
+            showConfirmDlg = !showConfirmDlg;
+            return true;
+        }
+        if (showConfirmDlg && confirmNoBtn.checkForTouch(touchPosScreen.x, touchPosScreen.y)) {
+            showConfirmDlg = false;
+            return true;
+        }
+        if (showConfirmDlg && confirmYesBtn.checkForTouch(touchPosScreen.x, touchPosScreen.y)) {
+            LudumDare35.game.resetGame();
+            return true;
+        }
+
+        // Don't register button clicks if the confirm dialog is up
+        if (showConfirmDlg) return false;
 
         for (LevelButton levelButton : buttons) {
             if (levelButton.active && levelButton.checkForTouch(touchPosScreen.x, touchPosScreen.y)) {
