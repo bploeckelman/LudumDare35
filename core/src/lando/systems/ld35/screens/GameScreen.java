@@ -553,8 +553,10 @@ public class GameScreen extends BaseScreen {
 
             if (obj instanceof Spikes) {
                 if (obj.collision(playerBalloon) != null) {
-                    playerBalloon.kill(level);
-                    continueTimer = 0;
+                    if (playerBalloon.currentState != Balloon.State.POP && playerBalloon.currentState != Balloon.State.DEAD) {
+                        playerBalloon.kill(level);
+                        continueTimer = 0;
+                    }
                 }
             }
             if (obj instanceof Door){
