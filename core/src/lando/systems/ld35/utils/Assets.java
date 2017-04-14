@@ -87,7 +87,6 @@ public class Assets {
     public static String prefMaxLevelCompleted;
     public static int maxLevelCompleted;
 
-
     public static boolean initialized;
     public static ParticleManager particles;
 

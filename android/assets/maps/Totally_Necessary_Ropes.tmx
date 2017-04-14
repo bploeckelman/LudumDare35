@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="32" tileheight="32" nextobjectid="159">
  <tileset firstgid="1" name="basic-tiles" tilewidth="32" tileheight="32" tilecount="256" columns="16">
-  <image source="../maps/basic-tiles.png" width="512" height="512"/>
+  <image source="basic-tiles.png" width="512" height="512"/>
  </tileset>
  <tileset firstgid="257" name="objects" tilewidth="64" tileheight="64" tilecount="4" columns="0">
   <tile id="1">
-   <image width="32" height="64" source="../maps/fan_0.png"/>
+   <image width="32" height="64" source="fan_0.png"/>
   </tile>
   <tile id="3">
-   <image width="32" height="32" source="../maps/exit.png"/>
+   <image width="32" height="32" source="exit.png"/>
   </tile>
   <tile id="4">
-   <image width="32" height="32" source="../maps/spawn.png"/>
+   <image width="32" height="32" source="spawn.png"/>
   </tile>
   <tile id="5">
-   <image width="64" height="7" source="../maps/door.png"/>
+   <image width="64" height="7" source="door.png"/>
   </tile>
  </tileset>
  <tileset firstgid="263" name="objects" tilewidth="64" tileheight="64" tilecount="4" columns="0">
   <tile id="1">
-   <image width="32" height="64" source="../maps/fan_0.png"/>
+   <image width="32" height="64" source="fan_0.png"/>
   </tile>
   <tile id="2">
-   <image width="32" height="32" source="../maps/spawn.png"/>
+   <image width="32" height="32" source="spawn.png"/>
   </tile>
   <tile id="3">
-   <image width="32" height="32" source="../maps/exit.png"/>
+   <image width="32" height="32" source="exit.png"/>
   </tile>
   <tile id="9">
-   <image width="64" height="7" source="../maps/door.png"/>
+   <image width="64" height="7" source="door.png"/>
   </tile>
  </tileset>
  <layer name="background" width="32" height="32">
@@ -95,16 +95,16 @@
   <object id="82" type="fan" gid="258" x="928" y="32" width="32" height="64" rotation="90"/>
   <object id="91" type="fan" gid="258" x="576" y="992" width="32" height="64"/>
   <object id="92" type="fan" gid="258" x="576" y="608" width="32" height="64"/>
-  <object id="103" type="door" gid="272" x="928" y="736" width="64" height="7" rotation="-90">
+  <object id="103" type="door" gid="272" x="922" y="745" width="64" height="7" rotation="270">
    <properties>
-    <property name="openRotation" type="float" value="0"/>
+    <property name="openRotation" type="float" value="180"/>
     <property name="triggeredByRopeGroup" value="rope-group-1"/>
    </properties>
   </object>
-  <object id="104" type="door" gid="272" x="736" y="736" width="64" height="7" rotation="270">
+  <object id="104" type="door" gid="272" x="730" y="746" width="64" height="7" rotation="270">
    <properties>
     <property name="openRotation" type="float" value="0"/>
-    <property name="triggeredByRopeGroup" value="rope-group-1"/>
+    <property name="triggeredByRopeGroup" value="rope-group-2"/>
    </properties>
   </object>
   <object id="105" type="spikes" gid="18" x="352" y="768" width="32" height="32"/>
@@ -156,17 +156,17 @@
   </object>
   <object id="140" type="rope" gid="97" x="704" y="832" width="32" height="32">
    <properties>
-    <property name="group" value="rope-group-1"/>
+    <property name="group" value="rope-group-2"/>
    </properties>
   </object>
   <object id="141" type="rope" gid="98" x="704" y="864" width="32" height="32">
    <properties>
-    <property name="group" value="rope-group-1"/>
+    <property name="group" value="rope-group-2"/>
    </properties>
   </object>
   <object id="142" type="rope" gid="81" x="704" y="800" width="32" height="32">
    <properties>
-    <property name="group" value="rope-group-1"/>
+    <property name="group" value="rope-group-2"/>
    </properties>
   </object>
   <object id="143" type="fan" gid="2147483906" x="992" y="480" width="32" height="64"/>
