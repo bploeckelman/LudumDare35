@@ -251,9 +251,9 @@ public class Assets {
     }
 
     public static void resetGameState(){
+        Statistics.reset();
         Preferences prefs = Gdx.app.getPreferences(prefsName);
         prefs.putInteger(prefMaxLevelCompleted, 0);
-        //TODO reset all game state
         prefs.flush();
     }
 }
