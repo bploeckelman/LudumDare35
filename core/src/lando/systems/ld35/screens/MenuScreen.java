@@ -58,7 +58,7 @@ public class MenuScreen extends BaseScreen {
         color.set(1f, 1f, 1f, alpha.floatValue());
 
         timer += dt;
-        if (timer > ATTRACT_TIMEOUT_SECONDS) {
+        if (timer > LudumDare35.game.resolver.menuScreenTimer()) {
             LudumDare35.game.screen = new AttractScreen();
         }
     }
@@ -95,7 +95,7 @@ public class MenuScreen extends BaseScreen {
         layout.setText(Assets.font_round_32, "originally made for ludum dare 35");
         Assets.drawString(batch, "originally made for ludum dare 35", camera.viewportWidth / 2f - layout.width / 2f, 20 + logoHeight + layout.height, Color.WHITE, 0.5f);
 
-        Assets.drawString(batch, "" + (int) (ATTRACT_TIMEOUT_SECONDS - timer + 1), 10, camera.viewportHeight - 10, Color.YELLOW, 0.25f);
+        Assets.drawString(batch, "" + (int) (LudumDare35.game.resolver.menuScreenTimer() - timer + 1), 10, camera.viewportHeight - 10, Color.YELLOW, 0.25f);
         batch.end();
     }
 
