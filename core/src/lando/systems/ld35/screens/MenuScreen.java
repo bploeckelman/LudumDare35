@@ -17,7 +17,7 @@ import lando.systems.ld35.utils.Assets;
  */
 public class MenuScreen extends BaseScreen {
 
-    private static final float ATTRACT_TIMEOUT_SECONDS = 10;
+    public static final int ATTRACT_TIMEOUT_SECONDS = 10;
 
     GlyphLayout layout;
     String      clickText;

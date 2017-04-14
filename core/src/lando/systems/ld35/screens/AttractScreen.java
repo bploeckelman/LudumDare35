@@ -26,7 +26,7 @@ import lando.systems.ld35.utils.accessors.ColorAccessor;
  */
 public class AttractScreen extends BaseScreen {
 
-    private static final float TIMEOUT_SECONDS = 45;
+    public static final int TIMEOUT_SECONDS = 45;
 
     LevelInfo level;
     Balloon playerBalloon;
@@ -85,7 +85,7 @@ public class AttractScreen extends BaseScreen {
         }
 
         timer += dt;
-        if (timer > TIMEOUT_SECONDS) {
+        if (timer > LudumDare35.game.resolver.attractScreenTimer()) {
             LudumDare35.game.resetGame();
         }
 
@@ -228,7 +228,7 @@ public class AttractScreen extends BaseScreen {
 //        Assets.drawString(batch, "so allure", 200, camera.viewportHeight - 200, color, 1f);
 //        Assets.drawString(batch, "wow!", 300, camera.viewportHeight - 300, color, 1f);
 //
-        Assets.drawString(batch, "" + (int) (TIMEOUT_SECONDS - timer + 1), 10, camera.viewportHeight - 10, Color.YELLOW, 0.25f);
+        Assets.drawString(batch, "" + (int) (LudumDare35.game.resolver.attractScreenTimer() - timer + 1), 10, camera.viewportHeight - 10, Color.YELLOW, 0.25f);
         batch.end();
     }
 

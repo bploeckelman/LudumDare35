@@ -47,6 +47,36 @@ public class DesktopLauncher {
                         actionResolver.continuesPerCredit = Integer.parseInt(parts[1]);
                     }
                 }
+                else if (arg.contains("menutimer")) {
+                    String[] parts = arg.split("=");
+                    if (parts.length >= 2) {
+                        actionResolver.menuScreenTimer = Integer.parseInt(parts[1]);
+                    }
+                }
+                else if (arg.contains("attracttimer")) {
+                    String[] parts = arg.split("=");
+                    if (parts.length >= 2) {
+                        actionResolver.attractScreenTimer = Integer.parseInt(parts[1]);
+                    }
+                }
+                else if (arg.contains("limittimer")) {
+                    String[] parts = arg.split("=");
+                    if (parts.length >= 2) {
+                        actionResolver.limitTimer = Integer.parseInt(parts[1]);
+                    }
+                }
+                else if (arg.contains("warningtimer")) {
+                    String[] parts = arg.split("=");
+                    if (parts.length >= 2) {
+                        actionResolver.warningTimer = Integer.parseInt(parts[1]);
+                    }
+                }
+                else if (arg.contains("continuetimer")) {
+                    String[] parts = arg.split("=");
+                    if (parts.length >= 2) {
+                        actionResolver.continueTimer = Integer.parseInt(parts[1]);
+                    }
+                }
                 else {
                     throw new Exception("Unknown Command...");
                 }

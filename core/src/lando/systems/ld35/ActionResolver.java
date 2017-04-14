@@ -9,6 +9,11 @@ public interface ActionResolver {
     boolean isFreePlay();
     int livesPerCredit();
     int continuesPerCredit();
+    int menuScreenTimer();
+    int attractScreenTimer();
+    int limitTimer();
+    int warningTimer();
+    int continueTimer();
     boolean showFPS();
     boolean playMusic();
     boolean showDebug();

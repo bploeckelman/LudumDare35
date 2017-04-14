@@ -39,9 +39,10 @@ import lando.systems.ld35.utils.accessors.Vector2Accessor;
  */
 public class GameScreen extends BaseScreen {
 
-    static float        TIMEOUTLIMIT = 300;
-    static float        TIMEOUTWARNING = 10;
-    static float        CONTINUETIME = 30;
+    public static int LIMIT_TIMEOUT_SECONDS = 300;
+    public static int WARNING_TIMEOUT_SECONDS = 10;
+    public static int CONTINUE_TIMEOUT_SECONDS = 30;
+
     LevelInfo           level;
     String              levelName;
     Balloon             playerBalloon;
@@ -105,7 +106,7 @@ public class GameScreen extends BaseScreen {
         timeoutDelay += dt;
         if (playerBalloon.currentState == Balloon.State.DEAD) {
             continueTimer += dt;
-            if (continueTimer > CONTINUETIME){
+            if (continueTimer > LudumDare35.game.resolver.continueTimer()){
                 LudumDare35.game.resetGame();
             }
         }
@@ -113,7 +114,7 @@ public class GameScreen extends BaseScreen {
             timeoutDelay = 0;
         }
 
-        if (timeoutDelay > TIMEOUTLIMIT && playerBalloon.currentState != Balloon.State.DEAD){
+        if (timeoutDelay > LudumDare35.game.resolver.limitTimer() && playerBalloon.currentState != Balloon.State.DEAD){
             setShowContinue();
         }
 
@@ -204,8 +205,8 @@ public class GameScreen extends BaseScreen {
                                   resetLevelButton.bounds.x + resetLevelButton.bounds.width / 2f - Assets.glyphLayout.width / 2f + 4f,
                                   resetLevelButton.bounds.y + resetLevelButton.bounds.height - 7f);
 
-        int timeoutLeft = (int)(TIMEOUTLIMIT - timeoutDelay) + 1;
-        if (timeoutLeft < TIMEOUTWARNING && !drawStats){
+        int timeoutLeft = (int)(LudumDare35.game.resolver.limitTimer() - timeoutDelay) + 1;
+        if (timeoutLeft < LudumDare35.game.resolver.warningTimer() && !drawStats){
             String timeoutText = "Still Playing?";
             Assets.fontShader.setUniformf("u_scale", 1.5f);
             Assets.font_round_32.getData().setScale(1.5f);
@@ -249,7 +250,7 @@ public class GameScreen extends BaseScreen {
                                       camera.viewportWidth / 2f - Assets.glyphLayout.width / 2f,
                                       camera.viewportHeight - 40 - Assets.glyphLayout.height);
 
-            int timeLeft = (int)(CONTINUETIME - continueTimer) + 1;
+            int timeLeft = (int)(LudumDare35.game.resolver.continueTimer() - continueTimer) + 1;
             Assets.glyphLayout.setText(Assets.font_round_32, "Continue? "+ timeLeft);
             Assets.font_round_32.draw(batch, "Continue? "+ timeLeft,
                     camera.viewportWidth / 2f - Assets.glyphLayout.width / 2f,
