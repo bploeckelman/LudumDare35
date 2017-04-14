@@ -9,7 +9,6 @@ import aurelienribon.tweenengine.primitives.MutableFloat;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -75,12 +74,12 @@ public class LevelButton extends Button {
 
         // Only bounce in actual level buttons, not the 'paging' buttons
         if (levelId != Integer.MIN_VALUE && levelId != Integer.MAX_VALUE) {
-            this.bounds.y = -200f;
+            this.bounds.y = -130f;
             Timeline.createSequence()
-                    .push(Tween.to(this.bounds, RectangleAccessor.Y, 1.2f)
+                    .push(Tween.to(this.bounds, RectangleAccessor.Y, 0.9f)
                                .target(bounds.y)
                                .ease(Bounce.OUT)
-                               .delay((levelId % LevelSelectScreen.LEVELS_PER_PAGE) * 0.2f)
+                               .delay((levelId % LevelSelectScreen.LEVELS_PER_PAGE) * 0.15f)
                                .setCallback(new TweenCallback() {
                                    @Override
                                    public void onEvent(int type, BaseTween<?> source) {
@@ -88,8 +87,7 @@ public class LevelButton extends Button {
                                    }
                                }))
                     .push(Tween.to(this.color, ColorAccessor.RGB, 0.3f)
-                               .target(newColor.r, newColor.g, newColor.b)
-                               .delay((levelId % LevelSelectScreen.LEVELS_PER_PAGE) * 0.1f))
+                               .target(newColor.r, newColor.g, newColor.b))
                     .start(Assets.tween);
         } else {
             // Show pagination buttons (visibility checks handled in LevelSelectScreen)
