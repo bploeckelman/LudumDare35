@@ -31,7 +31,7 @@ public class LevelSelectScreen extends BaseScreen {
     private final float MARGIN_SIDE = 10f;
 
     int                numPages = 1;
-    int                currentPage = 1;
+    int                currentPage;
 
     Array<LevelButton> buttons;
     GlyphLayout        layout;
@@ -46,12 +46,13 @@ public class LevelSelectScreen extends BaseScreen {
     LevelButton pageNextBtn;
     float timeoutTimer;
 
-    public LevelSelectScreen() {
+    public LevelSelectScreen(int levelToCenter) {
         timeoutTimer = 0;
         layout = new GlyphLayout();
         font = Assets.font_round_32;
         Utils.glClearColor(Config.bgColor);
         Gdx.input.setInputProcessor(this);
+        currentPage = 1 + levelToCenter/LEVELS_PER_PAGE;
 
         generateLevelButtons();
 

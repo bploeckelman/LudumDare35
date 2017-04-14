@@ -119,7 +119,7 @@ public class GameScreen extends BaseScreen {
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-            LudumDare35.game.screen = new LevelSelectScreen();
+            LudumDare35.game.screen = new LevelSelectScreen(level.levelIndex);
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
             pauseGame = !pauseGame;
@@ -301,7 +301,7 @@ public class GameScreen extends BaseScreen {
         }
 
         if (mainMenuButton.checkForTouch(touchPosScreen.x, touchPosScreen.y)) {
-            LudumDare35.game.screen = new LevelSelectScreen();
+            LudumDare35.game.screen = new LevelSelectScreen(level.levelIndex);
             return false;
         }
 

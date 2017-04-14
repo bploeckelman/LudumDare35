@@ -65,8 +65,14 @@ public class AttractScreen extends BaseScreen {
         updateWindField = true;
         dustMotes = new Array<WindParticle>();
         rectPool = Pools.get(Rectangle.class);
-
-        loadLevel(MathUtils.random(1, Level.values().length - 2));
+        int levelid = MathUtils.random(1, Level.values().length -2);
+        if (LudumDare35.game.resolver.showDebug()) {
+            Gdx.app.error("Before Load", "Level " + levelid);
+        }
+        loadLevel(levelid);
+        if (LudumDare35.game.resolver.showDebug()) {
+            Gdx.app.error("Level", " " + level.levelIndex + " " + level.details.name());
+        }
         updateWindGrid();
         updateCamera(0f, true);
 

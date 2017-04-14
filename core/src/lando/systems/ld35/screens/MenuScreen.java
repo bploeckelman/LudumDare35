@@ -52,7 +52,7 @@ public class MenuScreen extends BaseScreen {
         }
 
         if (Gdx.input.justTouched()) {
-            LudumDare35.game.screen = new LevelSelectScreen();
+            LudumDare35.game.screen = new LevelSelectScreen(0);
         }
 
         color.set(1f, 1f, 1f, alpha.floatValue());
