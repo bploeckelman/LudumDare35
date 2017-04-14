@@ -392,9 +392,12 @@ public class GameScreen extends BaseScreen {
 
    Vector2 targetCameraPosition = new Vector2();
     private Vector2 getCameraTarget(){
-        //TODO: make this not janky when the board is smaller than the screen.
         targetCameraPosition.set(playerBalloon.position);
-        targetCameraPosition.x = MathUtils.clamp(targetCameraPosition.x, camera.viewportWidth/2f, level.foregroundLayer.getWidth()*32 -camera.viewportWidth/2f );
+        if (level.foregroundLayer.getWidth()*32 < camera.viewportWidth) {
+            targetCameraPosition.x = level.foregroundLayer.getWidth()*16;
+        }   else {
+            targetCameraPosition.x = MathUtils.clamp(targetCameraPosition.x, camera.viewportWidth / 2f, level.foregroundLayer.getWidth() * 32 - camera.viewportWidth / 2f);
+        }
         targetCameraPosition.y = MathUtils.clamp(targetCameraPosition.y, Math.min(camera.viewportHeight/2f - buttonTrayRect.height, level.foregroundLayer.getHeight()*16), Math.max(level.foregroundLayer.getHeight()*32 -camera.viewportHeight/2f, level.foregroundLayer.getHeight()*16) );
 
         return targetCameraPosition;
@@ -408,8 +411,9 @@ public class GameScreen extends BaseScreen {
 
         Vector2 targetCameraPosition = getCameraTarget();
 
-        Vector2 dir = targetCameraPosition.cpy().sub(camera.position.x, camera.position.y);
+        Vector2 dir = targetCameraPosition.sub(camera.position.x, camera.position.y);
         if (initial){
+            targetCameraPosition.add(camera.position.x, camera.position.y);
             camera.position.set(targetCameraPosition.x, targetCameraPosition.y, 0);
         } else {
             camera.position.add(dir.x * dt, dir.y * dt, 0);
