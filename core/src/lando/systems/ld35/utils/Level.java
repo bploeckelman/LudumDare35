@@ -31,7 +31,7 @@ public enum Level {
 
     DOWN_BELOW_THE_RECTANGLES        ("maps/Down_Below_The_Rectangles.tmx",        32, 64, new boolean[] { true, true, true, true, true, true}),
     EASY_PEEZY                       ("maps/Easy_Peezy.tmx",                       32, 64, new boolean[] { true, true, true, true, true, true}),
-
+    GATES_EVERYWHERE                 ("maps/Gates_Everywhere.tmx",                 32, 64, new boolean[] { true, true, true, true, true, true}),
     FIGHT_THE_CURRENT                ("maps/Fight_The_Current.tmx",                32, 64, new boolean[] { true, true, true, true, true, true}),
     FIGHT_THE_CURRENT_2              ("maps/Fight_The_Current_2.tmx",              32, 64, new boolean[] { true, true, true, true, true, true}),
     FIGHT_THE_CURRENT_3              ("maps/Fight_The_Current_3.tmx",              32, 64, new boolean[] { true, true, true, true, true, true}),
