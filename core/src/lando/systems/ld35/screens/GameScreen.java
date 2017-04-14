@@ -306,6 +306,7 @@ public class GameScreen extends BaseScreen {
 
         if (resetLevelButton.checkForTouch(touchPosScreen.x, touchPosScreen.y) && !pauseGame) {
             playerBalloon.kill(level);
+            continueTimer = 0;
             // TODO: move to 'game completed trigger'
             Statistics.endTime = TimeUtils.millis();
             Statistics.numResets++;
@@ -552,7 +553,7 @@ public class GameScreen extends BaseScreen {
             if (obj instanceof Spikes) {
                 if (obj.collision(playerBalloon) != null) {
                     playerBalloon.kill(level);
-
+                    continueTimer = 0;
                 }
             }
             if (obj instanceof Door){

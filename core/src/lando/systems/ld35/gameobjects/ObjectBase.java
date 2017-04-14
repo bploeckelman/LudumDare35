@@ -80,9 +80,11 @@ public abstract class ObjectBase {
                 for (int x = 0; x < textureArea.width; x++){
                     for (int y = 0; y <  textureArea.height; y++){
                         int texX = x + (int)textureArea.x;
-                        int texY = 31 - (int)(y + intersectorRectangle.y - bounds.y) + regionY;
+                        int texY = 31 - (int)(y + Math.abs(intersectorRectangle.y - bounds.y)) + regionY;
+                        if (intersectorRectangle.x - balloon.bounds.x >= 32 || intersectorRectangle.x - bounds.x <0) continue;
+                        if (intersectorRectangle.y - balloon.bounds.y >= 32 || intersectorRectangle.y - bounds.y <0) continue;
                         int pix = texturePixmap.getPixel(texX, texY);
-                        int index = (int)( intersectorRectangle.x - bounds.x) + x + (int)(intersectorRectangle.y - bounds.y + y) * 32;
+                        int index = (int)( intersectorRectangle.x - balloon.bounds.x) + x + (int)(intersectorRectangle.y - balloon.bounds.y + y) * 32;
                         if((pix & 0xFF) != 0x00) {
                             collides = true;
                             intersectMap[index] = true;
