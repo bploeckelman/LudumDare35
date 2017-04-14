@@ -53,9 +53,11 @@ public class Balloon {
     Pixmap              _collisionPixmap;
     public Texture      collisionTex;
     Vector2 massOfCollision;
+    boolean collided;
 
     public Balloon(Vector2 position) {
         accumulator = 0;
+        collided = false;
         this.center = new Vector2();
         this.currentState = State.NORMAL;
         this.position = position;
@@ -143,16 +145,18 @@ public class Balloon {
     Vector2 nextPos = new Vector2();
     public void update(float dt, LevelInfo levelInfo){
         accumulator+= dt;
-        switch (currentState){
-            case LIFT:
-                velocity.y += 100 * dt;
-                break;
-            case HEAVY:
-                velocity.y -= 100 * dt;
-                break;
-            case DEAD:
-                velocity.y -= 1000 * dt;
-                break;
+        if (!collided) {
+            switch (currentState) {
+                case LIFT:
+                    velocity.y += 100 * dt;
+                    break;
+                case HEAVY:
+                    velocity.y -= 100 * dt;
+                    break;
+                case DEAD:
+                    velocity.y -= 1000 * dt;
+                    break;
+            }
         }
 
         bounds.x = position.x + BOUNDS_MARGIN;
@@ -191,13 +195,14 @@ public class Balloon {
 
         nextPos.set(position.x, position.y).add(velocity.x * dt, velocity.y * dt);
 
-        float yFloat = MathUtils.sin(accumulator * 4f) * .4f;
-
-        if (currentState != State.DEAD && currentState != State.SPINNER) velocity.y += yFloat;
+        if (!collided) {
+            float yFloat = MathUtils.sin(accumulator * 4f) * .4f;
+            if (currentState != State.DEAD && currentState != State.SPINNER) velocity.y += yFloat;
+        }
 
         if (currentState != State.SPINNER) velocity.scl(.99f);
 
-        boolean collided = false;
+        collided = false;
         massOfCollision.set(0,0);
         int tileX = (int)(nextPos.x / 32);
         int tileY = (int)(nextPos.y / 32);
@@ -300,7 +305,8 @@ public class Balloon {
                 velocity.scl(.9f);
             }
 //            nextPos = position;
-            velocity.add(massOfCollision.x * 10, massOfCollision.y * 10);
+            if (currentState != State.DEAD)
+                velocity.add(massOfCollision.x * 10, massOfCollision.y * 10);
         } else {
             position.set(nextPos);
         }
