@@ -271,7 +271,7 @@ public class GameScreen extends BaseScreen {
     private Vector3 touchPosUnproject = new Vector3();
 
     @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         touchPosUnproject = hudCamera.unproject(new Vector3(screenX, screenY, 0));
         touchPosScreen.set(touchPosUnproject.x, touchPosUnproject.y);
         touchPoint.setPoint(touchPosScreen.x, touchPosScreen.y);
