@@ -24,7 +24,6 @@ import lando.systems.ld35.utils.Utils;
 public class LevelSelectScreen extends BaseScreen {
 
     public static final int LEVELS_PER_PAGE = 9;
-    public static final float TIMEOUT = 300;
 
     private final float MARGIN_TOP = 80f; // NOTE: change if title text scale changes
     private final float MARGIN_BOTTOM = 20f;
@@ -69,7 +68,7 @@ public class LevelSelectScreen extends BaseScreen {
         if (Gdx.input.justTouched()){
             timeoutTimer = 0;
         }
-        if (timeoutTimer > TIMEOUT){
+        if (timeoutTimer > LudumDare35.game.resolver.limitTimer()){
             LudumDare35.game.resetGame();
         }
 
