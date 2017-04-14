@@ -238,7 +238,7 @@ public class Assets {
 
     public static int getMaxLevelCompleted() {
         if (LudumDare35.game.resolver.unlockAll()){
-            return 59;
+            return Level.values().length -1;
         }
         return Gdx.app.getPreferences(prefsName).getInteger(prefMaxLevelCompleted, 0);
     }
