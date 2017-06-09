@@ -58,6 +58,7 @@ public class Assets {
     public static TextureRegion   moteTexture;
     public static TextureRegion   buttonTexture;
     public static TextureRegion   hotairTexture;
+    public static TextureRegion   ufoTexture;
     public static TextureRegion   titleTexture;
     public static TextureRegion   mainMenuButtonTexture;
     public static TextureRegion   levelResetButtonTexture;
@@ -128,10 +129,6 @@ public class Assets {
         }
         prefs.flush();
 
-
-
-
-
         initialized = false;
     }
 
@@ -155,6 +152,7 @@ public class Assets {
         moteTexture        = atlas.findRegion("mote");
         buttonTexture      = atlas.findRegion("button_level");
         hotairTexture      = atlas.findRegion("hotair_balloon");
+        ufoTexture         = atlas.findRegion("ufo");
         titleTexture       = new TextureRegion(mgr.get("title.png", Texture.class));
         mainMenuButtonTexture = atlas.findRegion("button_level_select");
         levelResetButtonTexture = atlas.findRegion("button_level_reset");

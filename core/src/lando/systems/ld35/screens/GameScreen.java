@@ -26,6 +26,7 @@ import lando.systems.ld35.ParticleSystem.WindParticle;
 import lando.systems.ld35.backgroundobjects.Bird;
 import lando.systems.ld35.backgroundobjects.Cloud;
 import lando.systems.ld35.backgroundobjects.HotairBalloon;
+import lando.systems.ld35.backgroundobjects.Ufo;
 import lando.systems.ld35.gameobjects.*;
 import lando.systems.ld35.ui.Button;
 import lando.systems.ld35.ui.StateButton;
@@ -50,6 +51,7 @@ public class GameScreen extends BaseScreen {
     Array<Cloud>        clouds;
     Array<Bird>         birds;
     HotairBalloon       hotairBalloon;
+    Ufo                 ufo;
     Array<StateButton>  stateButtons;
     Button              resetLevelButton;
     Button              mainMenuButton;
@@ -159,6 +161,7 @@ public class GameScreen extends BaseScreen {
         }
 
         if (hotairBalloon != null) hotairBalloon.render(batch);
+        if (ufo != null) ufo.render(batch);
 
         level.renderBackground();
         for (WindParticle mote : dustMotes){
@@ -486,6 +489,17 @@ public class GameScreen extends BaseScreen {
         } else {
             if (MathUtils.randomBoolean(.001f)){
                 hotairBalloon = new HotairBalloon(level);
+            }
+        }
+
+        if (ufo != null) {
+            ufo.update(dt, level);
+            if (!ufo.alive) {
+                ufo = null;
+            }
+        } else {
+            if (MathUtils.randomBoolean(.0005f)) {
+                ufo = new Ufo(level);
             }
         }
     }
