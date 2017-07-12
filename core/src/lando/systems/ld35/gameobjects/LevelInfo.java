@@ -97,8 +97,8 @@ public class LevelInfo {
             // TODO: do fancy shit here before loading the next level, elapsed time, # times switched, shape histogram, ...
             createLevel(levelIndex, rectanglePool);
         } else {
-            levelIndex -= 1;
-            // TODO: tell the player, no more levels
+            // This signals to the caller that all the levels have been 'completed'
+            levelIndex = -1;
         }
     }
 

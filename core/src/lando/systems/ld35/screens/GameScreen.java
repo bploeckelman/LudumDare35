@@ -543,7 +543,12 @@ public class GameScreen extends BaseScreen {
                                     level.nextLevel();
                                     updateWindField = true;
                                     Statistics.numLevelsCompleted = Assets.getMaxLevelCompleted();
-                                    // TODO: check for game over
+
+                                    // check for finished last level, and if so, reload level select screen
+                                    if (level.levelIndex == -1) {
+                                        LudumDare35.game.screen = new LevelSelectScreen(level.levelIndex);
+                                    }
+
                                     enableButtons();
                                     playerBalloon = new Balloon(level.details.getStart());
                                     for (StateButton button : stateButtons) {
