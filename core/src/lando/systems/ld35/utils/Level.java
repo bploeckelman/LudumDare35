@@ -76,9 +76,6 @@ public enum Level {
 
     TOP_OR_BOTTOM_PATH               ("maps/Top_or_Bottom_Path.tmx",               32, 64, new boolean[] { true, true, true, true, true, true}),
     TOTALLY_NECESSARY_ROPES          ("maps/Totally_Necessary_Ropes.tmx",          32, 64, new boolean[] { true, true, true, true, true, true}),
-    GATES_EVERYWHERE                 ("maps/Gates_Everywhere.tmx",                 32, 64, new boolean[] { true, true, true, true, true, true}),
-
-    TROY_IS_SUPER_PROUD_OF_THIS_ONE  ("maps/Troy_Is_Super_Proud_of_This_One.tmx",  32, 64, new boolean[] { true, true, true, true, true, true}),
     UNNECESSARY_ROPES_               ("maps/Unnecessary_Ropes.tmx",                32, 64, new boolean[] { true, true, true, true, true, true}),
 
     JANUARY_NEW_LEVEL_1              ("maps/January_New_Level_1.tmx",              32, 64, new boolean[] { true, true, true, true, true, true}),
@@ -94,6 +91,8 @@ public enum Level {
  //   TRICKY_DROPS                     ("maps/Tricky_Drops.tmx",                     32, 64, new boolean[] { true, true, true, true, true, true}),
  // THIS_SHIT_DONT_WORK              ("maps/This_Shit_Dont_Work.tmx",              32, 64, new boolean[] { true, true, true, true, true, true}),
 
+    GATES_EVERYWHERE                 ("maps/Gates_Everywhere.tmx",                 32, 64, new boolean[] { true, true, true, true, true, true}),
+    TROY_IS_PROUD_OF_THIS_ONE        ("maps/Troy_Is_Super_Proud_of_This_One.tmx",  32, 64, new boolean[] { true, true, true, true, true, true}),
 
     END_CREDITS                      ("maps/End_Credits.tmx",   32, 64, new boolean[] { true, true, true, true, true, true});
 
