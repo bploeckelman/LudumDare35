@@ -84,6 +84,7 @@ public class Balloon {
             stateToAnimationMap.put(State.MAGNET,  Assets.balloonToMagnetAnimation);
             stateToAnimationMap.put(State.BUZZSAW, Assets.balloonToBuzzsawAnimation);
             stateToAnimationMap.put(State.POP, Assets.balloonToPopAnimation);
+            stateToAnimationMap.put(State.DEAD, Assets.balloonToPopAnimation);
         }
         _collisionPixmap = new Pixmap(32, 32, Pixmap.Format.RGB888);
         collisionTex = new Texture(_collisionPixmap);
