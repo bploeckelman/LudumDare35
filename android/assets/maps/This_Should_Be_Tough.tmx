@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="32" tileheight="32" nextobjectid="149">
+<map version="1.0" tiledversion="1.0.2" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="32" tileheight="32" nextobjectid="149">
  <tileset firstgid="1" name="basic-tiles" tilewidth="32" tileheight="32" tilecount="256" columns="16">
-  <image source="../maps/basic-tiles.png" width="512" height="512"/>
+  <image source="basic-tiles.png" width="512" height="512"/>
  </tileset>
  <tileset firstgid="257" name="objects" tilewidth="64" tileheight="64" tilecount="4" columns="0">
   <tile id="1">
-   <image width="32" height="64" source="../maps/fan_0.png"/>
+   <image width="32" height="64" source="fan_0.png"/>
   </tile>
   <tile id="3">
-   <image width="32" height="32" source="../maps/exit.png"/>
+   <image width="32" height="32" source="exit.png"/>
   </tile>
   <tile id="4">
-   <image width="32" height="32" source="../maps/spawn.png"/>
+   <image width="32" height="32" source="spawn.png"/>
   </tile>
   <tile id="5">
-   <image width="64" height="7" source="../maps/door.png"/>
+   <image width="64" height="7" source="door.png"/>
   </tile>
  </tileset>
  <layer name="background" width="32" height="32">
@@ -42,22 +42,22 @@
   <object id="41" type="spikes" gid="20" x="128" y="704" width="32" height="32"/>
   <object id="42" type="rope" gid="99" x="128" y="672" width="32" height="32">
    <properties>
-    <property name="group" value="rope-group-1"/>
+    <property name="group" value="rope-group-5"/>
    </properties>
   </object>
   <object id="43" type="rope" gid="83" x="96" y="672" width="32" height="32">
    <properties>
-    <property name="group" value="rope-group-1"/>
+    <property name="group" value="rope-group-5"/>
    </properties>
   </object>
   <object id="44" type="rope" gid="83" x="64" y="672" width="32" height="32">
    <properties>
-    <property name="group" value="rope-group-1"/>
+    <property name="group" value="rope-group-5"/>
    </properties>
   </object>
   <object id="45" type="rope" gid="82" x="32" y="672" width="32" height="32">
    <properties>
-    <property name="group" value="rope-group-1"/>
+    <property name="group" value="rope-group-5"/>
    </properties>
   </object>
   <object id="46" type="spikes" gid="21" x="32" y="800" width="32" height="32"/>
@@ -72,22 +72,22 @@
   <object id="56" type="spikes" gid="21" x="32" y="480" width="32" height="32"/>
   <object id="57" type="rope" gid="83" x="96" y="416" width="32" height="32">
    <properties>
-    <property name="group" value="rope-group-1"/>
+    <property name="group" value="rope-group-4"/>
    </properties>
   </object>
   <object id="58" type="rope" gid="82" x="32" y="416" width="32" height="32">
    <properties>
-    <property name="group" value="rope-group-1"/>
+    <property name="group" value="rope-group-4"/>
    </properties>
   </object>
   <object id="59" type="rope" gid="99" x="128" y="416" width="32" height="32">
    <properties>
-    <property name="group" value="rope-group-1"/>
+    <property name="group" value="rope-group-4"/>
    </properties>
   </object>
   <object id="60" type="rope" gid="83" x="64" y="416" width="32" height="32">
    <properties>
-    <property name="group" value="rope-group-1"/>
+    <property name="group" value="rope-group-4"/>
    </properties>
   </object>
   <object id="61" type="spikes" gid="21" x="32" y="448" width="32" height="32"/>
@@ -106,22 +106,22 @@
   <object id="74" type="spikes" gid="20" x="608" y="512" width="32" height="32"/>
   <object id="75" type="rope" gid="83" x="384" y="480" width="32" height="32">
    <properties>
-    <property name="group" value="rope-group-1"/>
+    <property name="group" value="rope-group-3"/>
    </properties>
   </object>
   <object id="76" type="rope" gid="99" x="448" y="480" width="32" height="32">
    <properties>
-    <property name="group" value="rope-group-1"/>
+    <property name="group" value="rope-group-3"/>
    </properties>
   </object>
   <object id="77" type="rope" gid="82" x="352" y="480" width="32" height="32">
    <properties>
-    <property name="group" value="rope-group-1"/>
+    <property name="group" value="rope-group-3"/>
    </properties>
   </object>
   <object id="78" type="rope" gid="83" x="416" y="480" width="32" height="32">
    <properties>
-    <property name="group" value="rope-group-1"/>
+    <property name="group" value="rope-group-3"/>
    </properties>
   </object>
   <object id="79" type="spikes" gid="19" x="160" y="160" width="32" height="32"/>
@@ -143,22 +143,22 @@
   <object id="95" type="spikes" gid="19" x="640" y="736" width="32" height="32"/>
   <object id="96" type="rope" gid="83" x="864" y="416" width="32" height="32">
    <properties>
-    <property name="group" value="rope-group-1"/>
+    <property name="group" value="rope-group-2"/>
    </properties>
   </object>
   <object id="97" type="rope" gid="99" x="928" y="416" width="32" height="32">
    <properties>
-    <property name="group" value="rope-group-1"/>
+    <property name="group" value="rope-group-2"/>
    </properties>
   </object>
   <object id="98" type="rope" gid="82" x="832" y="416" width="32" height="32">
    <properties>
-    <property name="group" value="rope-group-1"/>
+    <property name="group" value="rope-group-2"/>
    </properties>
   </object>
   <object id="99" type="rope" gid="83" x="896" y="416" width="32" height="32">
    <properties>
-    <property name="group" value="rope-group-1"/>
+    <property name="group" value="rope-group-2"/>
    </properties>
   </object>
   <object id="100" type="rope" gid="83" x="864" y="512" width="32" height="32">
@@ -211,22 +211,22 @@
   <object id="131" type="spikes" gid="18" x="224" y="992" width="32" height="32"/>
   <object id="132" type="rope" gid="83" x="256" y="800" width="32" height="32">
    <properties>
-    <property name="group" value="rope-group-1"/>
+    <property name="group" value="rope-group-6"/>
    </properties>
   </object>
   <object id="133" type="rope" gid="82" x="192" y="800" width="32" height="32">
    <properties>
-    <property name="group" value="rope-group-1"/>
+    <property name="group" value="rope-group-6"/>
    </properties>
   </object>
   <object id="134" type="rope" gid="99" x="288" y="800" width="32" height="32">
    <properties>
-    <property name="group" value="rope-group-1"/>
+    <property name="group" value="rope-group-6"/>
    </properties>
   </object>
   <object id="135" type="rope" gid="83" x="224" y="800" width="32" height="32">
    <properties>
-    <property name="group" value="rope-group-1"/>
+    <property name="group" value="rope-group-6"/>
    </properties>
   </object>
   <object id="136" type="spikes" gid="20" x="288" y="672" width="32" height="32"/>
